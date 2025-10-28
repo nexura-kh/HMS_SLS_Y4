@@ -12,12 +12,17 @@ namespace HMS_SLS_Y4
         private void login_btn_Click(object sender, EventArgs e)
         {
             IsLoginSuccessful = true;
-            this.Close();
+          
         }
 
         private void close_btn_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
