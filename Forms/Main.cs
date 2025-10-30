@@ -1,4 +1,5 @@
 ﻿using HMS_SLS_Y4.Components;
+using HMS_SLS_Y4.Repositories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ using System.Windows.Forms;
 
 namespace HMS_SLS_Y4
 {
-    public partial class Main : Form
+    public partial class Main : System.Windows.Forms.Form
     {
         public Main()
         {
@@ -35,18 +36,16 @@ namespace HMS_SLS_Y4
         }
         private void LoadRoom()
         {
-            Room room = new Room();
+            RoomTypeRepository repository = new RoomTypeRepository();
+            RoomRepository roomRepository = new RoomRepository();
+            Room room = new Room(repository,roomRepository);
             room.Dock = DockStyle.Fill;
             container.Controls.Clear();
             container.Controls.Add(room);
         }
-        private void LoadFood()
-        {
-            Food food = new Food();
-            food.Dock = DockStyle.Fill;
-            container.Controls.Clear();
-            container.Controls.Add(food);
-        }
+
+       
+    
         private void LoadPayment()
         {
             Payment payment = new Payment();
@@ -67,11 +66,22 @@ namespace HMS_SLS_Y4
         private void room_btn_Click(object sender, EventArgs e)
         {
             LoadRoom();
+            
+        }
+
+        private void LoadFoodTable()
+        {
+            FoodRepository repo = new FoodRepository();
+            Food foodTable = new Food(repo);
+            foodTable.Dock = DockStyle.Fill;
+            container.Controls.Clear();
+            container.Controls.Add(foodTable);
         }
 
         private void food_btn_Click(object sender, EventArgs e)
         {
-            LoadFood();
+            LoadFoodTable();
+
         }
 
         private void payment_btn_Click(object sender, EventArgs e)

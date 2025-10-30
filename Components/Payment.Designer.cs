@@ -34,19 +34,19 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(78, 64);
+            label1.Location = new Point(59, 47);
             label1.Name = "label1";
-            label1.Size = new Size(65, 20);
+            label1.Size = new Size(57, 17);
             label1.TabIndex = 0;
             label1.Text = "Payment";
             // 
             // Payment
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(label1);
             Name = "Payment";
-            Size = new Size(1100, 703);
+            Size = new Size(962, 598);
             ResumeLayout(false);
             PerformLayout();
         }
