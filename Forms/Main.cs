@@ -36,7 +36,9 @@ namespace HMS_SLS_Y4
         }
         private void LoadRoom()
         {
-            Room room = new Room();
+            RoomTypeRepository repository = new RoomTypeRepository();
+            RoomRepository roomRepository = new RoomRepository();
+            Room room = new Room(repository,roomRepository);
             room.Dock = DockStyle.Fill;
             container.Controls.Clear();
             container.Controls.Add(room);
