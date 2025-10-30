@@ -1,0 +1,182 @@
+﻿[
+  {
+    "room_number": "001",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "002",
+    "type": "single",
+    "capacity": 1,
+    "availability": false
+  },
+  {
+    "room_number": "003",
+    "type": "twin",
+    "capacity": 2,
+    "availability": true
+  },
+  {
+    "room_number": "004",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "005",
+    "type": "twin",
+    "capacity": 2,
+    "availability": false
+  },
+  {
+    "room_number": "006",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "007",
+    "type": "twin",
+    "capacity": 2,
+    "availability": true
+  },
+  {
+    "room_number": "008",
+    "type": "single",
+    "capacity": 1,
+    "availability": false
+  },
+  {
+    "room_number": "009",
+    "type": "twin",
+    "capacity": 2,
+    "availability": true
+  },
+  {
+    "room_number": "010",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "011",
+    "type": "twin",
+    "capacity": 2,
+    "availability": false
+  },
+  {
+    "room_number": "012",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "013",
+    "type": "twin",
+    "capacity": 2,
+    "availability": true
+  },
+  {
+    "room_number": "014",
+    "type": "single",
+    "capacity": 1,
+    "availability": false
+  },
+  {
+    "room_number": "015",
+    "type": "twin",
+    "capacity": 2,
+    "availability": false
+  },
+  {
+    "room_number": "016",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "017",
+    "type": "twin",
+    "capacity": 2,
+    "availability": false
+  },
+  {
+    "room_number": "018",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "019",
+    "type": "twin",
+    "capacity": 2,
+    "availability": true
+  },
+  {
+    "room_number": "020",
+    "type": "single",
+    "capacity": 1,
+    "availability": false
+  },
+  {
+    "room_number": "021",
+    "type": "twin",
+    "capacity": 2,
+    "availability": true
+  },
+  {
+    "room_number": "022",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "023",
+    "type": "twin",
+    "capacity": 2,
+    "availability": false
+  },
+  {
+    "room_number": "024",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "025",
+    "type": "twin",
+    "capacity": 2,
+    "availability": true
+  },
+  {
+    "room_number": "026",
+    "type": "single",
+    "capacity": 1,
+    "availability": false
+  },
+  {
+    "room_number": "027",
+    "type": "twin",
+    "capacity": 2,
+    "availability": true
+  },
+  {
+    "room_number": "028",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  },
+  {
+    "room_number": "029",
+    "type": "twin",
+    "capacity": 2,
+    "availability": false
+  },
+  {
+    "room_number": "030",
+    "type": "single",
+    "capacity": 1,
+    "availability": true
+  }
+]
