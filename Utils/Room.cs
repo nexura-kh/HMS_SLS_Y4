@@ -8,60 +8,53 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using Newtonsoft.Json;
+using HMS_SLS_Y4.Repositories;
+using HMS_SLS_Y4.Models;
 
 namespace HMS_SLS_Y4.Classes
 {
     public partial class Room : Component
     {
-        public class RoomData
-        {
-            public string room_number { get; set; }
-            public string type { get; set; }
-            public int capacity { get; set; }
-            public bool availability { get; set; }
-        }
+        private RoomRepository _roomRepository;
+        private RoomTypeRepository _roomTypeRepository;
 
         public Room()
         {
             InitializeComponent();
+            _roomRepository = new RoomRepository();
+            _roomTypeRepository = new RoomTypeRepository();
         }
 
         public Room(IContainer container)
         {
             container.Add(this);
             InitializeComponent();
+            _roomRepository = new RoomRepository();
+            _roomTypeRepository = new RoomTypeRepository();
         }
 
-        // Method to load rooms and display in a FlowLayoutPanel
         public void LoadRooms(FlowLayoutPanel panel)
         {
             try
             {
-                // Get the path to room.json
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
-                string jsonPath = Path.Combine(projectPath, "Resources", "data", "room.json");
+                // Get rooms from database
+                List<Models.Room> rooms = _roomRepository.GetAll();
 
-                // Check if file exists
-                if (!File.Exists(jsonPath))
+                if (rooms == null || rooms.Count == 0)
                 {
-                    MessageBox.Show($"Room data file not found at: {jsonPath}", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No rooms found in the database.", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
-                // Read and deserialize JSON
-                string jsonData = File.ReadAllText(jsonPath);
-                List<RoomData> rooms = JsonConvert.DeserializeObject<List<RoomData>>(jsonData);
-
-                // Clear existing controls
                 panel.Controls.Clear();
 
-                // Loop through each room
-                foreach (RoomData room in rooms)
+                // Get project path for icons
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
+
+                foreach (Models.Room room in rooms)
                 {
-                    // Create room card panel
                     Panel roomCard = CreateRoomCard(room, projectPath);
                     panel.Controls.Add(roomCard);
                 }
@@ -73,8 +66,7 @@ namespace HMS_SLS_Y4.Classes
             }
         }
 
-        // Create a room card UI element
-        private Panel CreateRoomCard(RoomData room, string projectPath)
+        private Panel CreateRoomCard(Models.Room room, string projectPath)
         {
             Panel roomCard = new Panel
             {
@@ -87,14 +79,14 @@ namespace HMS_SLS_Y4.Classes
                 Cursor = Cursors.Hand
             };
 
-            // Add hover effect
             roomCard.MouseEnter += (s, e) => roomCard.BackColor = Color.FromArgb(230, 240, 255);
             roomCard.MouseLeave += (s, e) => roomCard.BackColor = Color.White;
 
-            // Get icon path
-            string iconPath = GetRoomIconPath(room.type, room.availability, projectPath);
+            string roomTypeName = room.RoomType.typeName;
+            decimal capacity = room.RoomType.price;
 
-            // Create PictureBox for icon
+            string iconPath = GetRoomIconPath(roomTypeName, room.isAvailable, projectPath);
+
             PictureBox roomIcon = new PictureBox
             {
                 Width = 58,
@@ -112,13 +104,13 @@ namespace HMS_SLS_Y4.Classes
             else
             {
                 // Create a simple placeholder if icon not found
-                roomIcon.BackColor = room.availability ? Color.LightGreen : Color.LightCoral;
+                roomIcon.BackColor = room.isAvailable ? Color.LightGreen : Color.LightCoral;
             }
 
             // Room number label
             Label roomNumberLabel = new Label
             {
-                Text = room.room_number,
+                Text = room.roomNumber,
                 Location = new Point(5, 65),
                 Width = 90,
                 Height = 20,
@@ -130,20 +122,20 @@ namespace HMS_SLS_Y4.Classes
             // Room type label
             Label roomTypeLabel = new Label
             {
-                Text = room.type.ToUpper(),
+                Text = roomTypeName.ToUpper(),
                 Location = new Point(5, 85),
                 Width = 90,
                 Height = 18,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Segoe UI", 7),
-                ForeColor = room.availability ? Color.Green : Color.Red,
+                ForeColor = room.isAvailable ? Color.Green : Color.Red,
                 Tag = room
             };
 
             // Status label
             Label statusLabel = new Label
             {
-                Text = room.availability ? "Available" : "Occupied",
+                Text = room.isAvailable ? "Available" : "Occupied",
                 Location = new Point(5, 110),
                 Width = 90,
                 Height = 15,
@@ -174,74 +166,101 @@ namespace HMS_SLS_Y4.Classes
         {
             string iconFileName = "";
 
-            if (roomType.ToLower() == "single")
+            if (roomType.ToLower() == "single fan" || roomType.ToLower() == "single ac")
             {
                 iconFileName = isAvailable ? "single_bed_available.png" : "single_bed_unavailble.png";
             }
-            else if (roomType.ToLower() == "twin")
+            else if (roomType.ToLower() == "twins fan" || roomType.ToLower() == "twins ac")
             {
                 iconFileName = isAvailable ? "twin_bed_available.png" : "twin_bed_unavailable.png";
             }
 
             return Path.Combine(projectPath, "Resources", "icon", iconFileName);
         }
-
-        // Click event handler
-        private void RoomCard_Click(object sender, EventArgs e)
+        public class RoomClickedEventArgs : EventArgs
         {
-            Control control = sender as Control;
-            RoomData room = control?.Tag as RoomData ?? (control?.Parent?.Tag as RoomData);
-
-            if (room != null)
+            public int RoomId { get; }
+            public string RoomNumber { get; }
+            public int RoomPrice { get; }
+            public RoomClickedEventArgs(int roomId, string roomNumber, int roomPrice)
             {
-                string status = room.availability ? "Available" : "Unavailable";
-                string message = $"Room Number: {room.room_number}\n" +
-                               $"Type: {room.type}\n" +
-                               $"Capacity: {room.capacity}\n" +
-                               $"Status: {status}";
-
-                MessageBox.Show(message, "Room Information",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RoomId = roomId;
+                RoomNumber = roomNumber;
+                RoomPrice = roomPrice;
             }
         }
 
-        // Get all available rooms
-        public List<RoomData> GetAvailableRooms()
+        // Event to notify when a room is clicked
+        public event EventHandler<RoomClickedEventArgs> RoomClicked;
+
+        private void RoomCard_Click(object sender, EventArgs e)
+        {
+            Control control = sender as Control;
+            Models.Room room = control?.Tag as Models.Room ?? control?.Parent?.Tag as Models.Room;
+            int roomPrice = (int)room.RoomType.price;
+
+            if (room == null)
+                return;
+
+            RoomClicked?.Invoke(this, new RoomClickedEventArgs(room.roomId, room.roomNumber,roomPrice));
+        }
+
+        public List<Models.Room> GetAvailableRooms()
         {
             try
             {
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
-                string jsonPath = Path.Combine(projectPath, "Resources", "data", "room.json");
-
-                string jsonData = File.ReadAllText(jsonPath);
-                List<RoomData> rooms = JsonConvert.DeserializeObject<List<RoomData>>(jsonData);
-
-                return rooms.Where(r => r.availability).ToList();
+                List<Models.Room> rooms = _roomRepository.GetAll();
+                return rooms.Where(r => r.isAvailable).ToList();
             }
             catch
             {
-                return new List<RoomData>();
+                return new List<Models.Room>();
             }
         }
 
         // Get rooms by type
-        public List<RoomData> GetRoomsByType(string type)
+        public List<Models.Room> GetRoomsByType(string typeName)
         {
             try
             {
-                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
-                string jsonPath = Path.Combine(projectPath, "Resources", "data", "room.json");
-
-                string jsonData = File.ReadAllText(jsonPath);
-                List<RoomData> rooms = JsonConvert.DeserializeObject<List<RoomData>>(jsonData);
-
-                return rooms.Where(r => r.type.ToLower() == type.ToLower()).ToList();
+                List<Models.Room> rooms = _roomRepository.GetAll();
+                return rooms.Where(r => r.roomType?.typeName.ToLower() == typeName.ToLower()).ToList();
             }
             catch
             {
-                return new List<RoomData>();
+                return new List<Models.Room>();
+            }
+        }
+
+        // Get room by ID
+        public Models.Room GetRoomById(int roomId)
+        {
+            try
+            {
+                return _roomRepository.GetById(roomId);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        // Update room availability
+        public bool UpdateRoomAvailability(int roomId, bool isAvailable)
+        {
+            try
+            {
+                Models.Room room = _roomRepository.GetById(roomId);
+                if (room != null)
+                {
+                    room.isAvailable = isAvailable;
+                    return _roomRepository.Update(room);
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

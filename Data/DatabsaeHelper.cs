@@ -9,6 +9,6 @@ namespace HMS_SLS_Y4.Data
     public static class DatabaseHelper
     {
         public static string ConnectionString =>
-            "Server=127.0.0.1;Port=3309;Database=hostel-db;Uid=chan;Pwd=chan10$;";
+            "Server=127.0.0.1;Port=3306;Database=hotel_db;Uid=root;Pwd=root;";
     }
 }

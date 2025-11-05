@@ -1,6 +1,6 @@
 ﻿
 
-using HMS_SLS_Y4.Model;
+using HMS_SLS_Y4.Models;
 using HMS_SLS_Y4.Repositories;
 using System;
 using System.Collections.Generic;

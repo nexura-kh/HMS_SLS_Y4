@@ -43,7 +43,13 @@ namespace HMS_SLS_Y4
             container.Controls.Clear();
             container.Controls.Add(room);
         }
-
+        private void LoadOrder()
+        {
+            Order order = new Order();
+            order.Dock = DockStyle.Fill;
+            container.Controls.Clear();
+            container.Controls.Add(order);
+        }
        
     
         private void LoadPayment()
@@ -55,7 +61,7 @@ namespace HMS_SLS_Y4
         }
         private void customer_btn_Click(object sender, EventArgs e)
         {
-            LoadCustomer();
+            LoadOrder();
         }
 
         private void reservation_btn_Click(object sender, EventArgs e)

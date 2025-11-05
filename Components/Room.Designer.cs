@@ -49,7 +49,6 @@
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(flowlayoutRoomCard);
-            splitContainer1.Panel1.Paint += splitContainer1_Panel1_Paint;
             // 
             // splitContainer1.Panel2
             // 
@@ -59,7 +58,6 @@
             splitContainer1.Panel2.Controls.Add(label3);
             splitContainer1.Panel2.Controls.Add(label1);
             splitContainer1.Panel2.Controls.Add(textRoomNum);
-            splitContainer1.Panel2.Paint += splitContainer1_Panel2_Paint;
             splitContainer1.Size = new Size(1407, 845);
             splitContainer1.SplitterDistance = 969;
             splitContainer1.TabIndex = 1;
@@ -90,7 +88,6 @@
             cmbRoomType.Name = "cmbRoomType";
             cmbRoomType.Size = new Size(235, 25);
             cmbRoomType.TabIndex = 7;
-            cmbRoomType.SelectedIndexChanged += cmbRoomType_SelectedIndexChanged_1;
             // 
             // label3
             // 
@@ -100,7 +97,6 @@
             label3.Size = new Size(74, 17);
             label3.TabIndex = 5;
             label3.Text = "Room Type";
-            label3.Click += label3_Click;
             // 
             // label1
             // 
@@ -117,7 +113,6 @@
             textRoomNum.Name = "textRoomNum";
             textRoomNum.Size = new Size(235, 25);
             textRoomNum.TabIndex = 0;
-            textRoomNum.TextChanged += textRoomNum_TextChanged;
             // 
             // Room
             // 

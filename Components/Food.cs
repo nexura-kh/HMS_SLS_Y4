@@ -178,7 +178,7 @@ namespace HMS_SLS_Y4.Components
             }
 
 
-            bool isSuccess = foodRepository.AddFood(new Model.Food
+            bool isSuccess = foodRepository.AddFood(new Models.Food
             {
                 FoodName = name,
                 Description = description,

@@ -1,45 +1,235 @@
-﻿using MySql.Data.MySqlClient;
+﻿using HMS_SLS_Y4.Data;
+using HMS_SLS_Y4.Models;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace HMS_SLS_Y4.Repositories
 {
-    public class RoomRepository
+    public class RoomRepository : BaseRepository<Room>
     {
-        String StrConn = Data.DatabaseHelper.ConnectionString;
+        public RoomRepository() : base(DatabaseHelper.ConnectionString) { }
 
-
-        public bool InsertRoom(int roomNumber, bool isAvailable, int roomTypeId)
+        public override int Add(Room room)
         {
-            string query = @"INSERT INTO room (room_number, is_available, room_type_id) 
+            string query = @"INSERT INTO rooms (room_number, is_available, room_type_id) 
                              VALUES (@roomNumber, @isAvailable, @roomTypeId)";
+            using var conn = new MySqlConnection(ConnectionString);
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@roomNumber", room.roomNumber);
+            cmd.Parameters.AddWithValue("@isAvailable", room.isAvailable);
+            cmd.Parameters.AddWithValue("@roomTypeId", room.roomTypeId);
 
-            using (MySqlConnection conn = new MySqlConnection(StrConn))
+            try
             {
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                {
-                    // ✅ Add parameters safely
-                    cmd.Parameters.AddWithValue("@roomNumber", roomNumber);
-                    cmd.Parameters.AddWithValue("@isAvailable", isAvailable);
-                    cmd.Parameters.AddWithValue("@roomTypeId", roomTypeId);
-
-                    try
-                    {
-                        conn.Open();
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                       
-                    }
-                    catch (MySqlException ex)
-                    {
-                        MessageBox.Show("Error inserting room: " + ex.Message);
-                    }
-                }
-
-                return true;
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected;
             }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Error inserting room: " + ex.Message);
+                return 0;
+            }
+        }
+
+        public override bool Delete(int id)
+        {
+            string query = "DELETE FROM rooms WHERE room_id = @roomId";
+            using var conn = new MySqlConnection(ConnectionString);
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@roomId", id);
+
+            try
+            {
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Error deleting room: " + ex.Message);
+                return false;
+            }
+        }
+
+        public override List<Room> GetAll()
+        {
+            List<Room> rooms = new List<Room>();
+            string query = @"SELECT r.room_id, r.room_number, r.is_available, r.room_type_id,
+                                    rt.type_name, rt.price_per_night, rt.description
+                             FROM rooms r
+                             INNER JOIN room_types rt ON r.room_type_id = rt.type_id
+                             ORDER BY r.room_number;";
+
+            using var conn = new MySqlConnection(ConnectionString);
+            using var cmd = new MySqlCommand(query, conn);
+
+            try
+            {
+                conn.Open();
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Room room = new Room
+                    {
+                        roomId = reader.GetInt32("room_id"),
+                        roomNumber = reader.GetString("room_number"),
+                        isAvailable = reader.GetBoolean("is_available"),
+                        roomTypeId = reader.GetInt32("room_type_id"),
+                        RoomType = new RoomType(
+                            reader.GetInt32("room_type_id"),
+                            reader.GetString("type_name"),
+                            reader.GetDecimal("price_per_night"),
+                            reader.GetString("description")
+                        )
+                    };
+                    rooms.Add(room);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Error fetching rooms: " + ex.Message);
+            }
+
+            return rooms;
+        }
+
+        public override Room GetById(int id)
+        {
+            string query = @"SELECT r.room_id, r.room_number, r.is_available, r.room_type_id,
+                                    rt.type_name, rt.capacity, rt.price_per_night, rt.description
+                             FROM rooms r
+                             INNER JOIN room_types rt ON r.room_type_id = rt.room_type_id
+                             WHERE r.room_id = @roomId";
+
+            using var conn = new MySqlConnection(ConnectionString);
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@roomId", id);
+
+            try
+            {
+                conn.Open();
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return new Room
+                    {
+                        roomId = reader.GetInt32("room_id"),
+                        roomNumber = reader.GetString("room_number"),
+                        isAvailable = reader.GetBoolean("is_available"),
+                        roomTypeId = reader.GetInt32("room_type_id")
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Error fetching room: " + ex.Message);
+            }
+
+            return null;
+        }
+
+        public override bool Update(Room room)
+        {
+            string query = @"UPDATE rooms 
+                             SET room_number = @roomNumber, 
+                                 is_available = @isAvailable, 
+                                 room_type_id = @roomTypeId
+                             WHERE room_id = @roomId";
+
+            using var conn = new MySqlConnection(ConnectionString);
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@roomId", room.roomId);
+            cmd.Parameters.AddWithValue("@roomNumber", room.roomNumber);
+            cmd.Parameters.AddWithValue("@isAvailable", room.isAvailable);
+            cmd.Parameters.AddWithValue("@roomTypeId", room.roomTypeId);
+
+            try
+            {
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Error updating room: " + ex.Message);
+                return false;
+            }
+        }
+
+        // Additional helper methods
+        public List<Room> GetAvailableRooms()
+        {
+            List<Room> rooms = new List<Room>();
+            string query = @"SELECT r.room_id, r.room_number, r.is_available, r.room_type_id,
+                                    rt.type_name, rt.capacity, rt.price_per_night, rt.description
+                             FROM rooms r
+                             INNER JOIN room_types rt ON r.room_type_id = rt.room_type_id
+                             WHERE r.is_available = 1
+                             ORDER BY r.room_number";
+
+            using var conn = new MySqlConnection(ConnectionString);
+            using var cmd = new MySqlCommand(query, conn);
+
+            try
+            {
+                conn.Open();
+                using var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Room room = new Room
+                    {
+                        roomId = reader.GetInt32("room_id"),
+                        roomNumber = reader.GetString("room_number"),
+                        isAvailable = reader.GetBoolean("is_available"),
+                        roomTypeId = reader.GetInt32("room_type_id")
+                    };
+                    rooms.Add(room);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Error fetching available rooms: " + ex.Message);
+            }
+
+            return rooms;
+        }
+
+        public Room GetByRoomNumber(string roomNumber)
+        {
+            string query = @"SELECT r.room_id, r.room_number, r.is_available, r.room_type_id,
+                                    rt.type_name, rt.capacity, rt.price_per_night, rt.description
+                             FROM rooms r
+                             INNER JOIN room_types rt ON r.room_type_id = rt.room_type_id
+                             WHERE r.room_number = @roomNumber";
+
+            using var conn = new MySqlConnection(ConnectionString);
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@roomNumber", roomNumber);
+
+            try
+            {
+                conn.Open();
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return new Room
+                    {
+                        roomId = reader.GetInt32("room_id"),
+                        roomNumber = reader.GetString("room_number"),
+                        isAvailable = reader.GetBoolean("is_available"),
+                        roomTypeId = reader.GetInt32("room_type_id"),
+                    };
+                }
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show("Error fetching room by number: " + ex.Message);
+            }
+
+            return null;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using HMS_SLS_Y4.Data; 
-using HMS_SLS_Y4.Model;
+using HMS_SLS_Y4.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
