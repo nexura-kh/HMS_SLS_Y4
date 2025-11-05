@@ -231,5 +231,62 @@ namespace HMS_SLS_Y4.Repositories
 
             return null;
         }
+
+
+        public List<Room> GetRoomList()
+        {
+            List<Room> roomList = new List<Room>();
+            string query = @"SELECT r.room_id,rt.price_per_night, r.room_number, r.is_available, 
+                            rt.type_name, rt.type_id,rt.description
+                     FROM rooms r
+                     JOIN room_types rt ON r.room_type_id = rt.type_id;";
+
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                conn.Open();
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Room room = new Room();
+                        room.roomId = reader.GetInt32("room_id");
+                        room.roomNumber = reader.GetString("room_number");
+                        room.isAvailable = reader.GetBoolean("is_available");
+                        room.RoomType = new RoomType(
+                            reader.GetInt32("type_id"),
+                            reader.GetString("type_name"),
+                            reader.GetDecimal("price_per_night"),
+                            reader.GetString("description")
+                        );
+
+
+                        roomList.Add(room);
+                    }
+                }
+            }
+            return roomList;
+        }
+
+
+        public void DeleteRoom(int roomId)
+        {
+            string query = "DELETE FROM rooms WHERE room_id = @roomId";
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@roomId", roomId);
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Room deleted successfully.");
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Error deleting room: " + ex.Message);
+                }
+            }
+        }
     }
 }

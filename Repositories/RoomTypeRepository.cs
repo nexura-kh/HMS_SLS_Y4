@@ -143,9 +143,42 @@ namespace HMS_SLS_Y4.Repositories
         }
 
 
-        public override bool Update(RoomType entity)
+        public override bool Update(RoomType roomType)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection conn = new MySqlConnection(StrConn))
+            {
+
+
+                string query = @"UPDATE room_types 
+                  SET price_per_night = @pricePerNight, description = @description 
+                  WHERE type_id = @typeId";
+
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+
+
+                    cmd.Parameters.AddWithValue("@pricePerNight", roomType.price);
+                    cmd.Parameters.AddWithValue("@description", roomType.description);
+                    cmd.Parameters.AddWithValue("@typeId", roomType.roomTypeId);
+
+
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Room type updated successfully.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No record found with the given type_id.");
+                    }
+                }
+            }
+            return true;
         }
-    }
+
+        }
 }

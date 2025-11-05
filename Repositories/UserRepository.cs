@@ -3,7 +3,9 @@ using HMS_SLS_Y4.Models;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 namespace HMS_SLS_Y4.Repositories
 {
     public class UserRepository : BaseRepository<User>
@@ -91,7 +93,7 @@ namespace HMS_SLS_Y4.Repositories
                     }
                 }
                 catch (MySqlException ex)
-                {
+        {
                     throw new Exception($"Database error while getting user: {ex.Message}", ex);
                 }
             }
@@ -100,7 +102,7 @@ namespace HMS_SLS_Y4.Repositories
         }
 
         public override bool Update(User user)
-        {
+            {
             string query = @"UPDATE users 
                            SET full_name = @full_name, 
                                dob = @dob, 
@@ -111,7 +113,7 @@ namespace HMS_SLS_Y4.Repositories
 
             using (var conn = new MySqlConnection(ConnectionString))
             using (var cmd = new MySqlCommand(query, conn))
-            {
+                {
                 cmd.Parameters.AddWithValue("@id", user.id);
                 cmd.Parameters.AddWithValue("@full_name", user.fullName);
                 cmd.Parameters.AddWithValue("@dob", user.dob);

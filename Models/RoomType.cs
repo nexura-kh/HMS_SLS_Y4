@@ -12,7 +12,12 @@ namespace HMS_SLS_Y4.Models
         public string typeName { get; set; }
         public decimal price { get; set; }
         public string description { get; set; }
-        
+        public RoomType(int roomTypeId, decimal price, string description)
+        {
+            this.roomTypeId = roomTypeId;
+            this.price = price;
+            this.description = description;
+        }
         public RoomType(int roomTypeId, string typeName, decimal price, string description)
         {
             this.roomTypeId = roomTypeId;   

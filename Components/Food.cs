@@ -37,7 +37,7 @@ namespace HMS_SLS_Y4.Components
             
         }
         // cards
-        private void LoadDummyCards()
+        public void LoadDummyCards()
         {
 
             splitContainer1.Panel1.Controls.Clear(); // Clear previous cards

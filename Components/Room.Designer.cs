@@ -80,7 +80,7 @@
             btnSave.TabIndex = 6;
             btnSave.Text = "Save";
             btnSave.UseVisualStyleBackColor = false;
-            btnSave.Click += btnSave_Click;
+            //btnSave.Click += btnSave_Click;
             // 
             // cmbRoomType
             // 
