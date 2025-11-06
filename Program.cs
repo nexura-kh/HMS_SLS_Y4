@@ -16,8 +16,14 @@ namespace HMS_SLS_Y4
             Application.SetCompatibleTextRenderingDefault(false);
 
             SeedRoom seedRoom = new SeedRoom();
+            SeedReservation seedReservation = new SeedReservation();
+
             seedRoom.SeedRoomTypes();
             seedRoom.SeedRooms();
+
+            seedReservation.SeedUsers();
+            seedReservation.SeedCustomers();
+            seedReservation.SeedReservations();
 
             using (Login loginForm = new Login())
             {

@@ -43,8 +43,40 @@ namespace HMS_SLS_Y4.Repositories
 
         public override List<Customer> GetAll()
         {
-            throw new NotImplementedException();
+            List<Customer> customers = new List<Customer>();
+
+            string query = "SELECT * FROM customers";
+
+            using (var conn = new MySqlConnection(ConnectionString))
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                try
+                {
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var customer = new Customer
+                            {
+                                customerId = reader.GetInt32("customer_id"),
+                                userId = reader.GetInt32("user_id"),
+                                address = reader.GetString("address")
+                            };
+
+                            customers.Add(customer);
+                        }
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error while getting customers: {ex.Message}", ex);
+                }
+            }
+
+            return customers;
         }
+
 
         public override Customer GetById(int id)
         {
