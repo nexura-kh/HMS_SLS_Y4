@@ -79,7 +79,7 @@
             button1 = new Button();
             tableLayoutPanel12 = new TableLayoutPanel();
             label14 = new Label();
-            panel13 = new Panel();
+            cardFoodLayout = new Panel();
             panel3 = new Panel();
             orderedList = new DataGridView();
             tableLayoutPanel1.SuspendLayout();
@@ -121,7 +121,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-            tableLayoutPanel1.Size = new Size(1100, 703);
+            tableLayoutPanel1.Size = new Size(962, 598);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -136,7 +136,7 @@
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(1094, 486);
+            tableLayoutPanel2.Size = new Size(956, 412);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -151,7 +151,7 @@
             tableLayoutPanel3.Controls.Add(panel6, 0, 3);
             tableLayoutPanel3.Controls.Add(panel8, 0, 5);
             tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(550, 3);
+            tableLayoutPanel3.Location = new Point(481, 3);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 7;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
@@ -161,7 +161,7 @@
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
-            tableLayoutPanel3.Size = new Size(541, 480);
+            tableLayoutPanel3.Size = new Size(472, 406);
             tableLayoutPanel3.TabIndex = 0;
             tableLayoutPanel3.Paint += tableLayoutPanel3_Paint;
             // 
@@ -172,8 +172,8 @@
             OrderTitle.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
             OrderTitle.Location = new Point(3, 0);
             OrderTitle.Name = "OrderTitle";
-            OrderTitle.Padding = new Padding(30, 0, 0, 0);
-            OrderTitle.Size = new Size(261, 68);
+            OrderTitle.Padding = new Padding(26, 0, 0, 0);
+            OrderTitle.Size = new Size(211, 58);
             OrderTitle.TabIndex = 6;
             OrderTitle.Text = "Order Information";
             OrderTitle.TextAlign = ContentAlignment.MiddleCenter;
@@ -189,11 +189,11 @@
             tableLayoutPanel4.Controls.Add(panel11, 1, 0);
             tableLayoutPanel4.Controls.Add(panel12, 2, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(3, 411);
+            tableLayoutPanel4.Location = new Point(3, 351);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.Size = new Size(535, 66);
+            tableLayoutPanel4.Size = new Size(466, 52);
             tableLayoutPanel4.TabIndex = 0;
             // 
             // panel10
@@ -202,8 +202,8 @@
             panel10.Dock = DockStyle.Fill;
             panel10.Location = new Point(3, 3);
             panel10.Name = "panel10";
-            panel10.Padding = new Padding(30, 15, 15, 0);
-            panel10.Size = new Size(172, 60);
+            panel10.Padding = new Padding(26, 13, 13, 0);
+            panel10.Size = new Size(149, 46);
             panel10.TabIndex = 3;
             // 
             // addOrderBtn
@@ -213,9 +213,9 @@
             addOrderBtn.FlatStyle = FlatStyle.Popup;
             addOrderBtn.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             addOrderBtn.ForeColor = Color.White;
-            addOrderBtn.Location = new Point(30, 16);
+            addOrderBtn.Location = new Point(26, 9);
             addOrderBtn.Name = "addOrderBtn";
-            addOrderBtn.Size = new Size(127, 44);
+            addOrderBtn.Size = new Size(110, 37);
             addOrderBtn.TabIndex = 1;
             addOrderBtn.Text = "Add";
             addOrderBtn.UseVisualStyleBackColor = false;
@@ -224,10 +224,10 @@
             // 
             panel11.Controls.Add(editOrderBtn);
             panel11.Dock = DockStyle.Fill;
-            panel11.Location = new Point(181, 3);
+            panel11.Location = new Point(158, 3);
             panel11.Name = "panel11";
-            panel11.Padding = new Padding(30, 15, 15, 0);
-            panel11.Size = new Size(172, 60);
+            panel11.Padding = new Padding(26, 13, 13, 0);
+            panel11.Size = new Size(149, 46);
             panel11.TabIndex = 4;
             // 
             // editOrderBtn
@@ -237,9 +237,9 @@
             editOrderBtn.FlatStyle = FlatStyle.Popup;
             editOrderBtn.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             editOrderBtn.ForeColor = Color.White;
-            editOrderBtn.Location = new Point(30, 16);
+            editOrderBtn.Location = new Point(26, 9);
             editOrderBtn.Name = "editOrderBtn";
-            editOrderBtn.Size = new Size(127, 44);
+            editOrderBtn.Size = new Size(110, 37);
             editOrderBtn.TabIndex = 2;
             editOrderBtn.Text = "Edit";
             editOrderBtn.UseVisualStyleBackColor = false;
@@ -248,10 +248,10 @@
             // 
             panel12.Controls.Add(deleteOrderBtn);
             panel12.Dock = DockStyle.Fill;
-            panel12.Location = new Point(359, 3);
+            panel12.Location = new Point(313, 3);
             panel12.Name = "panel12";
-            panel12.Padding = new Padding(15, 15, 30, 0);
-            panel12.Size = new Size(173, 60);
+            panel12.Padding = new Padding(13, 13, 26, 0);
+            panel12.Size = new Size(150, 46);
             panel12.TabIndex = 5;
             // 
             // deleteOrderBtn
@@ -261,9 +261,9 @@
             deleteOrderBtn.FlatStyle = FlatStyle.Popup;
             deleteOrderBtn.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             deleteOrderBtn.ForeColor = Color.White;
-            deleteOrderBtn.Location = new Point(15, 16);
+            deleteOrderBtn.Location = new Point(13, 9);
             deleteOrderBtn.Name = "deleteOrderBtn";
-            deleteOrderBtn.Size = new Size(128, 44);
+            deleteOrderBtn.Size = new Size(111, 37);
             deleteOrderBtn.TabIndex = 3;
             deleteOrderBtn.Text = "Delete";
             deleteOrderBtn.UseVisualStyleBackColor = false;
@@ -276,12 +276,12 @@
             tableLayoutPanel5.Controls.Add(panel1, 0, 0);
             tableLayoutPanel5.Controls.Add(panel2, 1, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
-            tableLayoutPanel5.Location = new Point(3, 71);
+            tableLayoutPanel5.Location = new Point(3, 61);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
             tableLayoutPanel5.RowCount = 1;
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel5.Size = new Size(535, 62);
+            tableLayoutPanel5.Size = new Size(466, 52);
             tableLayoutPanel5.TabIndex = 1;
             // 
             // panel1
@@ -291,17 +291,17 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Padding = new Padding(30, 0, 15, 0);
-            panel1.Size = new Size(261, 56);
+            panel1.Padding = new Padding(26, 0, 13, 0);
+            panel1.Size = new Size(227, 46);
             panel1.TabIndex = 0;
             // 
             // roomNumber
             // 
             roomNumber.Dock = DockStyle.Bottom;
-            roomNumber.Location = new Point(30, 29);
-            roomNumber.Margin = new Padding(3, 3, 20, 3);
+            roomNumber.Location = new Point(26, 21);
+            roomNumber.Margin = new Padding(3, 3, 18, 3);
             roomNumber.Name = "roomNumber";
-            roomNumber.Size = new Size(216, 27);
+            roomNumber.Size = new Size(188, 25);
             roomNumber.TabIndex = 1;
             // 
             // label1
@@ -309,9 +309,9 @@
             label1.AutoSize = true;
             label1.Dock = DockStyle.Top;
             label1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(30, 0);
+            label1.Location = new Point(26, 0);
             label1.Name = "label1";
-            label1.Size = new Size(57, 23);
+            label1.Size = new Size(49, 19);
             label1.TabIndex = 0;
             label1.Text = "Room";
             // 
@@ -320,19 +320,19 @@
             panel2.Controls.Add(customerName);
             panel2.Controls.Add(label2);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(270, 3);
+            panel2.Location = new Point(236, 3);
             panel2.Name = "panel2";
-            panel2.Padding = new Padding(15, 0, 30, 0);
-            panel2.Size = new Size(262, 56);
+            panel2.Padding = new Padding(13, 0, 26, 0);
+            panel2.Size = new Size(227, 46);
             panel2.TabIndex = 1;
             // 
             // customerName
             // 
             customerName.Dock = DockStyle.Bottom;
-            customerName.Location = new Point(15, 29);
-            customerName.Margin = new Padding(3, 3, 20, 3);
+            customerName.Location = new Point(13, 21);
+            customerName.Margin = new Padding(3, 3, 18, 3);
             customerName.Name = "customerName";
-            customerName.Size = new Size(217, 27);
+            customerName.Size = new Size(188, 25);
             customerName.TabIndex = 3;
             // 
             // label2
@@ -340,9 +340,9 @@
             label2.AutoSize = true;
             label2.Dock = DockStyle.Top;
             label2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(15, 0);
+            label2.Location = new Point(13, 0);
             label2.Name = "label2";
-            label2.Size = new Size(87, 23);
+            label2.Size = new Size(73, 19);
             label2.TabIndex = 2;
             label2.Text = "Customer";
             // 
@@ -354,12 +354,12 @@
             tableLayoutPanel6.Controls.Add(panel4, 0, 0);
             tableLayoutPanel6.Controls.Add(panel5, 1, 0);
             tableLayoutPanel6.Dock = DockStyle.Fill;
-            tableLayoutPanel6.Location = new Point(3, 139);
+            tableLayoutPanel6.Location = new Point(3, 119);
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 1;
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.Size = new Size(535, 62);
+            tableLayoutPanel6.Size = new Size(466, 52);
             tableLayoutPanel6.TabIndex = 2;
             // 
             // panel4
@@ -369,17 +369,17 @@
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(3, 3);
             panel4.Name = "panel4";
-            panel4.Padding = new Padding(30, 0, 15, 0);
-            panel4.Size = new Size(261, 56);
+            panel4.Padding = new Padding(26, 0, 13, 0);
+            panel4.Size = new Size(227, 46);
             panel4.TabIndex = 0;
             // 
             // orderName
             // 
             orderName.Dock = DockStyle.Bottom;
-            orderName.Location = new Point(30, 29);
-            orderName.Margin = new Padding(3, 3, 20, 3);
+            orderName.Location = new Point(26, 21);
+            orderName.Margin = new Padding(3, 3, 18, 3);
             orderName.Name = "orderName";
-            orderName.Size = new Size(216, 27);
+            orderName.Size = new Size(188, 25);
             orderName.TabIndex = 3;
             // 
             // label3
@@ -387,9 +387,9 @@
             label3.AutoSize = true;
             label3.Dock = DockStyle.Top;
             label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(30, 0);
+            label3.Location = new Point(26, 0);
             label3.Name = "label3";
-            label3.Size = new Size(57, 23);
+            label3.Size = new Size(49, 19);
             label3.TabIndex = 2;
             label3.Text = "Order";
             // 
@@ -398,19 +398,19 @@
             panel5.Controls.Add(orderQuantity);
             panel5.Controls.Add(label4);
             panel5.Dock = DockStyle.Fill;
-            panel5.Location = new Point(270, 3);
+            panel5.Location = new Point(236, 3);
             panel5.Name = "panel5";
-            panel5.Padding = new Padding(15, 0, 30, 0);
-            panel5.Size = new Size(262, 56);
+            panel5.Padding = new Padding(13, 0, 26, 0);
+            panel5.Size = new Size(227, 46);
             panel5.TabIndex = 1;
             // 
             // orderQuantity
             // 
             orderQuantity.Dock = DockStyle.Bottom;
-            orderQuantity.Location = new Point(15, 29);
-            orderQuantity.Margin = new Padding(3, 3, 20, 3);
+            orderQuantity.Location = new Point(13, 21);
+            orderQuantity.Margin = new Padding(3, 3, 18, 3);
             orderQuantity.Name = "orderQuantity";
-            orderQuantity.Size = new Size(217, 27);
+            orderQuantity.Size = new Size(188, 25);
             orderQuantity.TabIndex = 3;
             // 
             // label4
@@ -418,9 +418,9 @@
             label4.AutoSize = true;
             label4.Dock = DockStyle.Top;
             label4.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(15, 0);
+            label4.Location = new Point(13, 0);
             label4.Name = "label4";
-            label4.Size = new Size(80, 23);
+            label4.Size = new Size(66, 19);
             label4.TabIndex = 2;
             label4.Text = "Quantity";
             // 
@@ -432,12 +432,12 @@
             tableLayoutPanel7.Controls.Add(panel7, 0, 0);
             tableLayoutPanel7.Controls.Add(panel9, 1, 0);
             tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(3, 275);
+            tableLayoutPanel7.Location = new Point(3, 235);
             tableLayoutPanel7.Name = "tableLayoutPanel7";
             tableLayoutPanel7.RowCount = 1;
             tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel7.Size = new Size(535, 62);
+            tableLayoutPanel7.Size = new Size(466, 52);
             tableLayoutPanel7.TabIndex = 3;
             // 
             // panel7
@@ -447,17 +447,17 @@
             panel7.Dock = DockStyle.Fill;
             panel7.Location = new Point(3, 3);
             panel7.Name = "panel7";
-            panel7.Padding = new Padding(30, 0, 15, 0);
-            panel7.Size = new Size(261, 56);
+            panel7.Padding = new Padding(26, 0, 13, 0);
+            panel7.Size = new Size(227, 46);
             panel7.TabIndex = 0;
             // 
             // orderPrice
             // 
             orderPrice.Dock = DockStyle.Bottom;
-            orderPrice.Location = new Point(30, 29);
-            orderPrice.Margin = new Padding(3, 3, 20, 3);
+            orderPrice.Location = new Point(26, 21);
+            orderPrice.Margin = new Padding(3, 3, 18, 3);
             orderPrice.Name = "orderPrice";
-            orderPrice.Size = new Size(216, 27);
+            orderPrice.Size = new Size(188, 25);
             orderPrice.TabIndex = 3;
             // 
             // label5
@@ -465,9 +465,9 @@
             label5.AutoSize = true;
             label5.Dock = DockStyle.Top;
             label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(30, 0);
+            label5.Location = new Point(26, 0);
             label5.Name = "label5";
-            label5.Size = new Size(49, 23);
+            label5.Size = new Size(43, 19);
             label5.TabIndex = 2;
             label5.Text = "Price";
             // 
@@ -476,20 +476,20 @@
             panel9.Controls.Add(orderStatus);
             panel9.Controls.Add(label6);
             panel9.Dock = DockStyle.Fill;
-            panel9.Location = new Point(270, 3);
+            panel9.Location = new Point(236, 3);
             panel9.Name = "panel9";
-            panel9.Padding = new Padding(15, 0, 30, 0);
-            panel9.Size = new Size(262, 56);
+            panel9.Padding = new Padding(13, 0, 26, 0);
+            panel9.Size = new Size(227, 46);
             panel9.TabIndex = 1;
             // 
             // orderStatus
             // 
             orderStatus.Dock = DockStyle.Bottom;
             orderStatus.FormattingEnabled = true;
-            orderStatus.Location = new Point(15, 28);
-            orderStatus.Margin = new Padding(3, 3, 20, 3);
+            orderStatus.Location = new Point(13, 21);
+            orderStatus.Margin = new Padding(3, 3, 18, 3);
             orderStatus.Name = "orderStatus";
-            orderStatus.Size = new Size(217, 28);
+            orderStatus.Size = new Size(188, 25);
             orderStatus.TabIndex = 3;
             // 
             // label6
@@ -497,9 +497,9 @@
             label6.AutoSize = true;
             label6.Dock = DockStyle.Top;
             label6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(15, 0);
+            label6.Location = new Point(13, 0);
             label6.Name = "label6";
-            label6.Size = new Size(60, 23);
+            label6.Size = new Size(49, 19);
             label6.TabIndex = 2;
             label6.Text = "Status";
             // 
@@ -508,20 +508,20 @@
             panel6.Controls.Add(orderNote);
             panel6.Controls.Add(label8);
             panel6.Dock = DockStyle.Fill;
-            panel6.Location = new Point(3, 207);
+            panel6.Location = new Point(3, 177);
             panel6.Name = "panel6";
-            panel6.Padding = new Padding(30, 0, 30, 0);
-            panel6.Size = new Size(535, 62);
+            panel6.Padding = new Padding(26, 0, 26, 0);
+            panel6.Size = new Size(466, 52);
             panel6.TabIndex = 4;
             // 
             // orderNote
             // 
             orderNote.Dock = DockStyle.Bottom;
-            orderNote.Location = new Point(30, 26);
-            orderNote.Margin = new Padding(3, 3, 20, 3);
+            orderNote.Location = new Point(26, 21);
+            orderNote.Margin = new Padding(3, 3, 18, 3);
             orderNote.Multiline = true;
             orderNote.Name = "orderNote";
-            orderNote.Size = new Size(475, 36);
+            orderNote.Size = new Size(414, 31);
             orderNote.TabIndex = 3;
             // 
             // label8
@@ -529,9 +529,9 @@
             label8.AutoSize = true;
             label8.Dock = DockStyle.Top;
             label8.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(30, 0);
+            label8.Location = new Point(26, 0);
             label8.Name = "label8";
-            label8.Size = new Size(102, 23);
+            label8.Size = new Size(85, 19);
             label8.TabIndex = 2;
             label8.Text = "Description";
             // 
@@ -540,20 +540,20 @@
             panel8.Controls.Add(additionalNote);
             panel8.Controls.Add(label7);
             panel8.Dock = DockStyle.Fill;
-            panel8.Location = new Point(3, 343);
+            panel8.Location = new Point(3, 293);
             panel8.Name = "panel8";
-            panel8.Padding = new Padding(30, 0, 30, 0);
-            panel8.Size = new Size(535, 62);
+            panel8.Padding = new Padding(26, 0, 26, 0);
+            panel8.Size = new Size(466, 52);
             panel8.TabIndex = 5;
             // 
             // additionalNote
             // 
             additionalNote.Dock = DockStyle.Bottom;
-            additionalNote.Location = new Point(30, 22);
-            additionalNote.Margin = new Padding(3, 3, 20, 3);
+            additionalNote.Location = new Point(26, 17);
+            additionalNote.Margin = new Padding(3, 3, 18, 3);
             additionalNote.Multiline = true;
             additionalNote.Name = "additionalNote";
-            additionalNote.Size = new Size(475, 40);
+            additionalNote.Size = new Size(414, 35);
             additionalNote.TabIndex = 3;
             // 
             // label7
@@ -561,9 +561,9 @@
             label7.AutoSize = true;
             label7.Dock = DockStyle.Top;
             label7.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(30, 0);
+            label7.Location = new Point(26, 0);
             label7.Name = "label7";
-            label7.Size = new Size(49, 23);
+            label7.Size = new Size(42, 19);
             label7.TabIndex = 2;
             label7.Text = "Note";
             // 
@@ -580,7 +580,7 @@
             tableLayoutPanel8.RowCount = 2;
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
             tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
-            tableLayoutPanel8.Size = new Size(541, 480);
+            tableLayoutPanel8.Size = new Size(472, 406);
             tableLayoutPanel8.TabIndex = 1;
             // 
             // tableLayoutPanel9
@@ -591,12 +591,12 @@
             tableLayoutPanel9.Controls.Add(tableLayoutPanel10, 0, 0);
             tableLayoutPanel9.Controls.Add(button1, 1, 0);
             tableLayoutPanel9.Dock = DockStyle.Fill;
-            tableLayoutPanel9.Location = new Point(3, 411);
+            tableLayoutPanel9.Location = new Point(3, 348);
             tableLayoutPanel9.Name = "tableLayoutPanel9";
             tableLayoutPanel9.RowCount = 1;
             tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel9.Size = new Size(535, 66);
+            tableLayoutPanel9.Size = new Size(466, 55);
             tableLayoutPanel9.TabIndex = 0;
             tableLayoutPanel9.Paint += tableLayoutPanel9_Paint;
             // 
@@ -613,7 +613,7 @@
             tableLayoutPanel10.RowCount = 2;
             tableLayoutPanel10.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel10.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel10.Size = new Size(460, 60);
+            tableLayoutPanel10.Size = new Size(399, 49);
             tableLayoutPanel10.TabIndex = 2;
             // 
             // label9
@@ -623,8 +623,8 @@
             label9.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
             label9.Location = new Point(3, 0);
             label9.Name = "label9";
-            label9.Padding = new Padding(30, 0, 0, 0);
-            label9.Size = new Size(311, 30);
+            label9.Padding = new Padding(26, 0, 0, 0);
+            label9.Size = new Size(250, 24);
             label9.TabIndex = 1;
             label9.Text = "Customer Ordered List";
             label9.TextAlign = ContentAlignment.MiddleCenter;
@@ -641,11 +641,11 @@
             tableLayoutPanel11.Controls.Add(label11, 1, 0);
             tableLayoutPanel11.Controls.Add(label10, 0, 0);
             tableLayoutPanel11.Dock = DockStyle.Fill;
-            tableLayoutPanel11.Location = new Point(3, 33);
+            tableLayoutPanel11.Location = new Point(3, 27);
             tableLayoutPanel11.Name = "tableLayoutPanel11";
             tableLayoutPanel11.RowCount = 1;
             tableLayoutPanel11.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel11.Size = new Size(454, 24);
+            tableLayoutPanel11.Size = new Size(393, 19);
             tableLayoutPanel11.TabIndex = 2;
             // 
             // label13
@@ -653,9 +653,9 @@
             label13.AutoSize = true;
             label13.Dock = DockStyle.Bottom;
             label13.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label13.Location = new Point(342, 1);
+            label13.Location = new Point(297, 0);
             label13.Name = "label13";
-            label13.Size = new Size(109, 23);
+            label13.Size = new Size(93, 19);
             label13.TabIndex = 6;
             label13.Text = "Mr. Chan";
             // 
@@ -664,9 +664,9 @@
             label12.AutoSize = true;
             label12.Dock = DockStyle.Bottom;
             label12.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.Location = new Point(229, 1);
+            label12.Location = new Point(199, 0);
             label12.Name = "label12";
-            label12.Size = new Size(107, 23);
+            label12.Size = new Size(92, 19);
             label12.TabIndex = 5;
             label12.Text = "Customer :";
             // 
@@ -675,9 +675,9 @@
             label11.AutoSize = true;
             label11.Dock = DockStyle.Bottom;
             label11.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(116, 1);
+            label11.Location = new Point(101, 0);
             label11.Name = "label11";
-            label11.Size = new Size(107, 23);
+            label11.Size = new Size(92, 19);
             label11.TabIndex = 4;
             label11.Text = "001";
             // 
@@ -686,10 +686,10 @@
             label10.AutoSize = true;
             label10.Dock = DockStyle.Bottom;
             label10.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(3, 1);
+            label10.Location = new Point(3, 0);
             label10.Name = "label10";
-            label10.Padding = new Padding(30, 0, 0, 0);
-            label10.Size = new Size(107, 23);
+            label10.Padding = new Padding(26, 0, 0, 0);
+            label10.Size = new Size(92, 19);
             label10.TabIndex = 3;
             label10.Text = "Room :";
             // 
@@ -697,9 +697,9 @@
             // 
             button1.Dock = DockStyle.Bottom;
             button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(469, 3);
+            button1.Location = new Point(408, 3);
             button1.Name = "button1";
-            button1.Size = new Size(63, 60);
+            button1.Size = new Size(55, 49);
             button1.TabIndex = 1;
             button1.UseVisualStyleBackColor = true;
             // 
@@ -709,14 +709,14 @@
             tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel12.Controls.Add(label14, 0, 0);
-            tableLayoutPanel12.Controls.Add(panel13, 0, 1);
+            tableLayoutPanel12.Controls.Add(cardFoodLayout, 0, 1);
             tableLayoutPanel12.Dock = DockStyle.Fill;
             tableLayoutPanel12.Location = new Point(3, 3);
             tableLayoutPanel12.Name = "tableLayoutPanel12";
             tableLayoutPanel12.RowCount = 2;
             tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Percent, 16.41791F));
             tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Percent, 83.58209F));
-            tableLayoutPanel12.Size = new Size(535, 402);
+            tableLayoutPanel12.Size = new Size(466, 339);
             tableLayoutPanel12.TabIndex = 1;
             // 
             // label14
@@ -726,30 +726,31 @@
             label14.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
             label14.Location = new Point(3, 0);
             label14.Name = "label14";
-            label14.Padding = new Padding(30, 0, 0, 0);
-            label14.Size = new Size(246, 65);
+            label14.Padding = new Padding(26, 0, 0, 0);
+            label14.Size = new Size(201, 55);
             label14.TabIndex = 7;
             label14.Text = "Foods and Drinks";
             label14.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // panel13
+            // cardFoodLayout
             // 
-            panel13.BackColor = Color.White;
-            panel13.Dock = DockStyle.Fill;
-            panel13.Location = new Point(30, 68);
-            panel13.Margin = new Padding(30, 3, 3, 3);
-            panel13.Name = "panel13";
-            panel13.Size = new Size(502, 331);
-            panel13.TabIndex = 8;
+            cardFoodLayout.BackColor = Color.White;
+            cardFoodLayout.Dock = DockStyle.Fill;
+            cardFoodLayout.Location = new Point(26, 58);
+            cardFoodLayout.Margin = new Padding(26, 3, 3, 3);
+            cardFoodLayout.Name = "cardFoodLayout";
+            cardFoodLayout.Size = new Size(437, 278);
+            cardFoodLayout.TabIndex = 8;
+            cardFoodLayout.Paint += cardFoodLayout_Paint;
             // 
             // panel3
             // 
             panel3.Controls.Add(orderedList);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(30, 522);
-            panel3.Margin = new Padding(30);
+            panel3.Location = new Point(26, 444);
+            panel3.Margin = new Padding(26);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1040, 151);
+            panel3.Size = new Size(910, 128);
             panel3.TabIndex = 1;
             // 
             // orderedList
@@ -761,16 +762,16 @@
             orderedList.Location = new Point(0, 0);
             orderedList.Name = "orderedList";
             orderedList.RowHeadersWidth = 51;
-            orderedList.Size = new Size(1040, 151);
+            orderedList.Size = new Size(910, 128);
             orderedList.TabIndex = 0;
             // 
             // Order
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Name = "Order";
-            Size = new Size(1100, 703);
+            Size = new Size(962, 598);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel3.ResumeLayout(false);
@@ -865,6 +866,6 @@
         private Label label10;
         private TableLayoutPanel tableLayoutPanel12;
         private Label label14;
-        private Panel panel13;
+        private Panel cardFoodLayout;
     }
 }

@@ -42,8 +42,6 @@ namespace HMS_SLS_Y4.Components
 
             splitContainer1.Panel1.Controls.Clear(); // Clear previous cards
 
-
-
             // Dummy data
             var foods = foodRepository.GetAllFoods();
 
