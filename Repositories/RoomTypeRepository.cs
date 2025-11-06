@@ -97,5 +97,45 @@ namespace HMS_SLS_Y4.Repositories
             return roomType;
         }
 
+             
+        public void UpdateRoomType(decimal pricePerNight, string description, int typeId)
+        {
+
+        using (MySqlConnection conn = new MySqlConnection(StrConn))
+        {
+        
+
+            string query = @"UPDATE room_types 
+                         SET price_per_night = @pricePerNight, description = @description 
+                         WHERE type_id = @typeId";
+
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                   
+
+                    cmd.Parameters.AddWithValue("@pricePerNight", pricePerNight);
+                    cmd.Parameters.AddWithValue("@description", description);
+                    cmd.Parameters.AddWithValue("@typeId", typeId);
+
+                
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                        MessageBox.Show("Room type updated successfully.");
+                }
+                else
+                {
+                    MessageBox.Show("No record found with the given type_id.");
+                }
+            }
+        }
     }
+
+
+
+}
 }

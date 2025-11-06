@@ -23,6 +23,18 @@ namespace HMS_SLS_Y4.Models
             Price = price;
             Description = description;
         }
-        
+
+        public RoomType()
+        {
+        }
+
+        public RoomType( string typeName, decimal price, string description)
+        {
+          
+            TypeName = typeName;
+            Price = price;
+            Description = description;
+        }
+
     }
 }

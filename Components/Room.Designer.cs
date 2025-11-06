@@ -70,6 +70,7 @@
             flowlayoutRoomCard.Name = "flowlayoutRoomCard";
             flowlayoutRoomCard.Size = new Size(954, 793);
             flowlayoutRoomCard.TabIndex = 0;
+            flowlayoutRoomCard.Paint += flowlayoutRoomCard_Paint;
             // 
             // btnSave
             // 

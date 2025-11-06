@@ -42,7 +42,7 @@ namespace HMS_SLS_Y4.Classes
                 string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
                 string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
                 string jsonPath = Path.Combine(projectPath, "Resources", "data", "room.json");
-
+            
                 // Check if file exists
                 if (!File.Exists(jsonPath))
                 {

@@ -102,7 +102,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 30F));
-            tableLayoutPanel1.Size = new Size(1100, 703);
+            tableLayoutPanel1.Size = new Size(962, 598);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // booked_list
@@ -114,33 +114,33 @@
             booked_list.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             booked_list.Dock = DockStyle.Fill;
             booked_list.GridColor = SystemColors.InactiveCaption;
-            booked_list.Location = new Point(30, 522);
-            booked_list.Margin = new Padding(30);
+            booked_list.Location = new Point(26, 444);
+            booked_list.Margin = new Padding(26);
             booked_list.Name = "booked_list";
             booked_list.RowHeadersWidth = 51;
             booked_list.ScrollBars = ScrollBars.Vertical;
             booked_list.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            booked_list.Size = new Size(1040, 151);
+            booked_list.Size = new Size(910, 128);
             booked_list.TabIndex = 0;
             // 
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(30, 30);
-            splitContainer1.Margin = new Padding(30, 30, 30, 0);
+            splitContainer1.Location = new Point(26, 26);
+            splitContainer1.Margin = new Padding(26, 26, 26, 0);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(available_room);
-            splitContainer1.Panel1.Margin = new Padding(0, 0, 0, 7);
+            splitContainer1.Panel1.Margin = new Padding(0, 0, 0, 6);
             // 
             // splitContainer1.Panel2
             // 
             splitContainer1.Panel2.Controls.Add(reservation_form);
-            splitContainer1.Panel2.Margin = new Padding(7, 0, 0, 0);
-            splitContainer1.Size = new Size(1040, 462);
-            splitContainer1.SplitterDistance = 465;
+            splitContainer1.Panel2.Margin = new Padding(6, 0, 0, 0);
+            splitContainer1.Size = new Size(910, 392);
+            splitContainer1.SplitterDistance = 406;
             splitContainer1.TabIndex = 1;
             // 
             // available_room
@@ -148,7 +148,7 @@
             available_room.Dock = DockStyle.Fill;
             available_room.Location = new Point(0, 0);
             available_room.Name = "available_room";
-            available_room.Size = new Size(465, 462);
+            available_room.Size = new Size(406, 392);
             available_room.TabIndex = 0;
             // 
             // reservation_form
@@ -157,7 +157,7 @@
             reservation_form.Dock = DockStyle.Fill;
             reservation_form.Location = new Point(0, 0);
             reservation_form.Name = "reservation_form";
-            reservation_form.Size = new Size(571, 462);
+            reservation_form.Size = new Size(500, 392);
             reservation_form.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -180,36 +180,36 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
-            tableLayoutPanel2.Size = new Size(571, 462);
+            tableLayoutPanel2.Size = new Size(500, 392);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // splitContainer2
             // 
             splitContainer2.Dock = DockStyle.Fill;
-            splitContainer2.Location = new Point(3, 80);
+            splitContainer2.Location = new Point(3, 68);
             splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
             // 
             splitContainer2.Panel1.Controls.Add(textBox1);
             splitContainer2.Panel1.Controls.Add(first_name_label);
-            splitContainer2.Panel1.Padding = new Padding(20, 10, 20, 10);
+            splitContainer2.Panel1.Padding = new Padding(18, 8, 18, 8);
             // 
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.Controls.Add(textBox2);
             splitContainer2.Panel2.Controls.Add(last_name_label);
-            splitContainer2.Panel2.Padding = new Padding(20, 10, 20, 10);
-            splitContainer2.Size = new Size(565, 71);
-            splitContainer2.SplitterDistance = 283;
+            splitContainer2.Panel2.Padding = new Padding(18, 8, 18, 8);
+            splitContainer2.Size = new Size(494, 59);
+            splitContainer2.SplitterDistance = 247;
             splitContainer2.TabIndex = 0;
             // 
             // textBox1
             // 
             textBox1.Dock = DockStyle.Fill;
-            textBox1.Location = new Point(20, 33);
+            textBox1.Location = new Point(18, 27);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(243, 27);
+            textBox1.Size = new Size(211, 25);
             textBox1.TabIndex = 1;
             // 
             // first_name_label
@@ -217,18 +217,18 @@
             first_name_label.AutoSize = true;
             first_name_label.Dock = DockStyle.Top;
             first_name_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            first_name_label.Location = new Point(20, 10);
+            first_name_label.Location = new Point(18, 8);
             first_name_label.Name = "first_name_label";
-            first_name_label.Size = new Size(97, 23);
+            first_name_label.Size = new Size(81, 19);
             first_name_label.TabIndex = 0;
             first_name_label.Text = "First Name";
             // 
             // textBox2
             // 
             textBox2.Dock = DockStyle.Fill;
-            textBox2.Location = new Point(20, 33);
+            textBox2.Location = new Point(18, 27);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(238, 27);
+            textBox2.Size = new Size(207, 25);
             textBox2.TabIndex = 2;
             // 
             // last_name_label
@@ -236,9 +236,9 @@
             last_name_label.AutoSize = true;
             last_name_label.Dock = DockStyle.Top;
             last_name_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            last_name_label.Location = new Point(20, 10);
+            last_name_label.Location = new Point(18, 8);
             last_name_label.Name = "last_name_label";
-            last_name_label.Size = new Size(94, 23);
+            last_name_label.Size = new Size(79, 19);
             last_name_label.TabIndex = 1;
             last_name_label.Text = "Last Name";
             last_name_label.Click += label1_Click_1;
@@ -246,30 +246,30 @@
             // splitContainer3
             // 
             splitContainer3.Dock = DockStyle.Fill;
-            splitContainer3.Location = new Point(3, 157);
+            splitContainer3.Location = new Point(3, 133);
             splitContainer3.Name = "splitContainer3";
             // 
             // splitContainer3.Panel1
             // 
             splitContainer3.Panel1.Controls.Add(textBox3);
             splitContainer3.Panel1.Controls.Add(age_label);
-            splitContainer3.Panel1.Padding = new Padding(20, 10, 20, 10);
+            splitContainer3.Panel1.Padding = new Padding(18, 8, 18, 8);
             // 
             // splitContainer3.Panel2
             // 
             splitContainer3.Panel2.Controls.Add(textBox4);
             splitContainer3.Panel2.Controls.Add(nationality_label);
-            splitContainer3.Panel2.Padding = new Padding(20, 10, 20, 10);
-            splitContainer3.Size = new Size(565, 71);
-            splitContainer3.SplitterDistance = 283;
+            splitContainer3.Panel2.Padding = new Padding(18, 8, 18, 8);
+            splitContainer3.Size = new Size(494, 59);
+            splitContainer3.SplitterDistance = 247;
             splitContainer3.TabIndex = 1;
             // 
             // textBox3
             // 
             textBox3.Dock = DockStyle.Fill;
-            textBox3.Location = new Point(20, 33);
+            textBox3.Location = new Point(18, 27);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(243, 27);
+            textBox3.Size = new Size(211, 25);
             textBox3.TabIndex = 2;
             // 
             // age_label
@@ -277,18 +277,18 @@
             age_label.AutoSize = true;
             age_label.Dock = DockStyle.Top;
             age_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            age_label.Location = new Point(20, 10);
+            age_label.Location = new Point(18, 8);
             age_label.Name = "age_label";
-            age_label.Size = new Size(42, 23);
+            age_label.Size = new Size(36, 19);
             age_label.TabIndex = 1;
             age_label.Text = "Age";
             // 
             // textBox4
             // 
             textBox4.Dock = DockStyle.Fill;
-            textBox4.Location = new Point(20, 33);
+            textBox4.Location = new Point(18, 27);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(238, 27);
+            textBox4.Size = new Size(207, 25);
             textBox4.TabIndex = 3;
             // 
             // nationality_label
@@ -296,39 +296,39 @@
             nationality_label.AutoSize = true;
             nationality_label.Dock = DockStyle.Top;
             nationality_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            nationality_label.Location = new Point(20, 10);
+            nationality_label.Location = new Point(18, 8);
             nationality_label.Name = "nationality_label";
-            nationality_label.Size = new Size(99, 23);
+            nationality_label.Size = new Size(83, 19);
             nationality_label.TabIndex = 2;
             nationality_label.Text = "Nationality";
             // 
             // splitContainer4
             // 
             splitContainer4.Dock = DockStyle.Fill;
-            splitContainer4.Location = new Point(3, 234);
+            splitContainer4.Location = new Point(3, 198);
             splitContainer4.Name = "splitContainer4";
             // 
             // splitContainer4.Panel1
             // 
             splitContainer4.Panel1.Controls.Add(textBox5);
             splitContainer4.Panel1.Controls.Add(id_card_label);
-            splitContainer4.Panel1.Padding = new Padding(20, 10, 20, 10);
+            splitContainer4.Panel1.Padding = new Padding(18, 8, 18, 8);
             // 
             // splitContainer4.Panel2
             // 
             splitContainer4.Panel2.Controls.Add(status);
             splitContainer4.Panel2.Controls.Add(status_label);
-            splitContainer4.Panel2.Padding = new Padding(20, 10, 20, 10);
-            splitContainer4.Size = new Size(565, 71);
-            splitContainer4.SplitterDistance = 283;
+            splitContainer4.Panel2.Padding = new Padding(18, 8, 18, 8);
+            splitContainer4.Size = new Size(494, 59);
+            splitContainer4.SplitterDistance = 247;
             splitContainer4.TabIndex = 2;
             // 
             // textBox5
             // 
             textBox5.Dock = DockStyle.Fill;
-            textBox5.Location = new Point(20, 33);
+            textBox5.Location = new Point(18, 27);
             textBox5.Name = "textBox5";
-            textBox5.Size = new Size(243, 27);
+            textBox5.Size = new Size(211, 25);
             textBox5.TabIndex = 3;
             // 
             // id_card_label
@@ -336,9 +336,9 @@
             id_card_label.AutoSize = true;
             id_card_label.Dock = DockStyle.Top;
             id_card_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            id_card_label.Location = new Point(20, 10);
+            id_card_label.Location = new Point(18, 8);
             id_card_label.Name = "id_card_label";
-            id_card_label.Size = new Size(71, 23);
+            id_card_label.Size = new Size(59, 19);
             id_card_label.TabIndex = 2;
             id_card_label.Text = "ID Card";
             // 
@@ -347,9 +347,9 @@
             status.Dock = DockStyle.Fill;
             status.FormattingEnabled = true;
             status.Items.AddRange(new object[] { "Booked", "Cancelled" });
-            status.Location = new Point(20, 33);
+            status.Location = new Point(18, 27);
             status.Name = "status";
-            status.Size = new Size(238, 28);
+            status.Size = new Size(207, 25);
             status.TabIndex = 3;
             // 
             // status_label
@@ -357,39 +357,39 @@
             status_label.AutoSize = true;
             status_label.Dock = DockStyle.Top;
             status_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            status_label.Location = new Point(20, 10);
+            status_label.Location = new Point(18, 8);
             status_label.Name = "status_label";
-            status_label.Size = new Size(48, 23);
+            status_label.Size = new Size(41, 19);
             status_label.TabIndex = 2;
             status_label.Text = "Type";
             // 
             // splitContainer5
             // 
             splitContainer5.Dock = DockStyle.Fill;
-            splitContainer5.Location = new Point(3, 311);
+            splitContainer5.Location = new Point(3, 263);
             splitContainer5.Name = "splitContainer5";
             // 
             // splitContainer5.Panel1
             // 
             splitContainer5.Panel1.Controls.Add(check_in);
             splitContainer5.Panel1.Controls.Add(check_in_label);
-            splitContainer5.Panel1.Padding = new Padding(20, 10, 20, 10);
+            splitContainer5.Panel1.Padding = new Padding(18, 8, 18, 8);
             // 
             // splitContainer5.Panel2
             // 
             splitContainer5.Panel2.Controls.Add(check_out);
             splitContainer5.Panel2.Controls.Add(check_out_label);
-            splitContainer5.Panel2.Padding = new Padding(20, 10, 20, 10);
-            splitContainer5.Size = new Size(565, 71);
-            splitContainer5.SplitterDistance = 283;
+            splitContainer5.Panel2.Padding = new Padding(18, 8, 18, 8);
+            splitContainer5.Size = new Size(494, 59);
+            splitContainer5.SplitterDistance = 247;
             splitContainer5.TabIndex = 3;
             // 
             // check_in
             // 
             check_in.Dock = DockStyle.Fill;
-            check_in.Location = new Point(20, 33);
+            check_in.Location = new Point(18, 27);
             check_in.Name = "check_in";
-            check_in.Size = new Size(243, 27);
+            check_in.Size = new Size(211, 25);
             check_in.TabIndex = 3;
             // 
             // check_in_label
@@ -397,18 +397,18 @@
             check_in_label.AutoSize = true;
             check_in_label.Dock = DockStyle.Top;
             check_in_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            check_in_label.Location = new Point(20, 10);
+            check_in_label.Location = new Point(18, 8);
             check_in_label.Name = "check_in_label";
-            check_in_label.Size = new Size(78, 23);
+            check_in_label.Size = new Size(65, 19);
             check_in_label.TabIndex = 2;
             check_in_label.Text = "Check In";
             // 
             // check_out
             // 
             check_out.Dock = DockStyle.Fill;
-            check_out.Location = new Point(20, 33);
+            check_out.Location = new Point(18, 27);
             check_out.Name = "check_out";
-            check_out.Size = new Size(238, 27);
+            check_out.Size = new Size(207, 25);
             check_out.TabIndex = 4;
             // 
             // check_out_label
@@ -416,9 +416,9 @@
             check_out_label.AutoSize = true;
             check_out_label.Dock = DockStyle.Top;
             check_out_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            check_out_label.Location = new Point(20, 10);
+            check_out_label.Location = new Point(18, 8);
             check_out_label.Name = "check_out_label";
-            check_out_label.Size = new Size(93, 23);
+            check_out_label.Size = new Size(77, 19);
             check_out_label.TabIndex = 2;
             check_out_label.Text = "Check Out";
             // 
@@ -432,12 +432,12 @@
             tableLayoutPanel3.Controls.Add(button1, 1, 0);
             tableLayoutPanel3.Controls.Add(add_btn, 0, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
-            tableLayoutPanel3.Location = new Point(3, 388);
+            tableLayoutPanel3.Location = new Point(3, 328);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
-            tableLayoutPanel3.Padding = new Padding(20);
+            tableLayoutPanel3.Padding = new Padding(18, 17, 18, 17);
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel3.Size = new Size(565, 71);
+            tableLayoutPanel3.Size = new Size(494, 61);
             tableLayoutPanel3.TabIndex = 4;
             // 
             // delete_btn
@@ -447,9 +447,9 @@
             delete_btn.FlatStyle = FlatStyle.Popup;
             delete_btn.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
             delete_btn.ForeColor = Color.White;
-            delete_btn.Location = new Point(373, 23);
+            delete_btn.Location = new Point(325, 20);
             delete_btn.Name = "delete_btn";
-            delete_btn.Size = new Size(169, 25);
+            delete_btn.Size = new Size(148, 21);
             delete_btn.TabIndex = 2;
             delete_btn.Text = "Delete";
             delete_btn.UseVisualStyleBackColor = false;
@@ -461,9 +461,9 @@
             button1.FlatStyle = FlatStyle.Popup;
             button1.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(198, 23);
+            button1.Location = new Point(173, 20);
             button1.Name = "button1";
-            button1.Size = new Size(169, 25);
+            button1.Size = new Size(146, 21);
             button1.TabIndex = 1;
             button1.Text = "Edit";
             button1.UseVisualStyleBackColor = false;
@@ -475,9 +475,9 @@
             add_btn.FlatStyle = FlatStyle.Popup;
             add_btn.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             add_btn.ForeColor = Color.White;
-            add_btn.Location = new Point(23, 23);
+            add_btn.Location = new Point(21, 20);
             add_btn.Name = "add_btn";
-            add_btn.Size = new Size(169, 25);
+            add_btn.Size = new Size(146, 21);
             add_btn.TabIndex = 0;
             add_btn.Text = "Add";
             add_btn.UseVisualStyleBackColor = false;
@@ -488,8 +488,8 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(3, 3);
             panel1.Name = "panel1";
-            panel1.Padding = new Padding(20);
-            panel1.Size = new Size(565, 71);
+            panel1.Padding = new Padding(18, 17, 18, 17);
+            panel1.Size = new Size(494, 59);
             panel1.TabIndex = 5;
             // 
             // reservation_title
@@ -497,19 +497,19 @@
             reservation_title.AutoSize = true;
             reservation_title.Dock = DockStyle.Top;
             reservation_title.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            reservation_title.Location = new Point(20, 20);
+            reservation_title.Location = new Point(18, 17);
             reservation_title.Name = "reservation_title";
-            reservation_title.Size = new Size(276, 31);
+            reservation_title.Size = new Size(230, 25);
             reservation_title.TabIndex = 1;
             reservation_title.Text = "Reservation Information";
             // 
             // Reservation
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Name = "Reservation";
-            Size = new Size(1100, 703);
+            Size = new Size(962, 598);
             Load += UserControl1_Load;
             tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)booked_list).EndInit();
