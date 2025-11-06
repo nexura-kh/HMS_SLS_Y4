@@ -21,6 +21,8 @@ namespace HMS_SLS_Y4.Components
         public Repositories.UserRepository userRepository;
         public Repositories.CustomerRepository customerRepository;
         public Repositories.BookingRepository bookingRepository;
+        private int selectedBookingId = 0;
+        private bool isEditMode = false;
 
         public Reservation()
         {
@@ -29,13 +31,114 @@ namespace HMS_SLS_Y4.Components
             userRepository = new UserRepository();
             customerRepository = new CustomerRepository();
             bookingRepository = new BookingRepository();
-            LoadMockupData();
+            LoadBookingData();
+            SetupDataGridView();
+            SetFormMode(false); // Start with Add mode
         }
 
         private void UserControl1_Load(object sender, EventArgs e)
         {
             LoadRoom();
         }
+
+        private void SetupDataGridView()
+        {
+            // Configure DataGridView for row selection
+            booked_list.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            booked_list.MultiSelect = false;
+            booked_list.ReadOnly = true;
+
+            // Add event handler for row selection
+            booked_list.CellClick += Booked_list_CellClick;
+        }
+
+        private void Booked_list_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                try
+                {
+                    DataGridViewRow row = booked_list.Rows[e.RowIndex];
+                    selectedBookingId = Convert.ToInt32(row.Cells["Booking ID"].Value);
+
+                    // Load booking details
+                    Booking booking = bookingRepository.GetById(selectedBookingId);
+
+                    if (booking != null)
+                    {
+                        PopulateFormWithBooking(booking);
+                        SetFormMode(true); // Switch to Edit mode
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error loading booking details: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void PopulateFormWithBooking(Booking booking)
+        {
+            // Split full name into first and last name
+            string[] nameParts = booking.customer?.User?.fullName?.Split(' ') ?? new string[] { "", "" };
+
+            if (nameParts.Length >= 2)
+            {
+                txtLastName.Text = nameParts[0];
+                txtFirstName.Text = string.Join(" ", nameParts.Skip(1));
+            }
+            else
+            {
+                txtFirstName.Text = nameParts.Length > 0 ? nameParts[0] : "";
+                txtLastName.Text = "";
+            }
+
+            txtNationality.Text = booking.customer?.User?.nationality ?? "";
+            txtIdCard.Text = booking.customer?.User?.idCardNumber ?? "";
+            txtDob.Value = booking.customer?.User?.dob ?? DateTime.Now;
+
+            if (booking.customer?.User?.idCardType != null)
+            {
+                txtIdType.SelectedValue = booking.customer.User.idCardType;
+            }
+
+            txtCheckIn.Value = booking.checkInDate;
+            txtCheckOut.Value = booking.checkOutDate;
+            roomNumberValue.Text = booking.room?.roomNumber ?? "";
+            roomId = booking.roomId ?? 0;
+            roomPrice = (int)(booking.totalAmount ?? 0);
+        }
+
+        private void SetFormMode(bool editMode)
+        {
+            isEditMode = editMode;
+
+            if (editMode)
+            {
+                // Change Add button to Cancel button
+                addOrderBtn.Text = "Cancel";
+                addOrderBtn.Enabled = true;
+
+                if (this.Controls.Find("btnEdit", true).Length > 0)
+                    this.Controls.Find("btnEdit", true)[0].Enabled = true;
+
+                if (this.Controls.Find("btnDelete", true).Length > 0)
+                    this.Controls.Find("btnDelete", true)[0].Enabled = true;
+            }
+            else
+            {
+                // Change Cancel button back to Add button
+                addOrderBtn.Text = "Add Reservation";
+                addOrderBtn.Enabled = true;
+
+                if (this.Controls.Find("btnEdit", true).Length > 0)
+                    this.Controls.Find("btnEdit", true)[0].Enabled = false;
+
+                if (this.Controls.Find("btnDelete", true).Length > 0)
+                    this.Controls.Find("btnDelete", true)[0].Enabled = false;
+            }
+        }
+
 
         private void LoadRoom()
         {
@@ -61,6 +164,7 @@ namespace HMS_SLS_Y4.Components
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         int roomPrice = 0;
         int roomId = 0;
         private void RoomComponent_RoomClicked(object sender, RoomClickedEventArgs e)
@@ -70,29 +174,75 @@ namespace HMS_SLS_Y4.Components
             roomId = e.RoomId;
         }
 
-        private void LoadMockupData()
+        private void LoadBookingData()
         {
-            DataTable table = new DataTable();
-            table.Columns.Add("Reservation ID");
-            table.Columns.Add("Guest Name");
-            table.Columns.Add("Nationality");
-            table.Columns.Add("Room No");
-            table.Columns.Add("Check-In Date");
-            table.Columns.Add("Check-Out Date");
-            table.Columns.Add("Status");
+            try
+            {
+                DataTable table = new DataTable();
+                table.Columns.Add("Booking ID");
+                table.Columns.Add("Guest Name");
+                table.Columns.Add("Nationality");
+                table.Columns.Add("Room No");
+                table.Columns.Add("Check-In Date");
+                table.Columns.Add("Check-Out Date");
+                table.Columns.Add("Status");
 
-            // Add some mock rows
-            table.Rows.Add("R001", "Sok Dara", "101", "2025-10-25", "2025-10-28", "Confirmed");
-            table.Rows.Add("R002", "Ly Sreynich", "102", "2025-10-26", "2025-10-29", "Pending");
-            table.Rows.Add("R003", "Chan Vutha", "103", "2025-10-24", "2025-10-26", "Checked-In");
-            table.Rows.Add("R004", "Sokha Rith", "104", "2025-10-20", "2025-10-23", "Checked-Out");
-            table.Rows.Add("R005", "Kim Lina", "105", "2025-10-30", "2025-11-02", "Cancelled");
+                List<Booking> bookings = bookingRepository.GetAll();
 
-            booked_list.DataSource = table;
+                foreach (var booking in bookings)
+                {
+                    string guestName = booking.customer?.User?.fullName ?? "N/A";
+                    string nationality = booking.customer?.User?.nationality ?? "N/A";
+                    string roomNumber = booking.room?.roomNumber ?? "N/A";
+                    string checkInDate = booking.checkInDate.ToString("yyyy-MM-dd");
+                    string checkOutDate = booking.checkOutDate.ToString("yyyy-MM-dd");
+                    string status = GetBookingStatus(booking.bookingStatus);
+
+                    table.Rows.Add(
+                        booking.bookingId,
+                        guestName,
+                        nationality,
+                        roomNumber,
+                        checkInDate,
+                        checkOutDate,
+                        status
+                    );
+                }
+
+                booked_list.DataSource = table;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading booking data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string GetBookingStatus(int statusCode)
+        {
+            switch (statusCode)
+            {
+                case 1:
+                    return "Booked";
+                case 2:
+                    return "Checked-In";
+                case 3:
+                    return "Checked-Out";
+                default:
+                    return "Unknown";
+            }
         }
 
         private void addOrderBtn_Click(object sender, EventArgs e)
         {
+            // If in edit mode, act as Cancel button
+            if (isEditMode)
+            {
+                ClearForm();
+                SetFormMode(false);
+                return;
+            }
+
+            // Otherwise, act as Add button
             if (roomId == 0)
             {
                 MessageBox.Show("Please select a room before making a reservation.", "No Room Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -143,11 +293,128 @@ namespace HMS_SLS_Y4.Components
                 });
 
                 MessageBox.Show("Reservation successfully created!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadBookingData();
+                ClearForm();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error creating reservation: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            if (selectedBookingId == 0)
+            {
+                MessageBox.Show("No booking selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtFirstName.Text) ||
+                string.IsNullOrWhiteSpace(txtLastName.Text) ||
+                string.IsNullOrWhiteSpace(txtNationality.Text) ||
+                string.IsNullOrWhiteSpace(txtIdCard.Text))
+            {
+                MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                Booking existingBooking = bookingRepository.GetById(selectedBookingId);
+
+                if (existingBooking != null)
+                {
+                    var fullName = $"{txtLastName.Text} {txtFirstName.Text}".Trim();
+                    existingBooking.customer.User.fullName = fullName;
+                    existingBooking.customer.User.dob = txtDob.Value;
+                    existingBooking.customer.User.nationality = txtNationality.Text;
+                    existingBooking.customer.User.idCardNumber = txtIdCard.Text;
+                    existingBooking.customer.User.idCardType = Convert.ToInt32(txtIdType.SelectedValue);
+
+                    userRepository.Update(existingBooking.customer.User);
+
+                    existingBooking.roomId = roomId;
+                    existingBooking.checkInDate = txtCheckIn.Value;
+                    existingBooking.checkOutDate = txtCheckOut.Value;
+                    existingBooking.totalAmount = roomPrice;
+
+                    bool success = bookingRepository.Update(existingBooking);
+
+                    if (success)
+                    {
+                        MessageBox.Show("Reservation updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadBookingData();
+                        ClearForm();
+                        SetFormMode(false);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update reservation.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating reservation: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (selectedBookingId == 0)
+            {
+                MessageBox.Show("No booking selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete this reservation?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    bool success = bookingRepository.Delete(selectedBookingId);
+
+                    if (success)
+                    {
+                        MessageBox.Show("Reservation deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadBookingData();
+                        ClearForm();
+                        SetFormMode(false);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete reservation.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting reservation: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void ClearForm()
+        {
+            txtFirstName.Clear();
+            txtLastName.Clear();
+            txtNationality.Clear();
+            txtIdCard.Clear();
+            txtDob.Value = DateTime.Now;
+            txtCheckIn.Value = DateTime.Now;
+            txtCheckOut.Value = DateTime.Now.AddDays(1);
+            roomNumberValue.Text = "";
+            roomId = 0;
+            roomPrice = 0;
+            selectedBookingId = 0;
+
+            booked_list.ClearSelection();
         }
     }
 }

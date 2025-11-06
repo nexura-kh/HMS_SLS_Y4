@@ -59,7 +59,13 @@ namespace HMS_SLS_Y4.Repositories
                     {
                         while (reader.Read())
                         {
-                            //users.Add(MapToUser(reader));
+                            var user = new User
+                            {
+                                id = reader.GetInt32("id"),
+                                fullName = reader.GetString("full_name"),
+                                dob = reader.IsDBNull(reader.GetOrdinal("dob")) ? (DateTime?)null : reader.GetDateTime("dob"),
+                            };
+                            users.Add(user);
                         }
                     }
                 }
