@@ -16,5 +16,15 @@ namespace HMS_SLS_Y4.Components
         {
             InitializeComponent();
         }
+
+        private void Customer_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvCustomers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
