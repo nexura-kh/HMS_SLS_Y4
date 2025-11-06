@@ -13,8 +13,9 @@ namespace HMS_SLS_Y4.Models
         public int FoodId { get; set; }
         public int Quantity { get; set; }
 
-        // Navigation properties
-        public FoodOrder FoodOrder { get; set; }
-        public Food food { get; set; }
+        public decimal totalPrice { get; set; }
+        public string note { get; set; }
+        
+
     }
 }
