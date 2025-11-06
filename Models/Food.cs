@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HMS_SLS_Y4.Model
+namespace HMS_SLS_Y4.Models
 
 {
     public class Food 

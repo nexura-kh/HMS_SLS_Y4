@@ -12,10 +12,51 @@ using System.Threading.Tasks;
 
 namespace HMS_SLS_Y4.Repositories
 {
-    public class RoomTypeRepository
+    public class RoomTypeRepository:BaseRepository<RoomType>
     {
 
         String StrConn = DatabaseHelper.ConnectionString;
+
+        public RoomTypeRepository() : base(DatabaseHelper.ConnectionString) { }
+
+        public override int Add(RoomType roomType)
+        {
+            string query = @"INSERT INTO room_types (type_name, description, price_per_night) 
+                             VALUES (@roomName, @roomDescription, @roomPrice)";
+
+            using (MySqlConnection conn = new MySqlConnection(StrConn))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@roomName", roomType.typeName);
+                    cmd.Parameters.AddWithValue("@roomDescription", roomType.description);
+                    cmd.Parameters.AddWithValue("@roomPrice", roomType.price);
+
+                    try
+                    {
+                        conn.Open();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                    }
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show("Error inserting room: " + ex.Message);
+                    }
+                }
+
+                return 1;
+            }
+        }
+
+        public override bool Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<RoomType> GetAll()
+        {
+            throw new NotImplementedException();
+        }
 
         public List<RoomType> GetAllRoomTypes()
         {
@@ -41,24 +82,27 @@ namespace HMS_SLS_Y4.Repositories
                                 decimal price = reader.GetDecimal("price_per_night");
                                 string description = reader.GetString("description");
 
-                                RoomType roomType = new RoomType(roomTypeId, typeName, price, description);
+                                RoomType roomType = new RoomType(roomTypeId, typeName,price,description);
                                 roomTypes.Add(roomType);
                             }
                         }
                     }
                     catch (MySqlException ex)
                     {
-                        // Handle database-specific exceptions
                         Console.WriteLine("Database error: " + ex.Message);
                     }
                     catch (Exception ex)
                     {
-                        // Handle general exceptions
                         Console.WriteLine("Unexpected error: " + ex.Message);
                     }
                 }
             }
             return roomTypes;
+        }
+
+        public override RoomType GetById(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public RoomType GetRoomTypeById(int roomTypeId)
@@ -77,10 +121,11 @@ namespace HMS_SLS_Y4.Repositories
                         {
                             if (reader.Read())
                             {
+                                int roomTypeID = reader.GetInt32("type_id");
                                 string typeName = reader.GetString("type_name");
                                 decimal price = reader.GetDecimal("price_per_night");
                                 string description = reader.GetString("description");
-                                roomType = new RoomType(roomTypeId, typeName, price, description);
+                                roomType = new RoomType(roomTypeID,typeName, price, description);
                             }
                         }
                     }
@@ -97,5 +142,43 @@ namespace HMS_SLS_Y4.Repositories
             return roomType;
         }
 
-    }
+
+        public override bool Update(RoomType roomType)
+        {
+            using (MySqlConnection conn = new MySqlConnection(StrConn))
+            {
+
+
+                string query = @"UPDATE room_types 
+                  SET price_per_night = @pricePerNight, description = @description 
+                  WHERE type_id = @typeId";
+
+                conn.Open();
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+
+
+                    cmd.Parameters.AddWithValue("@pricePerNight", roomType.price);
+                    cmd.Parameters.AddWithValue("@description", roomType.description);
+                    cmd.Parameters.AddWithValue("@typeId", roomType.roomTypeId);
+
+
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        MessageBox.Show("Room type updated successfully.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No record found with the given type_id.");
+                    }
+                }
+            }
+            return true;
+        }
+
+        }
 }

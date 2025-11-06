@@ -1,6 +1,6 @@
 ﻿
 
-using HMS_SLS_Y4.Model;
+using HMS_SLS_Y4.Models;
 using HMS_SLS_Y4.Repositories;
 using System;
 using System.Collections.Generic;
@@ -67,6 +67,11 @@ namespace HMS_SLS_Y4.Forms
             {
                 MessageBox.Show("Failed to update food.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

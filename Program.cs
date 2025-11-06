@@ -1,3 +1,5 @@
+using HMS_SLS_Y4.Seeders;
+
 namespace HMS_SLS_Y4
 {
     internal static class Program
@@ -12,6 +14,10 @@ namespace HMS_SLS_Y4
             Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            SeedRoom seedRoom = new SeedRoom();
+            seedRoom.SeedRoomTypes();
+            seedRoom.SeedRooms();
 
             using (Login loginForm = new Login())
             {

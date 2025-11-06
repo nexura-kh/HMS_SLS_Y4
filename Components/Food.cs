@@ -37,7 +37,7 @@ namespace HMS_SLS_Y4.Components
             
         }
         // cards
-        private void LoadDummyCards()
+        public void LoadDummyCards()
         {
 
             splitContainer1.Panel1.Controls.Clear(); // Clear previous cards
@@ -178,7 +178,7 @@ namespace HMS_SLS_Y4.Components
             }
 
 
-            bool isSuccess = foodRepository.AddFood(new Model.Food
+            bool isSuccess = foodRepository.AddFood(new Models.Food
             {
                 FoodName = name,
                 Description = description,
