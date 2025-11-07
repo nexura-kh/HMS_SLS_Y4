@@ -55,7 +55,7 @@ namespace HMS_SLS_Y4.Forms
             _food.Price = (decimal)numPrice.Value;
 
             // Call repository to update in DB
-            bool isUpdated = _foodRepository.UpdateFood(_food);
+            bool isUpdated = _foodRepository.Update(_food);
 
             if (isUpdated)
             {

@@ -33,7 +33,7 @@ namespace HMS_SLS_Y4.Components
             bookingRepository = new BookingRepository();
             LoadBookingData();
             SetupDataGridView();
-            SetFormMode(false); // Start with Add mode
+            SetFormMode(false); 
         }
 
         private void UserControl1_Load(object sender, EventArgs e)
@@ -292,7 +292,6 @@ namespace HMS_SLS_Y4.Components
                     bookingStatus = 1
                 });
 
-                MessageBox.Show("Reservation successfully created!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 LoadBookingData();
                 ClearForm();
             }
@@ -343,7 +342,6 @@ namespace HMS_SLS_Y4.Components
 
                     if (success)
                     {
-                        MessageBox.Show("Reservation updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadBookingData();
                         ClearForm();
                         SetFormMode(false);
@@ -383,7 +381,6 @@ namespace HMS_SLS_Y4.Components
 
                     if (success)
                     {
-                        MessageBox.Show("Reservation deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         LoadBookingData();
                         ClearForm();
                         SetFormMode(false);

@@ -507,6 +507,7 @@
             editOrderBtn.TabIndex = 2;
             editOrderBtn.Text = "Edit";
             editOrderBtn.UseVisualStyleBackColor = false;
+            editOrderBtn.Click += btnEdit_Click;
             // 
             // panel12
             // 
@@ -531,6 +532,7 @@
             deleteOrderBtn.TabIndex = 3;
             deleteOrderBtn.Text = "Delete";
             deleteOrderBtn.UseVisualStyleBackColor = false;
+            deleteOrderBtn.Click += btnDelete_Click;   
             // 
             // tableLayoutPanel4
             // 

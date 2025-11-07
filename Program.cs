@@ -16,10 +16,13 @@ namespace HMS_SLS_Y4
             Application.SetCompatibleTextRenderingDefault(false);
 
             SeedRoom seedRoom = new SeedRoom();
+            SeedFood seedFood = new SeedFood();
             SeedReservation seedReservation = new SeedReservation();
 
             seedRoom.SeedRoomTypes();
             seedRoom.SeedRooms();
+
+            seedFood.SeedFoods();
 
             seedReservation.SeedUsers();
             seedReservation.SeedCustomers();

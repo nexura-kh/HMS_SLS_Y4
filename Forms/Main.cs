@@ -1,6 +1,6 @@
 ﻿using HMS_SLS_Y4.Components;
 using HMS_SLS_Y4.Repositories;
-
+using Org.BouncyCastle.Asn1.BC;
 using System;
 using System.Windows.Forms;
 
@@ -67,6 +67,14 @@ namespace HMS_SLS_Y4
             container.Controls.Clear();
             container.Controls.Add(foodTable);
         }
+        
+        private void LoadOrderList()
+        {
+            OrderList orderList = new OrderList();
+            orderList.Dock = DockStyle.Fill;
+            container.Controls.Clear();
+            container.Controls.Add(orderList);
+        }
 
         #endregion
 
@@ -95,6 +103,11 @@ namespace HMS_SLS_Y4
         private void payment_btn_Click(object sender, EventArgs e)
         {
             LoadPayment();
+        }
+
+        private void order_btn_Click(object sender, EventArgs e)
+        {
+            LoadOrderList();
         }
 
         private void exit_btn_Click(object sender, EventArgs e)
