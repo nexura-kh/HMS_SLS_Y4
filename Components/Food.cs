@@ -36,7 +36,7 @@ namespace HMS_SLS_Y4.Components
         private void LoadFoodCards()
         {
             foodPanel.Controls.Clear();
-            foodPanel.AutoScroll = true; // Auto-scroll is already here
+            foodPanel.AutoScroll = true; 
 
             var foods = foodRepository.GetAll()
                 .Where(f => f.FoodType == "Food" || string.IsNullOrEmpty(f.FoodType))
@@ -44,14 +44,13 @@ namespace HMS_SLS_Y4.Components
 
             int cardWidth = 120;
             int cardHeight = 120;
-            int margin = 100; // Increased margin
+            int margin = 100; 
 
             int xPos = margin;
             int yPos = margin;
 
-            // Calculate number of cards per row dynamically based on current panel width
             int cardsPerRow = (foodPanel.Width - margin) / (cardWidth + margin);
-            if (cardsPerRow < 1) cardsPerRow = 1; // Ensure at least one card fits
+            if (cardsPerRow < 1) cardsPerRow = 1; 
 
             int cardCount = 0;
             foreach (var food in foods)
@@ -61,11 +60,10 @@ namespace HMS_SLS_Y4.Components
                 foodPanel.Controls.Add(card);
 
                 cardCount++;
-                // Move horizontally
+
                 xPos += cardWidth + margin;
 
-                // Wrap to next row
-                if (cardCount % cardsPerRow == 0) // Use cardCount and cardsPerRow for wrapping
+                if (cardCount % cardsPerRow == 0) 
                 {
                     xPos = margin;
                     yPos += cardHeight + margin;
@@ -76,7 +74,7 @@ namespace HMS_SLS_Y4.Components
         private void LoadDrinkCards()
         {
             drinkPanel.Controls.Clear();
-            drinkPanel.AutoScroll = true; // Auto-scroll is already here
+            drinkPanel.AutoScroll = true;
 
             var drinks = foodRepository.GetAll()
                 .Where(f => f.FoodType == "Drink")
@@ -84,14 +82,13 @@ namespace HMS_SLS_Y4.Components
 
             int cardWidth = 120;
             int cardHeight = 120;
-            int margin = 100; // Increased margin
+            int margin = 100; 
 
             int xPos = margin;
             int yPos = margin;
 
-            // Calculate number of cards per row dynamically based on current panel width
             int cardsPerRow = (drinkPanel.Width - margin) / (cardWidth + margin);
-            if (cardsPerRow < 1) cardsPerRow = 1; // Ensure at least one card fits
+            if (cardsPerRow < 1) cardsPerRow = 1;
 
             int cardCount = 0;
             foreach (var drink in drinks)
@@ -101,11 +98,9 @@ namespace HMS_SLS_Y4.Components
                 drinkPanel.Controls.Add(card);
 
                 cardCount++;
-                // Move horizontally
                 xPos += cardWidth + margin;
 
-                // Wrap to next row
-                if (cardCount % cardsPerRow == 0) // Use cardCount and cardsPerRow for wrapping
+                if (cardCount % cardsPerRow == 0) 
                 {
                     xPos = margin;
                     yPos += cardHeight + margin;
@@ -126,7 +121,6 @@ namespace HMS_SLS_Y4.Components
 
             card.Click += (s, e) => SelectFoodForEditing(food);
 
-            // Image
             PictureBox pictureBox = new PictureBox();
             pictureBox.Size = new Size(40, 40);
             pictureBox.Location = new Point((cardWidth - 40) / 2, 6);
@@ -135,7 +129,6 @@ namespace HMS_SLS_Y4.Components
             pictureBox.Image = CreatePlaceholderImage(40, 40, food.FoodType == "Drink" ? "🥤" : "🍽️");
             pictureBox.Click += (s, e) => SelectFoodForEditing(food);
 
-            // Name
             Label nameLabel = new Label();
             nameLabel.Text = food.FoodName;
             nameLabel.Font = new Font("Segoe UI", 8, FontStyle.Bold);
@@ -144,7 +137,6 @@ namespace HMS_SLS_Y4.Components
             nameLabel.TextAlign = ContentAlignment.MiddleCenter;
             nameLabel.Click += (s, e) => SelectFoodForEditing(food);
 
-            // Price
             Label priceLabel = new Label();
             priceLabel.Text = "$" + food.Price.ToString("F2");
             priceLabel.Font = new Font("Segoe UI", 8, FontStyle.Bold);
@@ -154,7 +146,6 @@ namespace HMS_SLS_Y4.Components
             priceLabel.TextAlign = ContentAlignment.MiddleCenter;
             priceLabel.Click += (s, e) => SelectFoodForEditing(food);
 
-            // Type label
             Label typeLabel = new Label();
             typeLabel.Text = food.FoodType ?? "Food";
             typeLabel.Font = new Font("Segoe UI", 6, FontStyle.Bold);
@@ -168,7 +159,6 @@ namespace HMS_SLS_Y4.Components
             typeLabel.Location = new Point(6, 90);
             typeLabel.Click += (s, e) => SelectFoodForEditing(food);
 
-            // Add controls
             card.Controls.Add(pictureBox);
             card.Controls.Add(nameLabel);
             card.Controls.Add(priceLabel);
