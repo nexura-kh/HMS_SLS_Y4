@@ -36,11 +36,11 @@
             tableLayoutPanel3 = new TableLayoutPanel();
             invoicePanel = new Panel();
             tableLayoutPanel4 = new TableLayoutPanel();
-            button1 = new Button();
+            btnPrintOrder = new Button();
             label1 = new Label();
             tableLayoutPanel5 = new TableLayoutPanel();
-            button3 = new Button();
-            button2 = new Button();
+            btnDeleteOrder = new Button();
+            btnEditOrder = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)orderList_data).BeginInit();
@@ -139,7 +139,7 @@
             tableLayoutPanel4.ColumnCount = 2;
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.Controls.Add(button1, 1, 0);
+            tableLayoutPanel4.Controls.Add(btnPrintOrder, 1, 0);
             tableLayoutPanel4.Controls.Add(label1, 0, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(3, 3);
@@ -150,15 +150,16 @@
             tableLayoutPanel4.Size = new Size(300, 59);
             tableLayoutPanel4.TabIndex = 0;
             // 
-            // button1
+            // btnPrintOrder
             // 
-            button1.Dock = DockStyle.Right;
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(221, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(76, 53);
-            button1.TabIndex = 10;
-            button1.UseVisualStyleBackColor = true;
+            btnPrintOrder.Dock = DockStyle.Right;
+            btnPrintOrder.Image = (Image)resources.GetObject("btnPrintOrder.Image");
+            btnPrintOrder.Location = new Point(221, 3);
+            btnPrintOrder.Name = "btnPrintOrder";
+            btnPrintOrder.Size = new Size(76, 53);
+            btnPrintOrder.TabIndex = 10;
+            btnPrintOrder.UseVisualStyleBackColor = true;
+            btnPrintOrder.Click += btnPrintOrder_Click;
             // 
             // label1
             // 
@@ -177,8 +178,8 @@
             tableLayoutPanel5.ColumnCount = 2;
             tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel5.Controls.Add(button3, 1, 0);
-            tableLayoutPanel5.Controls.Add(button2, 0, 0);
+            tableLayoutPanel5.Controls.Add(btnDeleteOrder, 1, 0);
+            tableLayoutPanel5.Controls.Add(btnEditOrder, 0, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
             tableLayoutPanel5.Location = new Point(3, 589);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -188,35 +189,37 @@
             tableLayoutPanel5.Size = new Size(300, 60);
             tableLayoutPanel5.TabIndex = 1;
             // 
-            // button3
+            // btnDeleteOrder
             // 
-            button3.BackColor = Color.FromArgb(231, 76, 60);
-            button3.Dock = DockStyle.Fill;
-            button3.FlatStyle = FlatStyle.Popup;
-            button3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(165, 15);
-            button3.Margin = new Padding(15);
-            button3.Name = "button3";
-            button3.Size = new Size(120, 30);
-            button3.TabIndex = 1;
-            button3.Text = "Delete";
-            button3.UseVisualStyleBackColor = false;
+            btnDeleteOrder.BackColor = Color.FromArgb(231, 76, 60);
+            btnDeleteOrder.Dock = DockStyle.Fill;
+            btnDeleteOrder.FlatStyle = FlatStyle.Popup;
+            btnDeleteOrder.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDeleteOrder.ForeColor = Color.White;
+            btnDeleteOrder.Location = new Point(165, 15);
+            btnDeleteOrder.Margin = new Padding(15);
+            btnDeleteOrder.Name = "btnDeleteOrder";
+            btnDeleteOrder.Size = new Size(120, 30);
+            btnDeleteOrder.TabIndex = 1;
+            btnDeleteOrder.Text = "Delete";
+            btnDeleteOrder.UseVisualStyleBackColor = false;
+            btnDeleteOrder.Click += btnDeleteOrder_Click;
             // 
-            // button2
+            // btnEditOrder
             // 
-            button2.BackColor = Color.FromArgb(52, 152, 219);
-            button2.Dock = DockStyle.Fill;
-            button2.FlatStyle = FlatStyle.Popup;
-            button2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(15, 15);
-            button2.Margin = new Padding(15);
-            button2.Name = "button2";
-            button2.Size = new Size(120, 30);
-            button2.TabIndex = 0;
-            button2.Text = "Edit";
-            button2.UseVisualStyleBackColor = false;
+            btnEditOrder.BackColor = Color.FromArgb(52, 152, 219);
+            btnEditOrder.Dock = DockStyle.Fill;
+            btnEditOrder.FlatStyle = FlatStyle.Popup;
+            btnEditOrder.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditOrder.ForeColor = Color.White;
+            btnEditOrder.Location = new Point(15, 15);
+            btnEditOrder.Margin = new Padding(15);
+            btnEditOrder.Name = "btnEditOrder";
+            btnEditOrder.Size = new Size(120, 30);
+            btnEditOrder.TabIndex = 0;
+            btnEditOrder.Text = "Edit";
+            btnEditOrder.UseVisualStyleBackColor = false;
+            btnEditOrder.Click += btnEditOrder_Click;
             // 
             // OrderList
             // 
@@ -246,9 +249,9 @@
         private Label OrderTitle;
         private DataGridView orderList_data;
         private Label label1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
+        private Button btnPrintOrder;
+        private Button btnEditOrder;
+        private Button btnDeleteOrder;
         private Panel invoicePanel;
     }
 }

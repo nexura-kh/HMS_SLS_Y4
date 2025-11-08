@@ -52,7 +52,32 @@ namespace HMS_SLS_Y4.Repositories
 
         public override List<OrderItem> GetAll()
         {
-            string query = "SELECT * FROM order_item";
+            string query = @"SELECT 
+                u.full_name AS customer_name,
+                u.nationality,
+                r.room_number,
+                rt.type_name AS room_type,
+                b.check_in_date,
+                b.check_out_date,
+                b.booking_status,
+                fo.order_date,
+                fo.status AS order_status,
+                oi.orderItem_id,
+                oi.quantity,
+                oi.note,
+                oi.total_price,
+                f.food_name,
+                f.price AS food_price
+            FROM users u
+            JOIN customers c ON u.id = c.user_id
+            JOIN bookings b ON c.customer_id = b.customer_id
+            LEFT JOIN rooms r ON b.room_id = r.room_id
+            LEFT JOIN room_types rt ON r.room_type_id = rt.type_id
+            LEFT JOIN food_orders fo ON b.booking_id = fo.booking_id
+            LEFT JOIN order_items oi ON fo.order_id = oi.order_id
+            LEFT JOIN foods f ON oi.food_id = f.food_id
+            ORDER BY fo.order_date DESC;
+";
             using (var conn = new MySqlConnection(ConnectionString))
             using (var cmd = new MySqlCommand(query, conn))
             {
@@ -66,12 +91,38 @@ namespace HMS_SLS_Y4.Repositories
                         {
                             var orderItem = new OrderItem
                             {
-                                OrderItemId = reader.GetInt32("order_item_id"),
-                                OrderId = reader.GetInt32("order_id"),
-                                FoodId = reader.GetInt32("food_id"),
+                                OrderItemId = reader.GetInt32("orderItem_id"),
                                 Quantity = reader.GetInt32("quantity"),
+                                totalPrice = reader.GetDecimal("total_price"),
                                 note = reader.IsDBNull(reader.GetOrdinal("note")) ? null : reader.GetString("note"),
-                                totalPrice = reader.GetDecimal("total_price")
+                                Booking = new Booking
+                                {
+                                    checkInDate = reader.GetDateTime("check_in_date"),
+                                    checkOutDate = reader.GetDateTime("check_out_date"),
+                                    bookingStatus = reader.GetInt32("booking_status"),
+                                    room = new HMS_SLS_Y4.Models.Room
+                                    {
+                                        roomNumber = reader.IsDBNull(reader.GetOrdinal("room_number")) ? "N/A" : reader.GetString("room_number"),
+                                    },
+                                    customer = new HMS_SLS_Y4.Models.Customer
+                                    {
+                                        User = new User
+                                        {
+                                            fullName = reader.GetString("customer_name"),
+                                            nationality = reader.GetString("nationality"),
+                                        },
+                                    }
+                                },
+                                FoodOrder = new FoodOrder
+                                {
+                                    orderDate = reader.GetDateTime("order_date"),
+                                    status = reader.GetString("order_status"),
+                                },
+                                Food = new HMS_SLS_Y4.Models.Food
+                                {
+                                    FoodName = reader.GetString("food_name"),
+                                    Price = reader.GetDecimal("food_price"),
+                                }
                             };
                             orderItems.Add(orderItem);
                         }
