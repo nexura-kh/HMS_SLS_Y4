@@ -31,7 +31,6 @@ namespace HMS_SLS_Y4.Components
         private void LoadTableData()
         {
             DataTable table = new DataTable();
-            table.Columns.Add("Order ID");
             table.Columns.Add("Order Date");
             table.Columns.Add("Room");
             table.Columns.Add("Customer");
@@ -44,7 +43,7 @@ namespace HMS_SLS_Y4.Components
 
             // Group by Order ID (or you can group by Customer if needed)
             var groupedOrders = orderItems
-                .GroupBy(oi => oi.FoodOrder.orderId) // Group by Order ID
+                .GroupBy(oi => oi.Booking.customer.User.fullName)
                 .Select(group => new
                 {
                     OrderId = group.Key,
@@ -60,7 +59,6 @@ namespace HMS_SLS_Y4.Components
             foreach (var order in groupedOrders)
             {
                 table.Rows.Add(
-                    order.OrderId,
                     order.OrderDate.ToString("yyyy-MM-dd"),
                     order.Room,
                     order.Customer,
