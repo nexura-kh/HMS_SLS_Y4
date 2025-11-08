@@ -23,7 +23,7 @@ namespace HMS_SLS_Y4.Components
             loadCustomer();
         }
 
-        private void loadCustomer()
+        private void loadCustomer() { 
             // The method that loads all data and updates all UI elements
             LoadCustomerData();
         }
