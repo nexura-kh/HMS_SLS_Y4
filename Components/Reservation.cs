@@ -27,10 +27,13 @@ namespace HMS_SLS_Y4.Components
         public Reservation()
         {
             InitializeComponent();
+
             roomComponent = new Classes.Room();
             userRepository = new UserRepository();
             customerRepository = new CustomerRepository();
             bookingRepository = new BookingRepository();
+            roomRepository = new RoomRepository();
+
             LoadBookingData();
             SetupDataGridView();
             SetFormMode(false); 
@@ -43,12 +46,11 @@ namespace HMS_SLS_Y4.Components
 
         private void SetupDataGridView()
         {
-            // Configure DataGridView for row selection
             booked_list.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             booked_list.MultiSelect = false;
             booked_list.ReadOnly = true;
+            booked_list.AllowUserToAddRows = false;
 
-            // Add event handler for row selection
             booked_list.CellClick += Booked_list_CellClick;
         }
 
@@ -61,13 +63,12 @@ namespace HMS_SLS_Y4.Components
                     DataGridViewRow row = booked_list.Rows[e.RowIndex];
                     selectedBookingId = Convert.ToInt32(row.Cells["Booking ID"].Value);
 
-                    // Load booking details
                     Booking booking = bookingRepository.GetById(selectedBookingId);
 
                     if (booking != null)
                     {
                         PopulateFormWithBooking(booking);
-                        SetFormMode(true); // Switch to Edit mode
+                        SetFormMode(true); 
                     }
                 }
                 catch (Exception ex)
@@ -79,7 +80,6 @@ namespace HMS_SLS_Y4.Components
 
         private void PopulateFormWithBooking(Booking booking)
         {
-            // Split full name into first and last name
             string[] nameParts = booking.customer?.User?.fullName?.Split(' ') ?? new string[] { "", "" };
 
             if (nameParts.Length >= 2)
@@ -97,11 +97,7 @@ namespace HMS_SLS_Y4.Components
             txtIdCard.Text = booking.customer?.User?.idCardNumber ?? "";
             txtDob.Value = booking.customer?.User?.dob ?? DateTime.Now;
 
-            if (booking.customer?.User?.idCardType != null)
-            {
-                txtIdType.SelectedValue = booking.customer.User.idCardType;
-            }
-
+            txtBookingStatus.SelectedValue = booking.bookingStatus;
             txtCheckIn.Value = booking.checkInDate;
             txtCheckOut.Value = booking.checkOutDate;
             roomNumberValue.Text = booking.room?.roomNumber ?? "";
@@ -181,8 +177,9 @@ namespace HMS_SLS_Y4.Components
                 DataTable table = new DataTable();
                 table.Columns.Add("Booking ID");
                 table.Columns.Add("Guest Name");
-                table.Columns.Add("Nationality");
                 table.Columns.Add("Room No");
+                table.Columns.Add("Nationality");
+                table.Columns.Add("ID Card");
                 table.Columns.Add("Check-In Date");
                 table.Columns.Add("Check-Out Date");
                 table.Columns.Add("Status");
@@ -197,12 +194,14 @@ namespace HMS_SLS_Y4.Components
                     string checkInDate = booking.checkInDate.ToString("yyyy-MM-dd");
                     string checkOutDate = booking.checkOutDate.ToString("yyyy-MM-dd");
                     string status = GetBookingStatus(booking.bookingStatus);
+                    string idCardNumber = booking.customer?.User?.idCardNumber ?? "N/A";
 
                     table.Rows.Add(
                         booking.bookingId,
                         guestName,
-                        nationality,
                         roomNumber,
+                        nationality,
+                        idCardNumber,
                         checkInDate,
                         checkOutDate,
                         status
@@ -234,7 +233,6 @@ namespace HMS_SLS_Y4.Components
 
         private void addOrderBtn_Click(object sender, EventArgs e)
         {
-            // If in edit mode, act as Cancel button
             if (isEditMode)
             {
                 ClearForm();
@@ -242,7 +240,6 @@ namespace HMS_SLS_Y4.Components
                 return;
             }
 
-            // Otherwise, act as Add button
             if (roomId == 0)
             {
                 MessageBox.Show("Please select a room before making a reservation.", "No Room Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -268,7 +265,6 @@ namespace HMS_SLS_Y4.Components
                     dob = txtDob.Value,
                     nationality = txtNationality.Text,
                     idCardNumber = txtIdCard.Text,
-                    idCardType = Convert.ToInt32(txtIdType.SelectedValue)
                 };
 
                 int userId = userRepository.Add(user);
@@ -289,10 +285,13 @@ namespace HMS_SLS_Y4.Components
                     checkOutDate = txtCheckOut.Value,
                     totalAmount = roomPrice,
                     bookingDate = DateTime.Now,
-                    bookingStatus = 1
+                    bookingStatus = Convert.ToInt32(txtBookingStatus.SelectedValue)
                 });
 
+                roomRepository.updateRoomStatus(roomId, false);
+
                 LoadBookingData();
+                LoadRoom();
                 ClearForm();
             }
             catch (Exception ex)
@@ -329,9 +328,12 @@ namespace HMS_SLS_Y4.Components
                     existingBooking.customer.User.dob = txtDob.Value;
                     existingBooking.customer.User.nationality = txtNationality.Text;
                     existingBooking.customer.User.idCardNumber = txtIdCard.Text;
-                    existingBooking.customer.User.idCardType = Convert.ToInt32(txtIdType.SelectedValue);
+                    existingBooking.bookingStatus = Convert.ToInt32(txtBookingStatus.SelectedValue);
 
                     userRepository.Update(existingBooking.customer.User);
+
+                    int oldRoomId = existingBooking.roomId ?? 0;
+                    roomRepository.updateRoomStatus(oldRoomId, true);
 
                     existingBooking.roomId = roomId;
                     existingBooking.checkInDate = txtCheckIn.Value;
@@ -339,10 +341,12 @@ namespace HMS_SLS_Y4.Components
                     existingBooking.totalAmount = roomPrice;
 
                     bool success = bookingRepository.Update(existingBooking);
+                    roomRepository.updateRoomStatus(roomId, false);
 
                     if (success)
                     {
                         LoadBookingData();
+                        LoadRoom();
                         ClearForm();
                         SetFormMode(false);
                     }

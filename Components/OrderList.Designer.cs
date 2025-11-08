@@ -133,6 +133,7 @@
             invoicePanel.Padding = new Padding(0, 50, 0, 50);
             invoicePanel.Size = new Size(276, 491);
             invoicePanel.TabIndex = 2;
+            invoicePanel.Paint += invoicePanel_Paint;
             // 
             // tableLayoutPanel4
             // 

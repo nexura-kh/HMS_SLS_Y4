@@ -311,7 +311,27 @@ namespace HMS_SLS_Y4.Repositories
                     MessageBox.Show("Error fetching room ID: " + ex.Message);
                 }
             }
-            return -1; // Return -1 if not found or error occurs
+            return -1;
+        } 
+        public void updateRoomStatus(int id, bool status)
+        {
+            string query = @"UPDATE rooms SET is_available = @isAvailable WHERE room_id = @roomId";
+
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@isAvailable", status);
+                cmd.Parameters.AddWithValue("@roomId", id);
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Error fetching room ID: " + ex.Message);
+                }
+            }
         }
     }
 }

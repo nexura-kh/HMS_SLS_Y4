@@ -14,8 +14,8 @@ namespace HMS_SLS_Y4.Repositories
 
         public override int Add(User user)
         {
-            string query = @"INSERT INTO users (full_name, dob, nationality, id_card_number, id_card_type) 
-                           VALUES (@full_name, @dob, @nationality, @id_card_number, @id_card_type);
+            string query = @"INSERT INTO users (full_name, dob, nationality, id_card_number) 
+                           VALUES (@full_name, @dob, @nationality, @id_card_number);
                            SELECT LAST_INSERT_ID();";
 
             using (var conn = new MySqlConnection(ConnectionString))
@@ -25,7 +25,6 @@ namespace HMS_SLS_Y4.Repositories
                 cmd.Parameters.AddWithValue("@dob", user.dob);
                 cmd.Parameters.AddWithValue("@nationality", user.nationality);
                 cmd.Parameters.AddWithValue("@id_card_number", user.idCardNumber);
-                cmd.Parameters.AddWithValue("@id_card_type", (int)user.idCardType);
 
                 try
                 {
@@ -112,8 +111,7 @@ namespace HMS_SLS_Y4.Repositories
                            SET full_name = @full_name, 
                                dob = @dob, 
                                nationality = @nationality, 
-                               id_card_number = @id_card_number, 
-                               id_card_type = @id_card_type
+                               id_card_number = @id_card_number
                            WHERE id = @id";
 
             using (var conn = new MySqlConnection(ConnectionString))
@@ -124,7 +122,6 @@ namespace HMS_SLS_Y4.Repositories
                 cmd.Parameters.AddWithValue("@dob", user.dob);
                 cmd.Parameters.AddWithValue("@nationality", user.nationality);
                 cmd.Parameters.AddWithValue("@id_card_number", user.idCardNumber);
-                cmd.Parameters.AddWithValue("@id_card_type", (int)user.idCardType);
 
                 try
                 {
@@ -162,7 +159,26 @@ namespace HMS_SLS_Y4.Repositories
         }
 
        
+        public int getUserIdbyFullName(string fullName)
+        {
+            string query = "SELECT id FROM users WHERE full_name = @full_name";
+            using (var conn = new MySqlConnection(ConnectionString))
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@full_name", fullName);
+                try
+                {
+                    conn.Open();
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : 0;
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error while getting user ID: {ex.Message}", ex);
+                }
+            }
+        }
 
-        
+
     }
 }

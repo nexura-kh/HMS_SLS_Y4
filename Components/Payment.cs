@@ -1,71 +1,28 @@
-﻿using HMS_SLS_Y4.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
 using System.Windows.Forms;
+using HMS_SLS_Y4.Utils;
 
 namespace HMS_SLS_Y4.Components
 {
     public partial class Payment : UserControl
     {
-        private readonly PaymentRepository _paymentRepo = new PaymentRepository();
-        private DataTable _dt;
-        private PrintDocument _printDoc;
-
         public Payment()
         {
             InitializeComponent();
-
-            // Setup events
             SetupEventHandlers();
-
-            // Prepare print document
-            _printDoc = new PrintDocument();
-            _printDoc.PrintPage += PrintDoc_PrintPage;
-
-            // Load data from DB
-            LoadOrdersForPayment();
+            LoadMockupData();
         }
 
         private void SetupEventHandlers()
         {
             paymentList.SelectionChanged += PaymentList_SelectionChanged;
-            button1.Click += BtnPrint_Click;     // print icon button in designer
-            button2.Click += BtnConfirm_Click;   // Confirm
-            button3.Click += BtnCancel_Click;    // Cancel/clear
-        }
 
-        private void LoadOrdersForPayment()
-        {
-            try
-            {
-                _dt = _paymentRepo.GetOrdersForPayment();
-                paymentList.DataSource = _dt;
+            button1.Click += BtnPrint_Click;
 
-                // Nice header names (if columns exist)
-                if (paymentList.Columns["OrderItemID"] != null) paymentList.Columns["OrderItemID"].HeaderText = "Order Item";
-                if (paymentList.Columns["OrderID"] != null) paymentList.Columns["OrderID"].HeaderText = "Order ID";
-                if (paymentList.Columns["BookingID"] != null) paymentList.Columns["BookingID"].HeaderText = "Booking ID";
-                if (paymentList.Columns["CustomerName"] != null) paymentList.Columns["CustomerName"].HeaderText = "Customer";
-                if (paymentList.Columns["RoomNumber"] != null) paymentList.Columns["RoomNumber"].HeaderText = "Room";
-                if (paymentList.Columns["FoodName"] != null) paymentList.Columns["FoodName"].HeaderText = "Item";
-                if (paymentList.Columns["Quantity"] != null) paymentList.Columns["Quantity"].HeaderText = "Qty";
-                if (paymentList.Columns["ItemTotal"] != null) paymentList.Columns["ItemTotal"].HeaderText = "Amount";
-                if (paymentList.Columns["PaymentID"] != null) paymentList.Columns["PaymentID"].HeaderText = "Payment ID";
-                if (paymentList.Columns["PaymentDate"] != null) paymentList.Columns["PaymentDate"].HeaderText = "Paid On";
-
-                // appearance
-                paymentList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-                paymentList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                paymentList.MultiSelect = false;
-                paymentList.ReadOnly = true;
-                paymentList.AllowUserToAddRows = false;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to load orders: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            button2.Click += BtnConfirm_Click;
+            button3.Click += BtnCancel_Click;
         }
 
         private void PaymentList_SelectionChanged(object sender, EventArgs e)
@@ -74,92 +31,56 @@ namespace HMS_SLS_Y4.Components
             {
                 GenerateInvoice(paymentList.SelectedRows[0]);
             }
-            else
-            {
-                invoicePanel.Controls.Clear();
-            }
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)
         {
-            if (paymentList.SelectedRows.Count == 0)
+            if (paymentList.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Select a row to print.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                InvoiceData invoiceData = ExtractInvoiceDataFromRow(paymentList.SelectedRows[0]);
+                Utilities.ShowInvoicePrintPreview(invoiceData);
             }
-
-            try
+            else
             {
-                PrintPreviewDialog preview = new PrintPreviewDialog
-                {
-                    Document = _printDoc,
-                    Width = 900,
-                    Height = 700,
-                    StartPosition = FormStartPosition.CenterScreen
-                };
-                preview.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Print failed: " + ex.Message, "Print Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a payment record to print.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-            if (paymentList.SelectedRows.Count == 0)
+            if (paymentList.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Please select an order item to confirm payment.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+                DataGridViewRow row = paymentList.SelectedRows[0];
+                string customer = row.Cells["Customer"].Value?.ToString();
+                string status = row.Cells["Status"].Value?.ToString();
 
-            var row = paymentList.SelectedRows[0];
-            int orderItemId = row.Cells["OrderItemID"] != null && row.Cells["OrderItemID"].Value != DBNull.Value
-                ? Convert.ToInt32(row.Cells["OrderItemID"].Value)
-                : 0;
-            int bookingId = row.Cells["BookingID"] != null && row.Cells["BookingID"].Value != DBNull.Value
-                ? Convert.ToInt32(row.Cells["BookingID"].Value)
-                : 0;
-            decimal amount = row.Cells["ItemTotal"] != null && row.Cells["ItemTotal"].Value != DBNull.Value
-                ? Convert.ToDecimal(row.Cells["ItemTotal"].Value)
-                : 0m;
-            object paymentIdObj = row.Cells["PaymentID"]?.Value;
-
-            bool alreadyPaid = paymentIdObj != null && paymentIdObj != DBNull.Value && Convert.ToInt32(paymentIdObj) > 0;
-
-            if (alreadyPaid)
-            {
-                MessageBox.Show("This item is already paid.", "Already Paid", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
-            var confirm = MessageBox.Show($"Confirm payment of {amount:C} for item #{orderItemId}?", "Confirm Payment", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (confirm != DialogResult.Yes) return;
-
-            try
-            {
-                int newPaymentId = _paymentRepo.InsertPayment(bookingId, orderItemId, amount);
-
-                // Refresh data
-                LoadOrdersForPayment();
-
-                // find the row with the new payment and select it
-                foreach (DataGridViewRow r in paymentList.Rows)
+                if (status == "Paid")
                 {
-                    if (r.Cells["OrderItemID"]?.Value != DBNull.Value && Convert.ToInt32(r.Cells["OrderItemID"].Value) == orderItemId)
+                    MessageBox.Show($"Payment for {customer} is already confirmed.", "Already Paid",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    DialogResult result = MessageBox.Show(
+                        $"Confirm payment for {customer}?",
+                        "Confirm Payment",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes)
                     {
-                        paymentList.ClearSelection();
-                        r.Selected = true;
-                        paymentList.FirstDisplayedScrollingRowIndex = r.Index;
-                        break;
+                        row.Cells["Status"].Value = "Paid";
+                        GenerateInvoice(row);
+                        MessageBox.Show("Payment confirmed successfully!", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-
-                MessageBox.Show("Payment recorded (ID: " + newPaymentId + ")", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Failed to save payment: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select a payment record to confirm.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -169,91 +90,66 @@ namespace HMS_SLS_Y4.Components
             invoicePanel.Controls.Clear();
         }
 
-        /// <summary>
-        /// Draw invoice preview inside the right-side panel
-        /// </summary>
+        private void LoadMockupData()
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("Check-In");
+            table.Columns.Add("Room");
+            table.Columns.Add("Customer");
+            table.Columns.Add("Nationality");
+            table.Columns.Add("Room Price");
+            table.Columns.Add("Food Price");
+            table.Columns.Add("Total");
+            table.Columns.Add("Payment Method");
+            table.Columns.Add("Status");
+
+            table.Rows.Add("2025-11-01", "A101", "John Smith", "USA", 50, 20, 70, "Credit Card", "Paid");
+            table.Rows.Add("2025-11-02", "B202", "Sokha Meas", "Cambodia", 40, 15, 55, "Cash", "Paid");
+            table.Rows.Add("2025-11-03", "C303", "Maria Lopez", "Spain", 60, 25, 85, "Bank Transfer", "Pending");
+            table.Rows.Add("2025-11-01", "A102", "David Kim", "Korea", 55, 10, 65, "Credit Card", "Paid");
+            table.Rows.Add("2025-11-04", "B201", "Chan Dara", "Cambodia", 35, 12, 47, "Cash", "Pending");
+            table.Rows.Add("2025-10-30", "C101", "Emma Brown", "UK", 70, 30, 100, "Credit Card", "Paid");
+            table.Rows.Add("2025-11-02", "D401", "Ahmed Ali", "Malaysia", 45, 20, 65, "Cash", "Pending");
+            table.Rows.Add("2025-11-01", "A103", "Sophia Nguyen", "Vietnam", 50, 18, 68, "Bank Transfer", "Paid");
+            table.Rows.Add("2025-11-03", "B203", "William Chen", "China", 55, 22, 77, "Credit Card", "Paid");
+            table.Rows.Add("2025-11-02", "C201", "Lisa Martin", "France", 60, 15, 75, "Cash", "Pending");
+
+            paymentList.DataSource = table;
+
+            paymentList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            paymentList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            paymentList.MultiSelect = false;
+            paymentList.ReadOnly = true;
+            paymentList.AllowUserToAddRows = false;
+        }
+
         private void GenerateInvoice(DataGridViewRow row)
         {
-            invoicePanel.Controls.Clear();
-            invoicePanel.Padding = new Padding(20);
-
-            // Read values safely
-            string customer = SafeGetString(row, "CustomerName");
-            string room = SafeGetString(row, "RoomNumber");
-            string item = SafeGetString(row, "FoodName");
-            string qty = SafeGetString(row, "Quantity");
-            string amount = SafeGetString(row, "ItemTotal");
-            string paymentDate = SafeGetString(row, "PaymentDate");
-            string paymentId = SafeGetString(row, "PaymentID");
-            string orderDate = SafeGetString(row, "OrderDate");
-
-            int y = 10;
-
-            var title = new Label { Text = "INVOICE", Font = new Font("Segoe UI", 16, FontStyle.Bold), Location = new Point(20, y), AutoSize = true };
-            invoicePanel.Controls.Add(title);
-            y += 40;
-
-            invoicePanel.Controls.Add(new Label { Text = $"Customer: {customer}", Location = new Point(20, y), AutoSize = true });
-            y += 22;
-            invoicePanel.Controls.Add(new Label { Text = $"Room: {room}", Location = new Point(20, y), AutoSize = true });
-            y += 22;
-            invoicePanel.Controls.Add(new Label { Text = $"Order Date: {orderDate}", Location = new Point(20, y), AutoSize = true });
-            y += 22;
-            invoicePanel.Controls.Add(new Label { Text = $"Item: {item} (x{qty})", Location = new Point(20, y), AutoSize = true });
-            y += 22;
-            invoicePanel.Controls.Add(new Label { Text = $"Amount: {amount}", Location = new Point(20, y), AutoSize = true });
-            y += 30;
-
-            invoicePanel.Controls.Add(new Label { Text = $"Payment ID: {paymentId}", Location = new Point(20, y), AutoSize = true });
-            y += 22;
-            invoicePanel.Controls.Add(new Label { Text = $"Paid On: {paymentDate}", Location = new Point(20, y), AutoSize = true });
+            InvoiceData invoiceData = ExtractInvoiceDataFromRow(row);
+            Utilities.GenerateInvoiceInPanel(invoicePanel, invoiceData);
         }
 
-        private string SafeGetString(DataGridViewRow row, string columnName)
+        private InvoiceData ExtractInvoiceDataFromRow(DataGridViewRow row)
         {
-            if (row.Cells[columnName] != null && row.Cells[columnName].Value != DBNull.Value)
-                return row.Cells[columnName].Value.ToString();
-            return string.Empty;
-        }
+            InvoiceData data = new InvoiceData
+            {
+                CheckIn = row.Cells["Check-In"].Value?.ToString(),
+                Room = row.Cells["Room"].Value?.ToString(),
+                Customer = row.Cells["Customer"].Value?.ToString(),
+                Nationality = row.Cells["Nationality"].Value?.ToString(),
+                RoomPrice = Convert.ToDecimal(row.Cells["Room Price"].Value),
+                FoodPrice = Convert.ToDecimal(row.Cells["Food Price"].Value),
+                Total = Convert.ToDecimal(row.Cells["Total"].Value),
+                PaymentMethod = row.Cells["Payment Method"].Value?.ToString(),
+                Status = row.Cells["Status"].Value?.ToString(),
+                Items = new Dictionary<string, (int, decimal, string, string)>
+                {
+                    { "Coke", (2, 3, "Soft drink", "Cold only") },
+                    { "Steak", (1, 15, "Medium rare", "Add sauce") }
+                }
+            };
 
-        /// <summary>
-        /// PrintDocument page drawing (simple invoice)
-        /// </summary>
-        private void PrintDoc_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            if (paymentList.SelectedRows.Count == 0) return;
-
-            var row = paymentList.SelectedRows[0];
-
-            string hotelName = "SLS HOTEL";
-            string customer = SafeGetString(row, "CustomerName");
-            string room = SafeGetString(row, "RoomNumber");
-            string item = SafeGetString(row, "FoodName");
-            string qty = SafeGetString(row, "Quantity");
-            string amount = SafeGetString(row, "ItemTotal");
-            string paymentId = SafeGetString(row, "PaymentID");
-            string paymentDate = SafeGetString(row, "PaymentDate");
-            string orderDate = SafeGetString(row, "OrderDate");
-
-            Graphics g = e.Graphics;
-            int x = 50;
-            int y = 60;
-
-            g.DrawString(hotelName, new Font("Segoe UI", 18, FontStyle.Bold), Brushes.Black, x, y);
-            y += 40;
-            g.DrawString($"Invoice for: {customer}", new Font("Segoe UI", 11), Brushes.Black, x, y);
-            y += 22;
-            g.DrawString($"Room: {room}", new Font("Segoe UI", 11), Brushes.Black, x, y);
-            y += 22;
-            g.DrawString($"Order date: {orderDate}", new Font("Segoe UI", 11), Brushes.Black, x, y);
-            y += 22;
-            g.DrawString($"Item: {item} (x{qty})", new Font("Segoe UI", 11), Brushes.Black, x, y);
-            y += 22;
-            g.DrawString($"Amount: {amount}", new Font("Segoe UI", 11, FontStyle.Bold), Brushes.Black, x, y);
-            y += 30;
-            g.DrawString($"Payment ID: {paymentId}", new Font("Segoe UI", 10), Brushes.Black, x, y);
-            y += 18;
-            g.DrawString($"Paid on: {paymentDate}", new Font("Segoe UI", 10), Brushes.Black, x, y);
+            return data;
         }
     }
 }

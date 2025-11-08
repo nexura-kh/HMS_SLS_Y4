@@ -182,6 +182,7 @@ namespace HMS_SLS_Y4.Classes
             public int RoomId { get; }
             public string RoomNumber { get; }
             public int RoomPrice { get; }
+
             public RoomClickedEventArgs(int roomId, string roomNumber, int roomPrice)
             {
                 RoomId = roomId;
