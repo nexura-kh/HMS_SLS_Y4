@@ -30,7 +30,7 @@ namespace HMS_SLS_Y4.Components
 
         private int foodId;
 
-        private BindingList<OrderItemDTOcs> orderItems = new BindingList<OrderItemDTOcs>();
+        
 
         private String cusName;
 
@@ -45,18 +45,21 @@ namespace HMS_SLS_Y4.Components
             this.LoadFoods();
             this.cardFoodLayout.AutoScroll = true;
 
+
+            defineTheColumns();
+            this.loadOrderItems();
             // assign customer name and room number to form 
             roomNumber.Text = room_number;
            customerName.Text = cusName;
 
-            LoadMockupData();
+          
 
             orderStatus.DataSource = Enum.GetValues(typeof(Enums.FoodOrderStatus));
         }
-        private void LoadMockupData()
+        private void defineTheColumns()
         {
             orderedList.AutoGenerateColumns = false;  // we'll define custom columns
-            orderedList.DataSource = orderItems;
+            
 
             // Define columns manually
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "No", Name = "No" });
@@ -66,8 +69,17 @@ namespace HMS_SLS_Y4.Components
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Price", DataPropertyName = "TotalPrice" });
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Status", DataPropertyName = "Status" });
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Note", DataPropertyName = "Note" });
+
+
         }
 
+
+        private void loadOrderItems()
+        {
+            var orderItemsList = orderItemRepository.GetOrderItemsByBookingId(bookingID);
+            orderedList.DataSource = orderItemsList;
+
+        }
         private void orderStatus_SelectedValueChanged(object sender, EventArgs e)
         {
            
@@ -237,21 +249,8 @@ namespace HMS_SLS_Y4.Components
             }
             totalPrice = decimal.Parse(orderPrice.Text.Replace("$", "")) * quantity;
             
-            
-            MessageBox.Show($"booking id:  {bookingID}");
+           
 
-            OrderItemDTOcs orderItem = new OrderItemDTOcs();
-            orderItem.SetItemName(foodName);
-            orderItem.SetQuantity(quantity);
-            orderItem.SetDescription(description);
-            orderItem.SetTotalPrice(totalPrice);
-            orderItem.SetStatus(selectedStatus);
-            orderItem.note = additionalNote.Text;
-
-            
-
-
-            orderItems.Add(orderItem);
 
             for (int i = 0; i < orderedList.Rows.Count; i++)
             {
@@ -277,6 +276,8 @@ namespace HMS_SLS_Y4.Components
                 totalPrice = totalPrice
             });
 
+            this.loadOrderItems();
+
             // empty the text box after save to db
             txtDescription.Text = "";
             orderName.Text = "";
@@ -284,5 +285,10 @@ namespace HMS_SLS_Y4.Components
             orderQuantity.Text = "";
             additionalNote.Text = "";
         }
+
+
+        // handle when clikc certain row in dataGridView and delete that row 
+
+        
     }
 }

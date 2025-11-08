@@ -1,9 +1,12 @@
 ﻿using HMS_SLS_Y4.Components;
 using HMS_SLS_Y4.Data;
+using HMS_SLS_Y4.Enums;
 using HMS_SLS_Y4.Models;
+using HMS_SLS_Y4.Models.DTOs;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -146,5 +149,65 @@ namespace HMS_SLS_Y4.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public List<OrderItemDTOcs> GetOrderItemsByBookingId(int bookingId)
+        {
+            
+            List<OrderItemDTOcs> orderItems = new List<OrderItemDTOcs>();
+
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+
+                       string query = @"
+                            SELECT 
+                        b.booking_status,
+                        fo.order_date,
+                        fo.status AS order_status,            
+                        oi.quantity,
+                        oi.note,
+                        oi.total_price,
+                        f.food_name,
+                        f.description
+                    FROM users u
+                    JOIN customers c ON u.id = c.user_id
+                    JOIN bookings b ON c.customer_id = b.customer_id
+                    LEFT JOIN food_orders fo ON b.booking_id = fo.booking_id
+                    LEFT JOIN order_items oi ON fo.order_id = oi.order_id
+                    LEFT JOIN foods f ON oi.food_id = f.food_id WHERE b.booking_id = 1
+                    ORDER BY fo.order_date DESC ;
+                ";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@bookingId", bookingId);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var item = new OrderItemDTOcs
+                            {
+                                // assign properties from reader to OrderItemDTOcs
+                                itemName = reader.GetString("food_name"),
+                                description = reader.GetString("description"),
+                                totalPrice = reader.GetDecimal("total_price"),
+                                quantity = reader.GetInt32("quantity"),
+                                status = Enum.TryParse<FoodOrderStatus>(reader.GetString("order_status"), out var status) ? status : FoodOrderStatus.Cancel,
+                                note = reader.IsDBNull(reader.GetOrdinal("note")) ? null : reader.GetString("note")
+                            };
+
+                            orderItems.Add(item);
+                        }
+                    }
+                }
+            }
+
+            return orderItems;
+        }
+
+
+
+
     }
 }
