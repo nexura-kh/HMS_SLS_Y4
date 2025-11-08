@@ -9,10 +9,11 @@ namespace HMS_SLS_Y4.Models
     public class FoodOrder
     {
         public int orderId { get; set; }
-        public int customerId { get; set; }
+        public int bookingId { get; set; }
         public DateTime orderDate { get; set; }
+        public string status { get; set; }
 
         // Navigation property
-        public Customer customer { get; set; }
+        public Booking Booking{ get; set; }
     }
 }
