@@ -113,7 +113,8 @@ namespace HMS_SLS_Y4.Repositories
                         {
                             customerId = reader.GetInt32("customer_id"),
                             address = reader.GetString("address"),
-                            User = new HMS_SLS_Y4.Models.User
+                            
+                           User = new HMS_SLS_Y4.Models.User
                             {
                                 id = reader.GetInt32("id"),
                                 fullName = reader.GetString("full_name"),
