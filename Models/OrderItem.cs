@@ -15,7 +15,9 @@ namespace HMS_SLS_Y4.Models
 
         public decimal totalPrice { get; set; }
         public string note { get; set; }
-        
+        public Booking Booking { get; set; }
+        public FoodOrder FoodOrder { get; set; }
+        public Food Food { get; set; }
 
     }
 }

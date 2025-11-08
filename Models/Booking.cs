@@ -21,5 +21,6 @@ namespace HMS_SLS_Y4.Models
         // Navigation properties
         public Customer customer { get; set; }
         public Room room { get; set; }
+        public RoomType roomType { get; set; }
     }
 }
