@@ -14,7 +14,6 @@ namespace HMS_SLS_Y4.Repositories
 
         public override int Add(User user)
         {
-            MessageBox.Show($"Debug: Adding user with name {user.fullName}, DOB {user.dob}, Nationality {user.nationality}, ID Card Number {user.idCardNumber}, ID Card Type {user.idCardType}");
             string query = @"INSERT INTO users (full_name, dob, nationality, id_card_number, id_card_type) 
                            VALUES (@full_name, @dob, @nationality, @id_card_number, @id_card_type);
                            SELECT LAST_INSERT_ID();";

@@ -28,146 +28,415 @@
         /// </summary>
         private void InitializeComponent()
         {
-            splitContainer1 = new SplitContainer();
-            flowLayoutPanel = new FlowLayoutPanel();
-            savebtn = new Button();
-            foodPrice = new TextBox();
-            priceF = new Label();
-            des = new TextBox();
-            description = new Label();
-            namefood = new TextBox();
-            fname = new Label();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
-            splitContainer1.Panel1.SuspendLayout();
-            splitContainer1.Panel2.SuspendLayout();
-            splitContainer1.SuspendLayout();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            OrderTitle = new Label();
+            foodPanel = new FlowLayoutPanel();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            drinkPanel = new FlowLayoutPanel();
+            label1 = new Label();
+            tableLayoutPanel4 = new TableLayoutPanel();
+            label2 = new Label();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            panel6 = new Panel();
+            txtFoodPrice = new TextBox();
+            label6 = new Label();
+            panel5 = new Panel();
+            txtFoodDescription = new TextBox();
+            label5 = new Label();
+            panel1 = new Panel();
+            txtFoodName = new TextBox();
+            label3 = new Label();
+            tableLayoutPanel6 = new TableLayoutPanel();
+            btnDeleteFood = new Button();
+            btnAddFood = new Button();
+            panel4 = new Panel();
+            txtFoodType = new ComboBox();
+            label4 = new Label();
+            tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
+            tableLayoutPanel5.SuspendLayout();
+            panel6.SuspendLayout();
+            panel5.SuspendLayout();
+            panel1.SuspendLayout();
+            tableLayoutPanel6.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
-            // splitContainer1
+            // tableLayoutPanel1
             // 
-            splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.Location = new Point(0, 0);
-            splitContainer1.Name = "splitContainer1";
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 1, 0);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel4, 2, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Margin = new Padding(30);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(1100, 703);
+            tableLayoutPanel1.TabIndex = 0;
             // 
-            // splitContainer1.Panel1
+            // tableLayoutPanel2
             // 
-            splitContainer1.Panel1.AccessibleName = "leftContainer";
-            splitContainer1.Panel1.AutoScroll = true;
-            splitContainer1.Panel1.Controls.Add(flowLayoutPanel);
-            splitContainer1.Panel1.Paint += splitContainer1_Panel1_Paint;
+            tableLayoutPanel2.ColumnCount = 1;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Controls.Add(OrderTitle, 0, 0);
+            tableLayoutPanel2.Controls.Add(foodPanel, 0, 1);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(3, 3);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 2;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
+            tableLayoutPanel2.Size = new Size(360, 697);
+            tableLayoutPanel2.TabIndex = 0;
             // 
-            // splitContainer1.Panel2
+            // OrderTitle
             // 
-            splitContainer1.Panel2.BackColor = SystemColors.ActiveCaption;
-            splitContainer1.Panel2.Controls.Add(savebtn);
-            splitContainer1.Panel2.Controls.Add(foodPrice);
-            splitContainer1.Panel2.Controls.Add(priceF);
-            splitContainer1.Panel2.Controls.Add(des);
-            splitContainer1.Panel2.Controls.Add(description);
-            splitContainer1.Panel2.Controls.Add(namefood);
-            splitContainer1.Panel2.Controls.Add(fname);
-            splitContainer1.Panel2.Paint += splitContainer1_Panel2_Paint;
-            splitContainer1.Size = new Size(1292, 883);
-            splitContainer1.SplitterDistance = 810;
-            splitContainer1.TabIndex = 0;
+            OrderTitle.AutoSize = true;
+            OrderTitle.Dock = DockStyle.Left;
+            OrderTitle.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            OrderTitle.Location = new Point(3, 0);
+            OrderTitle.Name = "OrderTitle";
+            OrderTitle.Padding = new Padding(30, 0, 0, 0);
+            OrderTitle.Size = new Size(103, 69);
+            OrderTitle.TabIndex = 7;
+            OrderTitle.Text = "Food";
+            OrderTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // flowLayoutPanel
+            // foodPanel
             // 
-            flowLayoutPanel.AutoScroll = true;
-            flowLayoutPanel.Location = new Point(0, 3);
-            flowLayoutPanel.Name = "flowLayoutPanel";
-            flowLayoutPanel.RightToLeft = RightToLeft.Yes;
-            flowLayoutPanel.Size = new Size(807, 880);
-            flowLayoutPanel.TabIndex = 0;
-            flowLayoutPanel.Paint += flowLayoutPanel1_Paint;
+            foodPanel.AutoScroll = true;
+            foodPanel.AutoScrollMargin = new Size(0, 50);
+            foodPanel.BackColor = Color.White;
+            foodPanel.Dock = DockStyle.Fill;
+            foodPanel.Location = new Point(30, 99);
+            foodPanel.Margin = new Padding(30, 30, 10, 30);
+            foodPanel.Name = "foodPanel";
+            foodPanel.Padding = new Padding(30, 30, 30, 50);
+            foodPanel.Size = new Size(320, 568);
+            foodPanel.TabIndex = 8;
             // 
-            // savebtn
+            // tableLayoutPanel3
             // 
-            savebtn.BackColor = Color.Lime;
-            savebtn.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            savebtn.ForeColor = SystemColors.ControlLightLight;
-            savebtn.Location = new Point(185, 485);
-            savebtn.Name = "savebtn";
-            savebtn.Size = new Size(75, 31);
-            savebtn.TabIndex = 6;
-            savebtn.Text = "Save";
-            savebtn.UseVisualStyleBackColor = false;
-            savebtn.Click += savebtn_Click;
+            tableLayoutPanel3.ColumnCount = 1;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.Controls.Add(drinkPanel, 0, 1);
+            tableLayoutPanel3.Controls.Add(label1, 0, 0);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(369, 3);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 2;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
+            tableLayoutPanel3.Size = new Size(360, 697);
+            tableLayoutPanel3.TabIndex = 1;
             // 
-            // foodPrice
+            // drinkPanel
             // 
-            foodPrice.Location = new Point(115, 409);
-            foodPrice.Name = "foodPrice";
-            foodPrice.Size = new Size(216, 25);
-            foodPrice.TabIndex = 5;
+            drinkPanel.AutoScroll = true;
+            drinkPanel.AutoScrollMargin = new Size(0, 50);
+            drinkPanel.BackColor = Color.White;
+            drinkPanel.Dock = DockStyle.Fill;
+            drinkPanel.Location = new Point(10, 99);
+            drinkPanel.Margin = new Padding(10, 30, 10, 30);
+            drinkPanel.Name = "drinkPanel";
+            drinkPanel.Padding = new Padding(30, 30, 30, 50);
+            drinkPanel.Size = new Size(340, 568);
+            drinkPanel.TabIndex = 9;
             // 
-            // priceF
+            // label1
             // 
-            priceF.AutoSize = true;
-            priceF.Location = new Point(115, 382);
-            priceF.Name = "priceF";
-            priceF.Size = new Size(36, 17);
-            priceF.TabIndex = 4;
-            priceF.Text = "Price";
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Left;
+            label1.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label1.Location = new Point(3, 0);
+            label1.Name = "label1";
+            label1.Padding = new Padding(30, 0, 0, 0);
+            label1.Size = new Size(109, 69);
+            label1.TabIndex = 7;
+            label1.Text = "Drink";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // des
+            // tableLayoutPanel4
             // 
-            des.Location = new Point(115, 318);
-            des.Name = "des";
-            des.Size = new Size(216, 25);
-            des.TabIndex = 3;
+            tableLayoutPanel4.ColumnCount = 1;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.Controls.Add(label2, 0, 0);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel5, 0, 1);
+            tableLayoutPanel4.Dock = DockStyle.Fill;
+            tableLayoutPanel4.Location = new Point(735, 3);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 2;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
+            tableLayoutPanel4.Size = new Size(362, 697);
+            tableLayoutPanel4.TabIndex = 2;
             // 
-            // description
+            // label2
             // 
-            description.AutoSize = true;
-            description.Location = new Point(115, 291);
-            description.Name = "description";
-            description.Size = new Size(74, 17);
-            description.TabIndex = 2;
-            description.Text = "Description";
+            label2.AutoSize = true;
+            label2.Dock = DockStyle.Left;
+            label2.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label2.Location = new Point(3, 0);
+            label2.Name = "label2";
+            label2.Padding = new Padding(30, 0, 0, 0);
+            label2.Size = new Size(154, 69);
+            label2.TabIndex = 8;
+            label2.Text = "Add New";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // namefood
+            // tableLayoutPanel5
             // 
-            namefood.Location = new Point(115, 234);
-            namefood.Name = "namefood";
-            namefood.Size = new Size(216, 25);
-            namefood.TabIndex = 1;
+            tableLayoutPanel5.ColumnCount = 1;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.Controls.Add(panel6, 0, 3);
+            tableLayoutPanel5.Controls.Add(panel5, 0, 2);
+            tableLayoutPanel5.Controls.Add(panel1, 0, 0);
+            tableLayoutPanel5.Controls.Add(tableLayoutPanel6, 0, 4);
+            tableLayoutPanel5.Controls.Add(panel4, 0, 1);
+            tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.Location = new Point(15, 99);
+            tableLayoutPanel5.Margin = new Padding(15, 30, 30, 30);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 5;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            tableLayoutPanel5.Size = new Size(317, 568);
+            tableLayoutPanel5.TabIndex = 9;
             // 
-            // fname
+            // panel6
             // 
-            fname.AutoSize = true;
-            fname.Location = new Point(115, 207);
-            fname.Name = "fname";
-            fname.Size = new Size(43, 17);
-            fname.TabIndex = 0;
-            fname.Text = "Name";
-            fname.Click += fname_Click;
+            panel6.Controls.Add(txtFoodPrice);
+            panel6.Controls.Add(label6);
+            panel6.Dock = DockStyle.Fill;
+            panel6.Location = new Point(3, 342);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(311, 107);
+            panel6.TabIndex = 3;
+            // 
+            // txtFoodPrice
+            // 
+            txtFoodPrice.Dock = DockStyle.Top;
+            txtFoodPrice.Location = new Point(0, 23);
+            txtFoodPrice.Margin = new Padding(3, 4, 21, 4);
+            txtFoodPrice.Name = "txtFoodPrice";
+            txtFoodPrice.Size = new Size(311, 27);
+            txtFoodPrice.TabIndex = 3;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Dock = DockStyle.Top;
+            label6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Location = new Point(0, 0);
+            label6.Name = "label6";
+            label6.Size = new Size(49, 23);
+            label6.TabIndex = 2;
+            label6.Text = "Price";
+            // 
+            // panel5
+            // 
+            panel5.Controls.Add(txtFoodDescription);
+            panel5.Controls.Add(label5);
+            panel5.Dock = DockStyle.Fill;
+            panel5.Location = new Point(3, 229);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(311, 107);
+            panel5.TabIndex = 2;
+            // 
+            // txtFoodDescription
+            // 
+            txtFoodDescription.Dock = DockStyle.Top;
+            txtFoodDescription.Location = new Point(0, 23);
+            txtFoodDescription.Margin = new Padding(3, 4, 21, 4);
+            txtFoodDescription.Name = "txtFoodDescription";
+            txtFoodDescription.Size = new Size(311, 27);
+            txtFoodDescription.TabIndex = 3;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Dock = DockStyle.Top;
+            label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label5.Location = new Point(0, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(102, 23);
+            label5.TabIndex = 2;
+            label5.Text = "Description";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(txtFoodName);
+            panel1.Controls.Add(label3);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(311, 107);
+            panel1.TabIndex = 0;
+            // 
+            // txtFoodName
+            // 
+            txtFoodName.Dock = DockStyle.Top;
+            txtFoodName.Location = new Point(0, 23);
+            txtFoodName.Margin = new Padding(3, 4, 21, 4);
+            txtFoodName.Name = "txtFoodName";
+            txtFoodName.Size = new Size(311, 27);
+            txtFoodName.TabIndex = 3;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Dock = DockStyle.Top;
+            label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Location = new Point(0, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(57, 23);
+            label3.TabIndex = 2;
+            label3.Text = "Name";
+            // 
+            // tableLayoutPanel6
+            // 
+            tableLayoutPanel6.ColumnCount = 2;
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.Controls.Add(btnDeleteFood, 1, 0);
+            tableLayoutPanel6.Controls.Add(btnAddFood, 0, 0);
+            tableLayoutPanel6.Dock = DockStyle.Fill;
+            tableLayoutPanel6.Location = new Point(3, 455);
+            tableLayoutPanel6.Name = "tableLayoutPanel6";
+            tableLayoutPanel6.RowCount = 1;
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.Size = new Size(311, 110);
+            tableLayoutPanel6.TabIndex = 4;
+            // 
+            // btnDeleteFood
+            // 
+            btnDeleteFood.BackColor = Color.FromArgb(231, 76, 60);
+            btnDeleteFood.Dock = DockStyle.Fill;
+            btnDeleteFood.FlatStyle = FlatStyle.Popup;
+            btnDeleteFood.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold);
+            btnDeleteFood.ForeColor = Color.White;
+            btnDeleteFood.Location = new Point(170, 30);
+            btnDeleteFood.Margin = new Padding(15, 30, 3, 30);
+            btnDeleteFood.Name = "btnDeleteFood";
+            btnDeleteFood.Size = new Size(138, 50);
+            btnDeleteFood.TabIndex = 1;
+            btnDeleteFood.Text = "Delete";
+            btnDeleteFood.UseVisualStyleBackColor = false;
+            btnDeleteFood.Click += btnDeleteFood_Click;
+            // 
+            // btnAddFood
+            // 
+            btnAddFood.BackColor = Color.FromArgb(46, 204, 113);
+            btnAddFood.Dock = DockStyle.Fill;
+            btnAddFood.FlatStyle = FlatStyle.Popup;
+            btnAddFood.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAddFood.ForeColor = Color.White;
+            btnAddFood.Location = new Point(3, 30);
+            btnAddFood.Margin = new Padding(3, 30, 15, 30);
+            btnAddFood.Name = "btnAddFood";
+            btnAddFood.Size = new Size(137, 50);
+            btnAddFood.TabIndex = 0;
+            btnAddFood.Text = "Add";
+            btnAddFood.UseVisualStyleBackColor = false;
+            btnAddFood.Click += btnAddFood_Click;
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(txtFoodType);
+            panel4.Controls.Add(label4);
+            panel4.Dock = DockStyle.Fill;
+            panel4.Location = new Point(3, 116);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(311, 107);
+            panel4.TabIndex = 5;
+            // 
+            // txtFoodType
+            // 
+            txtFoodType.Dock = DockStyle.Fill;
+            txtFoodType.FormattingEnabled = true;
+            txtFoodType.Location = new Point(0, 23);
+            txtFoodType.Name = "txtFoodType";
+            txtFoodType.Size = new Size(311, 28);
+            txtFoodType.TabIndex = 4;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Dock = DockStyle.Top;
+            label4.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(0, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(48, 23);
+            label4.TabIndex = 3;
+            label4.Text = "Type";
             // 
             // Food
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(splitContainer1);
+            Controls.Add(tableLayoutPanel1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Food";
-            Size = new Size(1292, 883);
-            splitContainer1.Panel1.ResumeLayout(false);
-            splitContainer1.Panel2.ResumeLayout(false);
-            splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
-            splitContainer1.ResumeLayout(false);
+            Size = new Size(1100, 703);
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel3.PerformLayout();
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel4.PerformLayout();
+            tableLayoutPanel5.ResumeLayout(false);
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
+            panel5.ResumeLayout(false);
+            panel5.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            tableLayoutPanel6.ResumeLayout(false);
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private SplitContainer splitContainer1;
-        private TextBox namefood;
-        private Label fname;
-        private TextBox foodPrice;
-        private Label priceF;
-        private TextBox des;
-        private Label description;
-        private Button savebtn;
-        private FlowLayoutPanel flowLayoutPanel;
+        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel2;
+        private TableLayoutPanel tableLayoutPanel3;
+        private Label OrderTitle;
+        private Label label1;
+        private TableLayoutPanel tableLayoutPanel4;
+        private Label label2;
+        private TableLayoutPanel tableLayoutPanel5;
+        private Panel panel1;
+        private Panel panel6;
+        private TextBox txtFoodPrice;
+        private Label label6;
+        private Panel panel5;
+        private TextBox txtFoodDescription;
+        private Label label5;
+        private TextBox txtFoodName;
+        private Label label3;
+        private TableLayoutPanel tableLayoutPanel6;
+        private Button btnDeleteFood;
+        private Button btnAddFood;
+        private Panel panel4;
+        private ComboBox txtFoodType;
+        private Label label4;
+        private FlowLayoutPanel foodPanel;
+        private FlowLayoutPanel drinkPanel;
     }
 }

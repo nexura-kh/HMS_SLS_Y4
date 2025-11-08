@@ -16,7 +16,9 @@ namespace HMS_SLS_Y4
             Application.SetCompatibleTextRenderingDefault(false);
 
             SeedRoom seedRoom = new SeedRoom();
+            SeedFood seedFood = new SeedFood();
             SeedReservation seedReservation = new SeedReservation();
+            SeedOrder seedOrder = new SeedOrder();
 
             seedRoom.SeedRoomTypes();
             seedRoom.SeedRooms();
@@ -24,6 +26,9 @@ namespace HMS_SLS_Y4
             seedReservation.SeedUsers();
             seedReservation.SeedCustomers();
             seedReservation.SeedReservations();
+
+            seedFood.SeedFoods();
+            seedOrder.SeedOrders();
 
             using (Login loginForm = new Login())
             {
