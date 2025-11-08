@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
 using HMS_SLS_Y4.Utils;
+using HMS_SLS_Y4.Repositories;
 
 namespace HMS_SLS_Y4.Components
 {
     public partial class Payment : UserControl
     {
+
+        private readonly PaymentRepository paymentRepository = new PaymentRepository();
+        private readonly OrderItemRepository orderItemRepository = new OrderItemRepository();
+
+
         public Payment()
         {
             InitializeComponent();
             SetupEventHandlers();
-            LoadMockupData();
+            LoadPaymentData();
         }
 
         private void SetupEventHandlers()
@@ -90,9 +96,10 @@ namespace HMS_SLS_Y4.Components
             invoicePanel.Controls.Clear();
         }
 
-        private void LoadMockupData()
+        private void LoadPaymentData()
         {
             DataTable table = new DataTable();
+            table.Columns.Add("Booking ID", typeof(int));
             table.Columns.Add("Check-In");
             table.Columns.Add("Room");
             table.Columns.Add("Customer");
@@ -103,25 +110,61 @@ namespace HMS_SLS_Y4.Components
             table.Columns.Add("Payment Method");
             table.Columns.Add("Status");
 
-            table.Rows.Add("2025-11-01", "A101", "John Smith", "USA", 50, 20, 70, "Credit Card", "Paid");
-            table.Rows.Add("2025-11-02", "B202", "Sokha Meas", "Cambodia", 40, 15, 55, "Cash", "Paid");
-            table.Rows.Add("2025-11-03", "C303", "Maria Lopez", "Spain", 60, 25, 85, "Bank Transfer", "Pending");
-            table.Rows.Add("2025-11-01", "A102", "David Kim", "Korea", 55, 10, 65, "Credit Card", "Paid");
-            table.Rows.Add("2025-11-04", "B201", "Chan Dara", "Cambodia", 35, 12, 47, "Cash", "Pending");
-            table.Rows.Add("2025-10-30", "C101", "Emma Brown", "UK", 70, 30, 100, "Credit Card", "Paid");
-            table.Rows.Add("2025-11-02", "D401", "Ahmed Ali", "Malaysia", 45, 20, 65, "Cash", "Pending");
-            table.Rows.Add("2025-11-01", "A103", "Sophia Nguyen", "Vietnam", 50, 18, 68, "Bank Transfer", "Paid");
-            table.Rows.Add("2025-11-03", "B203", "William Chen", "China", 55, 22, 77, "Credit Card", "Paid");
-            table.Rows.Add("2025-11-02", "C201", "Lisa Martin", "France", 60, 15, 75, "Cash", "Pending");
+            var items = orderItemRepository.GetAll();
 
+            var grouped = items
+                .Where(i => i.Booking != null && i.Booking.customer != null)
+                .GroupBy(i => new
+                {
+                    i.Booking.bookingId,
+                    i.Booking.customer.User.fullName,
+                    i.Booking.customer.User.nationality,
+                    Room = i.Booking.room?.roomNumber,
+                    RoomPrice = i.Booking.roomType?.price ?? 0,
+                    CheckIn = i.Booking.checkInDate,
+                    Status = i.FoodOrder?.status ?? "Unpaid"
+                })
+                .Select(g => new
+                {
+                    g.Key.bookingId,
+                    g.Key.CheckIn,
+                    g.Key.Room,
+                    g.Key.fullName,
+                    g.Key.nationality,
+                    RoomPrice = g.Key.RoomPrice,
+                    FoodPrice = g.Sum(i => i.Food?.Price ?? 0),
+                    Total = g.Key.RoomPrice + g.Sum(i => i.Food?.Price ?? 0),
+                    PaymentMethod = "Credit Card",
+                    Status = g.Key.Status
+                })
+                .ToList();
+
+            foreach (var item in grouped)
+            {
+                table.Rows.Add(
+                    item.bookingId,
+                    item.CheckIn.ToString("yyyy-MM-dd"),
+                    item.Room ?? "N/A",
+                    item.fullName,
+                    item.nationality,
+                    item.RoomPrice.ToString("F2"),
+                    item.FoodPrice.ToString("F2"),
+                    item.Total.ToString("F2"),
+                    item.PaymentMethod,
+                    item.Status
+                );
+            }
             paymentList.DataSource = table;
-
+            paymentList.Columns["Booking ID"].Visible = false;
             paymentList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             paymentList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             paymentList.MultiSelect = false;
             paymentList.ReadOnly = true;
             paymentList.AllowUserToAddRows = false;
+
         }
+
+
 
         private void GenerateInvoice(DataGridViewRow row)
         {
@@ -131,22 +174,50 @@ namespace HMS_SLS_Y4.Components
 
         private InvoiceData ExtractInvoiceDataFromRow(DataGridViewRow row)
         {
+            int bookingId = Convert.ToInt32(row.Cells["Booking ID"].Value);
+
+            var orderItems = orderItemRepository.GetAll()
+                .Where(oi => oi.Booking.bookingId == bookingId)
+                .ToList();
+
+            var itemsDict = new Dictionary<string, (int quantity, decimal price, string description, string note)>();
+
+            foreach (var item in orderItems)
+            {
+                string foodName = item.Food.FoodName;
+                decimal price = item.Food.Price;
+                string description = item.Food.Description ?? "N/A";
+                string note = string.IsNullOrEmpty(item.note) ? "N/A" : item.note;
+
+                if (itemsDict.ContainsKey(foodName))
+                {
+                    var existing = itemsDict[foodName];
+                    itemsDict[foodName] = (existing.quantity + item.Quantity, price, description, note);
+                }
+                else
+                {
+                    itemsDict[foodName] = (item.Quantity, price, description, note);
+                }
+            }
+
+            decimal foodPrice = orderItems.Sum(oi => oi.Food.Price * oi.Quantity);
+            decimal roomPrice = row.Cells["Room Price"].Value != null ? Convert.ToDecimal(row.Cells["Room Price"].Value) : 0;
+
+            var booking = orderItems.First().Booking;
+
             InvoiceData data = new InvoiceData
             {
                 CheckIn = row.Cells["Check-In"].Value?.ToString(),
                 Room = row.Cells["Room"].Value?.ToString(),
+                RoomPrice = roomPrice,
                 Customer = row.Cells["Customer"].Value?.ToString(),
                 Nationality = row.Cells["Nationality"].Value?.ToString(),
-                RoomPrice = Convert.ToDecimal(row.Cells["Room Price"].Value),
-                FoodPrice = Convert.ToDecimal(row.Cells["Food Price"].Value),
-                Total = Convert.ToDecimal(row.Cells["Total"].Value),
-                PaymentMethod = row.Cells["Payment Method"].Value?.ToString(),
+                FoodPrice = foodPrice,
+                Total = foodPrice + roomPrice,
+                PaymentMethod = "Cash",
                 Status = row.Cells["Status"].Value?.ToString(),
-                Items = new Dictionary<string, (int, decimal, string, string)>
-                {
-                    { "Coke", (2, 3, "Soft drink", "Cold only") },
-                    { "Steak", (1, 15, "Medium rare", "Add sauce") }
-                }
+                Items = itemsDict,
+                InvoiceMode = "payment"
             };
 
             return data;

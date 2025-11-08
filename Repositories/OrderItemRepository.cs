@@ -60,6 +60,7 @@ namespace HMS_SLS_Y4.Repositories
                 u.nationality,
                 r.room_number,
                 rt.type_name AS room_type,
+                rt.price_per_night AS room_price,
                 b.booking_id,
                 b.check_in_date,
                 b.check_out_date,
@@ -108,6 +109,11 @@ namespace HMS_SLS_Y4.Repositories
                                     room = new HMS_SLS_Y4.Models.Room
                                     {
                                         roomNumber = reader.IsDBNull(reader.GetOrdinal("room_number")) ? "N/A" : reader.GetString("room_number"),
+                                    },
+                                    roomType = new RoomType
+                                    {
+                                        typeName = reader.IsDBNull(reader.GetOrdinal("room_type")) ? "N/A" : reader.GetString("room_type"),
+                                        price = reader.IsDBNull(reader.GetOrdinal("food_price")) ? 0 : reader.GetDecimal("room_price"),
                                     },
                                     customer = new HMS_SLS_Y4.Models.Customer
                                     {

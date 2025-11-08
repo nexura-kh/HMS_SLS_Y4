@@ -28,570 +28,909 @@
         /// </summary>
         private void InitializeComponent()
         {
-            pnlMainLayout = new Panel();
-            pnlContentContainer = new TableLayoutPanel();
-            pnlListsContainer = new TableLayoutPanel();
-            pnlCustomerList = new Panel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Customer));
+            tableLayoutPanel1 = new TableLayoutPanel();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            OrderTitle = new Label();
             dgvCustomers = new DataGridView();
-            lblCustomerListTitle = new Label();
-            pnlRecentActivity = new Panel();
+            tableLayoutPanel4 = new TableLayoutPanel();
+            label1 = new Label();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            btnEditInfo = new Button();
             pnlRecentCard3 = new Panel();
-            lblRecentDate3 = new Label();
             lblRecentTitle3 = new Label();
+            lblRecentDate3 = new Label();
             pnlRecentCard2 = new Panel();
-            lblRecentDate2 = new Label();
             lblRecentTitle2 = new Label();
+            lblRecentDate2 = new Label();
             pnlRecentCard1 = new Panel();
-            lblRecentDate1 = new Label();
             lblRecentTitle1 = new Label();
-            lblRecentActivityTitle = new Label();
-            pnlStatsRow = new TableLayoutPanel();
-            pnlStat4 = new Panel();
+            lblRecentDate1 = new Label();
+            tableLayoutPanel7 = new TableLayoutPanel();
+            tableLayoutPanel8 = new TableLayoutPanel();
+            label4 = new Label();
+            label2 = new Label();
+            checkBox1 = new CheckBox();
+            tableLayoutPanel9 = new TableLayoutPanel();
+            label3 = new Label();
+            dateTimePicker1 = new DateTimePicker();
+            btnAddOrder = new Button();
+            tableLayoutPanel6 = new TableLayoutPanel();
+            panel7 = new Panel();
+            tableLayoutPanel13 = new TableLayoutPanel();
+            tableLayoutPanel17 = new TableLayoutPanel();
+            label10 = new Label();
             lblStatValue4 = new Label();
-            lblStatTitle4 = new Label();
-            pbStatIcon4 = new PictureBox();
-            pnlStat3 = new Panel();
+            panel8 = new Panel();
+            panel5 = new Panel();
+            tableLayoutPanel12 = new TableLayoutPanel();
+            tableLayoutPanel16 = new TableLayoutPanel();
+            label8 = new Label();
             lblStatValue3 = new Label();
-            lblStatTitle3 = new Label();
-            pbStatIcon3 = new PictureBox();
-            pnlStat2 = new Panel();
+            panel6 = new Panel();
+            panel3 = new Panel();
+            tableLayoutPanel11 = new TableLayoutPanel();
+            tableLayoutPanel15 = new TableLayoutPanel();
+            label6 = new Label();
             lblStatValue2 = new Label();
-            lblStatTitle2 = new Label();
-            pbStatIcon2 = new PictureBox();
-            pnlStat1 = new Panel();
+            panel4 = new Panel();
+            panel1 = new Panel();
+            tableLayoutPanel10 = new TableLayoutPanel();
+            panel2 = new Panel();
+            tableLayoutPanel14 = new TableLayoutPanel();
+            label5 = new Label();
             lblStatValue1 = new Label();
-            lblStatTitle1 = new Label();
-            pbStatIcon1 = new PictureBox();
-            pnlHeader = new Panel();
-            pnlMainLayout.SuspendLayout();
-            pnlContentContainer.SuspendLayout();
-            pnlListsContainer.SuspendLayout();
-            pnlCustomerList.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCustomers).BeginInit();
-            pnlRecentActivity.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
+            tableLayoutPanel5.SuspendLayout();
             pnlRecentCard3.SuspendLayout();
             pnlRecentCard2.SuspendLayout();
             pnlRecentCard1.SuspendLayout();
-            pnlStatsRow.SuspendLayout();
-            pnlStat4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pbStatIcon4).BeginInit();
-            pnlStat3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pbStatIcon3).BeginInit();
-            pnlStat2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pbStatIcon2).BeginInit();
-            pnlStat1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pbStatIcon1).BeginInit();
+            tableLayoutPanel7.SuspendLayout();
+            tableLayoutPanel8.SuspendLayout();
+            tableLayoutPanel9.SuspendLayout();
+            tableLayoutPanel6.SuspendLayout();
+            panel7.SuspendLayout();
+            tableLayoutPanel13.SuspendLayout();
+            tableLayoutPanel17.SuspendLayout();
+            panel5.SuspendLayout();
+            tableLayoutPanel12.SuspendLayout();
+            tableLayoutPanel16.SuspendLayout();
+            panel3.SuspendLayout();
+            tableLayoutPanel11.SuspendLayout();
+            tableLayoutPanel15.SuspendLayout();
+            panel1.SuspendLayout();
+            tableLayoutPanel10.SuspendLayout();
+            tableLayoutPanel14.SuspendLayout();
             SuspendLayout();
             // 
-            // pnlMainLayout
+            // tableLayoutPanel1
             // 
-            pnlMainLayout.BackColor = Color.FromArgb(240, 242, 245);
-            pnlMainLayout.Controls.Add(pnlContentContainer);
-            pnlMainLayout.Controls.Add(pnlHeader);
-            pnlMainLayout.Dock = DockStyle.Fill;
-            pnlMainLayout.Location = new Point(0, 0);
-            pnlMainLayout.Margin = new Padding(3, 4, 3, 4);
-            pnlMainLayout.Name = "pnlMainLayout";
-            pnlMainLayout.Size = new Size(1200, 751);
-            pnlMainLayout.TabIndex = 0;
+            tableLayoutPanel1.ColumnCount = 1;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel6, 0, 1);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(30, 30);
+            tableLayoutPanel1.Margin = new Padding(30);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15F));
+            tableLayoutPanel1.Size = new Size(1040, 643);
+            tableLayoutPanel1.TabIndex = 0;
             // 
-            // pnlContentContainer
+            // tableLayoutPanel2
             // 
-            pnlContentContainer.BackColor = Color.Transparent;
-            pnlContentContainer.ColumnCount = 1;
-            pnlContentContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            pnlContentContainer.Controls.Add(pnlListsContainer, 0, 0);
-            pnlContentContainer.Controls.Add(pnlStatsRow, 0, 1);
-            pnlContentContainer.Dock = DockStyle.Fill;
-            pnlContentContainer.Location = new Point(0, 10);
-            pnlContentContainer.Margin = new Padding(3, 4, 3, 4);
-            pnlContentContainer.Name = "pnlContentContainer";
-            pnlContentContainer.Padding = new Padding(21, 9, 21, 20);
-            pnlContentContainer.RowCount = 2;
-            pnlContentContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            pnlContentContainer.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
-            pnlContentContainer.Size = new Size(1200, 741);
-            pnlContentContainer.TabIndex = 2;
+            tableLayoutPanel2.ColumnCount = 2;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel4, 1, 0);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(3, 3);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 1;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel2.Size = new Size(1034, 540);
+            tableLayoutPanel2.TabIndex = 0;
             // 
-            // pnlListsContainer
+            // tableLayoutPanel3
             // 
-            pnlListsContainer.ColumnCount = 2;
-            pnlListsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
-            pnlListsContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
-            pnlListsContainer.Controls.Add(pnlCustomerList, 0, 0);
-            pnlListsContainer.Controls.Add(pnlRecentActivity, 1, 0);
-            pnlListsContainer.Dock = DockStyle.Fill;
-            pnlListsContainer.Location = new Point(24, 13);
-            pnlListsContainer.Margin = new Padding(3, 4, 3, 4);
-            pnlListsContainer.Name = "pnlListsContainer";
-            pnlListsContainer.RowCount = 1;
-            pnlListsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            pnlListsContainer.Size = new Size(1152, 584);
-            pnlListsContainer.TabIndex = 1;
+            tableLayoutPanel3.ColumnCount = 1;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.Controls.Add(OrderTitle, 0, 0);
+            tableLayoutPanel3.Controls.Add(dgvCustomers, 0, 1);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(3, 3);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 2;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
+            tableLayoutPanel3.Size = new Size(717, 534);
+            tableLayoutPanel3.TabIndex = 0;
             // 
-            // pnlCustomerList
+            // OrderTitle
             // 
-            pnlCustomerList.BackColor = Color.LightGray;
-            pnlCustomerList.Controls.Add(dgvCustomers);
-            pnlCustomerList.Controls.Add(lblCustomerListTitle);
-            pnlCustomerList.Location = new Point(3, 4);
-            pnlCustomerList.Margin = new Padding(3, 4, 3, 4);
-            pnlCustomerList.Name = "pnlCustomerList";
-            pnlCustomerList.Padding = new Padding(15);
-            pnlCustomerList.Size = new Size(800, 576);
-            pnlCustomerList.TabIndex = 0;
+            OrderTitle.AutoSize = true;
+            OrderTitle.Dock = DockStyle.Left;
+            OrderTitle.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            OrderTitle.Location = new Point(3, 0);
+            OrderTitle.Name = "OrderTitle";
+            OrderTitle.Size = new Size(177, 53);
+            OrderTitle.TabIndex = 9;
+            OrderTitle.Text = "Customer List";
+            OrderTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // dgvCustomers
             // 
             dgvCustomers.AllowUserToAddRows = false;
             dgvCustomers.AllowUserToDeleteRows = false;
-            dgvCustomers.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvCustomers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvCustomers.BackgroundColor = Color.White;
-            dgvCustomers.BorderStyle = BorderStyle.None;
+            dgvCustomers.AllowUserToResizeRows = false;
+            dgvCustomers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvCustomers.BackgroundColor = SystemColors.Control;
             dgvCustomers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCustomers.Location = new Point(15, 75);
-            dgvCustomers.Margin = new Padding(3, 4, 3, 4);
+            dgvCustomers.Dock = DockStyle.Fill;
+            dgvCustomers.Location = new Point(3, 56);
             dgvCustomers.Name = "dgvCustomers";
-            dgvCustomers.ReadOnly = true;
-            dgvCustomers.RowHeadersVisible = false;
             dgvCustomers.RowHeadersWidth = 51;
-            dgvCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCustomers.Size = new Size(770, 485);
-            dgvCustomers.TabIndex = 1;
-            dgvCustomers.CellContentClick += dgvCustomers_CellContentClick;
+            dgvCustomers.Size = new Size(711, 475);
+            dgvCustomers.TabIndex = 10;
             // 
-            // lblCustomerListTitle
+            // tableLayoutPanel4
             // 
-            lblCustomerListTitle.AutoSize = true;
-            lblCustomerListTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblCustomerListTitle.ForeColor = Color.FromArgb(46, 61, 83);
-            lblCustomerListTitle.Location = new Point(15, 31);
-            lblCustomerListTitle.Name = "lblCustomerListTitle";
-            lblCustomerListTitle.Size = new Size(177, 28);
-            lblCustomerListTitle.TabIndex = 0;
-            lblCustomerListTitle.Text = "Active Customers";
+            tableLayoutPanel4.ColumnCount = 1;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel4.Controls.Add(label1, 0, 0);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel5, 0, 1);
+            tableLayoutPanel4.Dock = DockStyle.Fill;
+            tableLayoutPanel4.Location = new Point(726, 3);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 2;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
+            tableLayoutPanel4.Size = new Size(305, 534);
+            tableLayoutPanel4.TabIndex = 1;
             // 
-            // pnlRecentActivity
+            // label1
             // 
-            pnlRecentActivity.BackColor = Color.White;
-            pnlRecentActivity.Controls.Add(pnlRecentCard3);
-            pnlRecentActivity.Controls.Add(pnlRecentCard2);
-            pnlRecentActivity.Controls.Add(pnlRecentCard1);
-            pnlRecentActivity.Controls.Add(lblRecentActivityTitle);
-            pnlRecentActivity.Dock = DockStyle.Fill;
-            pnlRecentActivity.Location = new Point(809, 4);
-            pnlRecentActivity.Margin = new Padding(3, 4, 3, 4);
-            pnlRecentActivity.Name = "pnlRecentActivity";
-            pnlRecentActivity.Padding = new Padding(15);
-            pnlRecentActivity.Size = new Size(340, 576);
-            pnlRecentActivity.TabIndex = 1;
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Left;
+            label1.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label1.Location = new Point(3, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(199, 53);
+            label1.TabIndex = 9;
+            label1.Text = "Recent Booking";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel5
+            // 
+            tableLayoutPanel5.ColumnCount = 1;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel5.Controls.Add(btnEditInfo, 0, 4);
+            tableLayoutPanel5.Controls.Add(pnlRecentCard3, 0, 2);
+            tableLayoutPanel5.Controls.Add(pnlRecentCard2, 0, 1);
+            tableLayoutPanel5.Controls.Add(pnlRecentCard1, 0, 0);
+            tableLayoutPanel5.Controls.Add(tableLayoutPanel7, 0, 5);
+            tableLayoutPanel5.Controls.Add(btnAddOrder, 0, 3);
+            tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.Location = new Point(3, 56);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 6;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
+            tableLayoutPanel5.Size = new Size(299, 475);
+            tableLayoutPanel5.TabIndex = 0;
+            // 
+            // btnEditInfo
+            // 
+            btnEditInfo.BackColor = Color.FromArgb(52, 152, 219);
+            btnEditInfo.BackgroundImageLayout = ImageLayout.Center;
+            btnEditInfo.Dock = DockStyle.Fill;
+            btnEditInfo.FlatStyle = FlatStyle.Popup;
+            btnEditInfo.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditInfo.ForeColor = Color.White;
+            btnEditInfo.Image = (Image)resources.GetObject("btnEditInfo.Image");
+            btnEditInfo.ImageAlign = ContentAlignment.MiddleLeft;
+            btnEditInfo.Location = new Point(15, 336);
+            btnEditInfo.Margin = new Padding(15, 20, 3, 20);
+            btnEditInfo.Name = "btnEditInfo";
+            btnEditInfo.Padding = new Padding(30, 0, 40, 0);
+            btnEditInfo.Size = new Size(281, 39);
+            btnEditInfo.TabIndex = 5;
+            btnEditInfo.Text = "Edit Info";
+            btnEditInfo.UseVisualStyleBackColor = false;
+            btnEditInfo.Click += btnEditInfo_Click;
             // 
             // pnlRecentCard3
             // 
-            pnlRecentCard3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pnlRecentCard3.BackColor = Color.FromArgb(230, 236, 255);
-            pnlRecentCard3.Controls.Add(lblRecentDate3);
+            pnlRecentCard3.BackColor = Color.FromArgb(192, 192, 255);
             pnlRecentCard3.Controls.Add(lblRecentTitle3);
-            pnlRecentCard3.Location = new Point(15, 231);
-            pnlRecentCard3.Margin = new Padding(3, 4, 3, 4);
+            pnlRecentCard3.Controls.Add(lblRecentDate3);
+            pnlRecentCard3.Dock = DockStyle.Fill;
+            pnlRecentCard3.Location = new Point(15, 178);
+            pnlRecentCard3.Margin = new Padding(15, 20, 3, 20);
             pnlRecentCard3.Name = "pnlRecentCard3";
-            pnlRecentCard3.Padding = new Padding(10, 9, 10, 9);
-            pnlRecentCard3.Size = new Size(311, 65);
-            pnlRecentCard3.TabIndex = 3;
-            // 
-            // lblRecentDate3
-            // 
-            lblRecentDate3.AutoSize = true;
-            lblRecentDate3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblRecentDate3.ForeColor = Color.FromArgb(46, 61, 83);
-            lblRecentDate3.Location = new Point(70, 9);
-            lblRecentDate3.Name = "lblRecentDate3";
-            lblRecentDate3.Size = new Size(75, 20);
-            lblRecentDate3.TabIndex = 1;
-            lblRecentDate3.Text = "15 March";
+            pnlRecentCard3.Padding = new Padding(30, 0, 0, 0);
+            pnlRecentCard3.Size = new Size(281, 39);
+            pnlRecentCard3.TabIndex = 2;
             // 
             // lblRecentTitle3
             // 
             lblRecentTitle3.AutoSize = true;
-            lblRecentTitle3.Font = new Font("Segoe UI", 9F);
-            lblRecentTitle3.ForeColor = Color.FromArgb(46, 61, 83);
-            lblRecentTitle3.Location = new Point(70, 35);
+            lblRecentTitle3.Dock = DockStyle.Top;
+            lblRecentTitle3.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRecentTitle3.Location = new Point(30, 33);
             lblRecentTitle3.Name = "lblRecentTitle3";
-            lblRecentTitle3.Size = new Size(107, 20);
-            lblRecentTitle3.TabIndex = 0;
-            lblRecentTitle3.Text = "Ms. Kong Chan";
+            lblRecentTitle3.Size = new Size(69, 20);
+            lblRecentTitle3.TabIndex = 1;
+            lblRecentTitle3.Text = "Em Pisey";
+            // 
+            // lblRecentDate3
+            // 
+            lblRecentDate3.AutoSize = true;
+            lblRecentDate3.Dock = DockStyle.Top;
+            lblRecentDate3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRecentDate3.Location = new Point(30, 0);
+            lblRecentDate3.Margin = new Padding(30, 12, 3, 0);
+            lblRecentDate3.Name = "lblRecentDate3";
+            lblRecentDate3.Padding = new Padding(0, 10, 0, 0);
+            lblRecentDate3.Size = new Size(116, 33);
+            lblRecentDate3.TabIndex = 0;
+            lblRecentDate3.Text = "09-Nov-2025";
             // 
             // pnlRecentCard2
             // 
-            pnlRecentCard2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pnlRecentCard2.BackColor = Color.FromArgb(230, 236, 255);
-            pnlRecentCard2.Controls.Add(lblRecentDate2);
+            pnlRecentCard2.BackColor = Color.FromArgb(192, 192, 255);
             pnlRecentCard2.Controls.Add(lblRecentTitle2);
-            pnlRecentCard2.Location = new Point(15, 155);
-            pnlRecentCard2.Margin = new Padding(3, 4, 3, 4);
+            pnlRecentCard2.Controls.Add(lblRecentDate2);
+            pnlRecentCard2.Dock = DockStyle.Fill;
+            pnlRecentCard2.Location = new Point(15, 99);
+            pnlRecentCard2.Margin = new Padding(15, 20, 3, 20);
             pnlRecentCard2.Name = "pnlRecentCard2";
-            pnlRecentCard2.Padding = new Padding(10, 9, 10, 9);
-            pnlRecentCard2.Size = new Size(311, 65);
-            pnlRecentCard2.TabIndex = 2;
-            // 
-            // lblRecentDate2
-            // 
-            lblRecentDate2.AutoSize = true;
-            lblRecentDate2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblRecentDate2.ForeColor = Color.FromArgb(46, 61, 83);
-            lblRecentDate2.Location = new Point(70, 9);
-            lblRecentDate2.Name = "lblRecentDate2";
-            lblRecentDate2.Size = new Size(104, 20);
-            lblRecentDate2.TabIndex = 1;
-            lblRecentDate2.Text = "05-Nov-2025";
+            pnlRecentCard2.Padding = new Padding(30, 0, 0, 0);
+            pnlRecentCard2.Size = new Size(281, 39);
+            pnlRecentCard2.TabIndex = 1;
             // 
             // lblRecentTitle2
             // 
             lblRecentTitle2.AutoSize = true;
-            lblRecentTitle2.Font = new Font("Segoe UI", 9F);
-            lblRecentTitle2.ForeColor = Color.FromArgb(46, 61, 83);
-            lblRecentTitle2.Location = new Point(70, 35);
+            lblRecentTitle2.Dock = DockStyle.Top;
+            lblRecentTitle2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRecentTitle2.Location = new Point(30, 33);
             lblRecentTitle2.Name = "lblRecentTitle2";
-            lblRecentTitle2.Size = new Size(110, 20);
-            lblRecentTitle2.TabIndex = 0;
-            lblRecentTitle2.Text = "Ms. Saroth Tola";
+            lblRecentTitle2.Size = new Size(69, 20);
+            lblRecentTitle2.TabIndex = 1;
+            lblRecentTitle2.Text = "Em Pisey";
+            // 
+            // lblRecentDate2
+            // 
+            lblRecentDate2.AutoSize = true;
+            lblRecentDate2.Dock = DockStyle.Top;
+            lblRecentDate2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRecentDate2.Location = new Point(30, 0);
+            lblRecentDate2.Margin = new Padding(30, 12, 3, 0);
+            lblRecentDate2.Name = "lblRecentDate2";
+            lblRecentDate2.Padding = new Padding(0, 10, 0, 0);
+            lblRecentDate2.Size = new Size(116, 33);
+            lblRecentDate2.TabIndex = 0;
+            lblRecentDate2.Text = "09-Nov-2025";
             // 
             // pnlRecentCard1
             // 
-            pnlRecentCard1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            pnlRecentCard1.BackColor = Color.FromArgb(255, 238, 230);
-            pnlRecentCard1.Controls.Add(lblRecentDate1);
+            pnlRecentCard1.BackColor = Color.FromArgb(255, 224, 192);
             pnlRecentCard1.Controls.Add(lblRecentTitle1);
-            pnlRecentCard1.Location = new Point(15, 80);
-            pnlRecentCard1.Margin = new Padding(3, 4, 3, 4);
+            pnlRecentCard1.Controls.Add(lblRecentDate1);
+            pnlRecentCard1.Dock = DockStyle.Fill;
+            pnlRecentCard1.Location = new Point(15, 20);
+            pnlRecentCard1.Margin = new Padding(15, 20, 3, 20);
             pnlRecentCard1.Name = "pnlRecentCard1";
-            pnlRecentCard1.Padding = new Padding(10, 9, 10, 9);
-            pnlRecentCard1.Size = new Size(311, 65);
-            pnlRecentCard1.TabIndex = 1;
-            // 
-            // lblRecentDate1
-            // 
-            lblRecentDate1.AutoSize = true;
-            lblRecentDate1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblRecentDate1.ForeColor = Color.FromArgb(46, 61, 83);
-            lblRecentDate1.Location = new Point(70, 9);
-            lblRecentDate1.Name = "lblRecentDate1";
-            lblRecentDate1.Size = new Size(104, 20);
-            lblRecentDate1.TabIndex = 1;
-            lblRecentDate1.Text = "06-Nov-2025";
+            pnlRecentCard1.Padding = new Padding(30, 0, 0, 0);
+            pnlRecentCard1.Size = new Size(281, 39);
+            pnlRecentCard1.TabIndex = 0;
             // 
             // lblRecentTitle1
             // 
             lblRecentTitle1.AutoSize = true;
-            lblRecentTitle1.Font = new Font("Segoe UI", 9F);
-            lblRecentTitle1.ForeColor = Color.FromArgb(46, 61, 83);
-            lblRecentTitle1.Location = new Point(70, 35);
+            lblRecentTitle1.Dock = DockStyle.Top;
+            lblRecentTitle1.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRecentTitle1.Location = new Point(30, 33);
             lblRecentTitle1.Name = "lblRecentTitle1";
-            lblRecentTitle1.Size = new Size(93, 20);
-            lblRecentTitle1.TabIndex = 0;
-            lblRecentTitle1.Text = "Ms. Em Pisey";
+            lblRecentTitle1.Size = new Size(69, 20);
+            lblRecentTitle1.TabIndex = 1;
+            lblRecentTitle1.Text = "Em Pisey";
             // 
-            // lblRecentActivityTitle
+            // lblRecentDate1
             // 
-            lblRecentActivityTitle.AutoSize = true;
-            lblRecentActivityTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblRecentActivityTitle.ForeColor = Color.FromArgb(46, 61, 83);
-            lblRecentActivityTitle.Location = new Point(15, 31);
-            lblRecentActivityTitle.Name = "lblRecentActivityTitle";
-            lblRecentActivityTitle.Size = new Size(161, 28);
-            lblRecentActivityTitle.TabIndex = 0;
-            lblRecentActivityTitle.Text = "Recent Booking";
+            lblRecentDate1.AutoSize = true;
+            lblRecentDate1.Dock = DockStyle.Top;
+            lblRecentDate1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRecentDate1.Location = new Point(30, 0);
+            lblRecentDate1.Margin = new Padding(30, 12, 3, 0);
+            lblRecentDate1.Name = "lblRecentDate1";
+            lblRecentDate1.Padding = new Padding(0, 10, 0, 0);
+            lblRecentDate1.Size = new Size(116, 33);
+            lblRecentDate1.TabIndex = 0;
+            lblRecentDate1.Text = "09-Nov-2025";
             // 
-            // pnlStatsRow
+            // tableLayoutPanel7
             // 
-            pnlStatsRow.ColumnCount = 4;
-            pnlStatsRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            pnlStatsRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            pnlStatsRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            pnlStatsRow.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            pnlStatsRow.Controls.Add(pnlStat4, 3, 0);
-            pnlStatsRow.Controls.Add(pnlStat3, 2, 0);
-            pnlStatsRow.Controls.Add(pnlStat2, 1, 0);
-            pnlStatsRow.Controls.Add(pnlStat1, 0, 0);
-            pnlStatsRow.Dock = DockStyle.Fill;
-            pnlStatsRow.Location = new Point(24, 605);
-            pnlStatsRow.Margin = new Padding(3, 4, 3, 4);
-            pnlStatsRow.Name = "pnlStatsRow";
-            pnlStatsRow.RowCount = 1;
-            pnlStatsRow.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            pnlStatsRow.Size = new Size(1152, 112);
-            pnlStatsRow.TabIndex = 0;
+            tableLayoutPanel7.ColumnCount = 1;
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.Controls.Add(tableLayoutPanel8, 0, 0);
+            tableLayoutPanel7.Controls.Add(tableLayoutPanel9, 0, 1);
+            tableLayoutPanel7.Dock = DockStyle.Fill;
+            tableLayoutPanel7.Location = new Point(3, 398);
+            tableLayoutPanel7.Name = "tableLayoutPanel7";
+            tableLayoutPanel7.RowCount = 2;
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel7.Size = new Size(293, 74);
+            tableLayoutPanel7.TabIndex = 3;
             // 
-            // pnlStat4
+            // tableLayoutPanel8
             // 
-            pnlStat4.BackColor = Color.White;
-            pnlStat4.Controls.Add(lblStatValue4);
-            pnlStat4.Controls.Add(lblStatTitle4);
-            pnlStat4.Controls.Add(pbStatIcon4);
-            pnlStat4.Dock = DockStyle.Fill;
-            pnlStat4.Location = new Point(867, 4);
-            pnlStat4.Margin = new Padding(3, 4, 3, 4);
-            pnlStat4.Name = "pnlStat4";
-            pnlStat4.Padding = new Padding(15);
-            pnlStat4.Size = new Size(282, 104);
-            pnlStat4.TabIndex = 3;
+            tableLayoutPanel8.ColumnCount = 3;
+            tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 68.57143F));
+            tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 31.4285717F));
+            tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 42F));
+            tableLayoutPanel8.Controls.Add(label4, 1, 0);
+            tableLayoutPanel8.Controls.Add(label2, 0, 0);
+            tableLayoutPanel8.Controls.Add(checkBox1, 2, 0);
+            tableLayoutPanel8.Dock = DockStyle.Fill;
+            tableLayoutPanel8.Location = new Point(3, 3);
+            tableLayoutPanel8.Name = "tableLayoutPanel8";
+            tableLayoutPanel8.RowCount = 1;
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel8.Size = new Size(287, 31);
+            tableLayoutPanel8.TabIndex = 12;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Dock = DockStyle.Right;
+            label4.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label4.Location = new Point(204, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(38, 31);
+            label4.TabIndex = 12;
+            label4.Text = "All";
+            label4.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Dock = DockStyle.Left;
+            label2.Font = new Font("Segoe UI", 15F, FontStyle.Bold);
+            label2.Location = new Point(3, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(70, 31);
+            label2.TabIndex = 11;
+            label2.Text = "Date";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Dock = DockStyle.Fill;
+            checkBox1.Location = new Point(248, 3);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(36, 25);
+            checkBox1.TabIndex = 13;
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel9
+            // 
+            tableLayoutPanel9.ColumnCount = 2;
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 46.6898956F));
+            tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 53.3101044F));
+            tableLayoutPanel9.Controls.Add(label3, 0, 0);
+            tableLayoutPanel9.Controls.Add(dateTimePicker1, 1, 0);
+            tableLayoutPanel9.Dock = DockStyle.Fill;
+            tableLayoutPanel9.Location = new Point(3, 40);
+            tableLayoutPanel9.Name = "tableLayoutPanel9";
+            tableLayoutPanel9.RowCount = 1;
+            tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel9.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel9.Size = new Size(287, 31);
+            tableLayoutPanel9.TabIndex = 13;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Dock = DockStyle.Left;
+            label3.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label3.Location = new Point(3, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(127, 31);
+            label3.TabIndex = 12;
+            label3.Text = "09-Nov-2025";
+            label3.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Dock = DockStyle.Fill;
+            dateTimePicker1.Location = new Point(137, 3);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(147, 27);
+            dateTimePicker1.TabIndex = 13;
+            // 
+            // btnAddOrder
+            // 
+            btnAddOrder.BackColor = Color.FromArgb(46, 204, 113);
+            btnAddOrder.BackgroundImageLayout = ImageLayout.Center;
+            btnAddOrder.Dock = DockStyle.Fill;
+            btnAddOrder.FlatStyle = FlatStyle.Popup;
+            btnAddOrder.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAddOrder.ForeColor = Color.White;
+            btnAddOrder.Image = (Image)resources.GetObject("btnAddOrder.Image");
+            btnAddOrder.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAddOrder.Location = new Point(15, 257);
+            btnAddOrder.Margin = new Padding(15, 20, 3, 20);
+            btnAddOrder.Name = "btnAddOrder";
+            btnAddOrder.Padding = new Padding(30, 0, 40, 0);
+            btnAddOrder.Size = new Size(281, 39);
+            btnAddOrder.TabIndex = 4;
+            btnAddOrder.Text = "Add Order";
+            btnAddOrder.UseVisualStyleBackColor = false;
+            btnAddOrder.Click += btnAddOrder_Click;
+            // 
+            // tableLayoutPanel6
+            // 
+            tableLayoutPanel6.ColumnCount = 4;
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel6.Controls.Add(panel7, 3, 0);
+            tableLayoutPanel6.Controls.Add(panel5, 2, 0);
+            tableLayoutPanel6.Controls.Add(panel3, 1, 0);
+            tableLayoutPanel6.Controls.Add(panel1, 0, 0);
+            tableLayoutPanel6.Dock = DockStyle.Fill;
+            tableLayoutPanel6.Location = new Point(3, 549);
+            tableLayoutPanel6.Name = "tableLayoutPanel6";
+            tableLayoutPanel6.RowCount = 1;
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel6.Size = new Size(1034, 91);
+            tableLayoutPanel6.TabIndex = 1;
+            // 
+            // panel7
+            // 
+            panel7.BackColor = Color.White;
+            panel7.Controls.Add(tableLayoutPanel13);
+            panel7.Dock = DockStyle.Fill;
+            panel7.Location = new Point(789, 15);
+            panel7.Margin = new Padding(15, 15, 3, 3);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(242, 73);
+            panel7.TabIndex = 3;
+            // 
+            // tableLayoutPanel13
+            // 
+            tableLayoutPanel13.ColumnCount = 2;
+            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            tableLayoutPanel13.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            tableLayoutPanel13.Controls.Add(tableLayoutPanel17, 1, 0);
+            tableLayoutPanel13.Controls.Add(panel8, 0, 0);
+            tableLayoutPanel13.Dock = DockStyle.Fill;
+            tableLayoutPanel13.Location = new Point(0, 0);
+            tableLayoutPanel13.Name = "tableLayoutPanel13";
+            tableLayoutPanel13.RowCount = 1;
+            tableLayoutPanel13.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel13.Size = new Size(242, 73);
+            tableLayoutPanel13.TabIndex = 0;
+            // 
+            // tableLayoutPanel17
+            // 
+            tableLayoutPanel17.ColumnCount = 1;
+            tableLayoutPanel17.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel17.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel17.Controls.Add(label10, 0, 1);
+            tableLayoutPanel17.Controls.Add(lblStatValue4, 0, 0);
+            tableLayoutPanel17.Dock = DockStyle.Fill;
+            tableLayoutPanel17.Location = new Point(75, 3);
+            tableLayoutPanel17.Name = "tableLayoutPanel17";
+            tableLayoutPanel17.RowCount = 2;
+            tableLayoutPanel17.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel17.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel17.Size = new Size(164, 67);
+            tableLayoutPanel17.TabIndex = 2;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Dock = DockStyle.Top;
+            label10.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            label10.Location = new Point(3, 33);
+            label10.Name = "label10";
+            label10.Size = new Size(158, 23);
+            label10.TabIndex = 14;
+            label10.Text = "Check-Out";
+            label10.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lblStatValue4
             // 
             lblStatValue4.AutoSize = true;
-            lblStatValue4.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblStatValue4.ForeColor = Color.FromArgb(46, 61, 83);
-            lblStatValue4.Location = new Point(101, 20);
+            lblStatValue4.BackColor = Color.Transparent;
+            lblStatValue4.Dock = DockStyle.Bottom;
+            lblStatValue4.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStatValue4.ForeColor = Color.Black;
+            lblStatValue4.Location = new Point(3, 0);
             lblStatValue4.Name = "lblStatValue4";
-            lblStatValue4.Size = new Size(53, 38);
-            lblStatValue4.TabIndex = 2;
-            lblStatValue4.Text = "XX";
+            lblStatValue4.Size = new Size(158, 33);
+            lblStatValue4.TabIndex = 1;
+            lblStatValue4.Text = "4";
+            lblStatValue4.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // lblStatTitle4
+            // panel8
             // 
-            lblStatTitle4.AutoSize = true;
-            lblStatTitle4.Font = new Font("Segoe UI", 9F);
-            lblStatTitle4.ForeColor = Color.Gray;
-            lblStatTitle4.Location = new Point(101, 65);
-            lblStatTitle4.Name = "lblStatTitle4";
-            lblStatTitle4.Size = new Size(93, 20);
-            lblStatTitle4.TabIndex = 1;
-            lblStatTitle4.Text = "Checked Out";
+            panel8.BackColor = Color.FromArgb(0, 192, 0);
+            panel8.Dock = DockStyle.Right;
+            panel8.Location = new Point(15, 23);
+            panel8.Margin = new Padding(15, 23, 5, 0);
+            panel8.MaximumSize = new Size(60, 60);
+            panel8.MinimumSize = new Size(60, 60);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(60, 60);
+            panel8.TabIndex = 0;
             // 
-            // pbStatIcon4
+            // panel5
             // 
-            pbStatIcon4.BackColor = Color.FromArgb(46, 204, 113);
-            pbStatIcon4.Location = new Point(21, 20);
-            pbStatIcon4.Margin = new Padding(3, 4, 3, 4);
-            pbStatIcon4.Name = "pbStatIcon4";
-            pbStatIcon4.Size = new Size(59, 60);
-            pbStatIcon4.TabIndex = 0;
-            pbStatIcon4.TabStop = false;
+            panel5.BackColor = Color.White;
+            panel5.Controls.Add(tableLayoutPanel12);
+            panel5.Dock = DockStyle.Fill;
+            panel5.Location = new Point(531, 15);
+            panel5.Margin = new Padding(15, 15, 15, 3);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(228, 73);
+            panel5.TabIndex = 2;
             // 
-            // pnlStat3
+            // tableLayoutPanel12
             // 
-            pnlStat3.BackColor = Color.White;
-            pnlStat3.Controls.Add(lblStatValue3);
-            pnlStat3.Controls.Add(lblStatTitle3);
-            pnlStat3.Controls.Add(pbStatIcon3);
-            pnlStat3.Dock = DockStyle.Fill;
-            pnlStat3.Location = new Point(579, 4);
-            pnlStat3.Margin = new Padding(3, 4, 3, 4);
-            pnlStat3.Name = "pnlStat3";
-            pnlStat3.Padding = new Padding(15);
-            pnlStat3.Size = new Size(282, 104);
-            pnlStat3.TabIndex = 2;
+            tableLayoutPanel12.ColumnCount = 2;
+            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            tableLayoutPanel12.Controls.Add(tableLayoutPanel16, 1, 0);
+            tableLayoutPanel12.Controls.Add(panel6, 0, 0);
+            tableLayoutPanel12.Dock = DockStyle.Fill;
+            tableLayoutPanel12.Location = new Point(0, 0);
+            tableLayoutPanel12.Name = "tableLayoutPanel12";
+            tableLayoutPanel12.RowCount = 1;
+            tableLayoutPanel12.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel12.Size = new Size(228, 73);
+            tableLayoutPanel12.TabIndex = 0;
+            // 
+            // tableLayoutPanel16
+            // 
+            tableLayoutPanel16.ColumnCount = 1;
+            tableLayoutPanel16.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel16.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel16.Controls.Add(label8, 0, 1);
+            tableLayoutPanel16.Controls.Add(lblStatValue3, 0, 0);
+            tableLayoutPanel16.Dock = DockStyle.Fill;
+            tableLayoutPanel16.Location = new Point(71, 3);
+            tableLayoutPanel16.Name = "tableLayoutPanel16";
+            tableLayoutPanel16.RowCount = 2;
+            tableLayoutPanel16.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel16.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel16.Size = new Size(154, 67);
+            tableLayoutPanel16.TabIndex = 2;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Dock = DockStyle.Top;
+            label8.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            label8.Location = new Point(3, 33);
+            label8.Name = "label8";
+            label8.Size = new Size(148, 23);
+            label8.TabIndex = 14;
+            label8.Text = "Checked-In";
+            label8.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lblStatValue3
             // 
             lblStatValue3.AutoSize = true;
-            lblStatValue3.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblStatValue3.ForeColor = Color.FromArgb(46, 61, 83);
-            lblStatValue3.Location = new Point(101, 20);
+            lblStatValue3.BackColor = Color.Transparent;
+            lblStatValue3.Dock = DockStyle.Bottom;
+            lblStatValue3.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStatValue3.ForeColor = Color.Black;
+            lblStatValue3.Location = new Point(3, 0);
             lblStatValue3.Name = "lblStatValue3";
-            lblStatValue3.Size = new Size(51, 38);
-            lblStatValue3.TabIndex = 2;
-            lblStatValue3.Text = "YY";
+            lblStatValue3.Size = new Size(148, 33);
+            lblStatValue3.TabIndex = 1;
+            lblStatValue3.Text = "4";
+            lblStatValue3.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // lblStatTitle3
+            // panel6
             // 
-            lblStatTitle3.AutoSize = true;
-            lblStatTitle3.Font = new Font("Segoe UI", 9F);
-            lblStatTitle3.ForeColor = Color.Gray;
-            lblStatTitle3.Location = new Point(101, 65);
-            lblStatTitle3.Name = "lblStatTitle3";
-            lblStatTitle3.Size = new Size(81, 20);
-            lblStatTitle3.TabIndex = 1;
-            lblStatTitle3.Text = "Checked In";
+            panel6.BackColor = Color.FromArgb(0, 192, 192);
+            panel6.Dock = DockStyle.Right;
+            panel6.Location = new Point(15, 23);
+            panel6.Margin = new Padding(15, 23, 5, 0);
+            panel6.MaximumSize = new Size(60, 60);
+            panel6.MinimumSize = new Size(60, 60);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(60, 60);
+            panel6.TabIndex = 0;
             // 
-            // pbStatIcon3
+            // panel3
             // 
-            pbStatIcon3.BackColor = Color.FromArgb(0, 184, 148);
-            pbStatIcon3.Location = new Point(21, 20);
-            pbStatIcon3.Margin = new Padding(3, 4, 3, 4);
-            pbStatIcon3.Name = "pbStatIcon3";
-            pbStatIcon3.Size = new Size(59, 60);
-            pbStatIcon3.TabIndex = 0;
-            pbStatIcon3.TabStop = false;
+            panel3.BackColor = Color.White;
+            panel3.Controls.Add(tableLayoutPanel11);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(273, 15);
+            panel3.Margin = new Padding(15, 15, 15, 3);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(228, 73);
+            panel3.TabIndex = 1;
             // 
-            // pnlStat2
+            // tableLayoutPanel11
             // 
-            pnlStat2.BackColor = Color.White;
-            pnlStat2.Controls.Add(lblStatValue2);
-            pnlStat2.Controls.Add(lblStatTitle2);
-            pnlStat2.Controls.Add(pbStatIcon2);
-            pnlStat2.Dock = DockStyle.Fill;
-            pnlStat2.Location = new Point(291, 4);
-            pnlStat2.Margin = new Padding(3, 4, 3, 4);
-            pnlStat2.Name = "pnlStat2";
-            pnlStat2.Padding = new Padding(15);
-            pnlStat2.Size = new Size(282, 104);
-            pnlStat2.TabIndex = 1;
+            tableLayoutPanel11.ColumnCount = 2;
+            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            tableLayoutPanel11.Controls.Add(tableLayoutPanel15, 1, 0);
+            tableLayoutPanel11.Controls.Add(panel4, 0, 0);
+            tableLayoutPanel11.Dock = DockStyle.Fill;
+            tableLayoutPanel11.Location = new Point(0, 0);
+            tableLayoutPanel11.Margin = new Padding(15, 3, 3, 3);
+            tableLayoutPanel11.Name = "tableLayoutPanel11";
+            tableLayoutPanel11.RowCount = 1;
+            tableLayoutPanel11.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel11.Size = new Size(228, 73);
+            tableLayoutPanel11.TabIndex = 0;
+            // 
+            // tableLayoutPanel15
+            // 
+            tableLayoutPanel15.ColumnCount = 1;
+            tableLayoutPanel15.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel15.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel15.Controls.Add(label6, 0, 1);
+            tableLayoutPanel15.Controls.Add(lblStatValue2, 0, 0);
+            tableLayoutPanel15.Dock = DockStyle.Fill;
+            tableLayoutPanel15.Location = new Point(71, 3);
+            tableLayoutPanel15.Name = "tableLayoutPanel15";
+            tableLayoutPanel15.RowCount = 2;
+            tableLayoutPanel15.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel15.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel15.Size = new Size(154, 67);
+            tableLayoutPanel15.TabIndex = 2;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Dock = DockStyle.Top;
+            label6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            label6.Location = new Point(3, 33);
+            label6.Name = "label6";
+            label6.Size = new Size(148, 23);
+            label6.TabIndex = 14;
+            label6.Text = "Booked";
+            label6.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lblStatValue2
             // 
             lblStatValue2.AutoSize = true;
-            lblStatValue2.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblStatValue2.ForeColor = Color.FromArgb(46, 61, 83);
-            lblStatValue2.Location = new Point(101, 20);
+            lblStatValue2.BackColor = Color.Transparent;
+            lblStatValue2.Dock = DockStyle.Bottom;
+            lblStatValue2.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStatValue2.ForeColor = Color.Black;
+            lblStatValue2.Location = new Point(3, 0);
             lblStatValue2.Name = "lblStatValue2";
-            lblStatValue2.Size = new Size(51, 38);
-            lblStatValue2.TabIndex = 2;
-            lblStatValue2.Text = "ZZ";
+            lblStatValue2.Size = new Size(148, 33);
+            lblStatValue2.TabIndex = 1;
+            lblStatValue2.Text = "4";
+            lblStatValue2.TextAlign = ContentAlignment.MiddleLeft;
             // 
-            // lblStatTitle2
+            // panel4
             // 
-            lblStatTitle2.AutoSize = true;
-            lblStatTitle2.Font = new Font("Segoe UI", 9F);
-            lblStatTitle2.ForeColor = Color.Gray;
-            lblStatTitle2.Location = new Point(101, 65);
-            lblStatTitle2.Name = "lblStatTitle2";
-            lblStatTitle2.Size = new Size(60, 20);
-            lblStatTitle2.TabIndex = 1;
-            lblStatTitle2.Text = "Booked";
+            panel4.BackColor = Color.FromArgb(255, 192, 128);
+            panel4.Dock = DockStyle.Right;
+            panel4.Location = new Point(15, 23);
+            panel4.Margin = new Padding(15, 23, 5, 0);
+            panel4.MaximumSize = new Size(60, 60);
+            panel4.MinimumSize = new Size(60, 60);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(60, 60);
+            panel4.TabIndex = 0;
             // 
-            // pbStatIcon2
+            // panel1
             // 
-            pbStatIcon2.BackColor = Color.FromArgb(230, 126, 34);
-            pbStatIcon2.Location = new Point(21, 20);
-            pbStatIcon2.Margin = new Padding(3, 4, 3, 4);
-            pbStatIcon2.Name = "pbStatIcon2";
-            pbStatIcon2.Size = new Size(59, 60);
-            pbStatIcon2.TabIndex = 0;
-            pbStatIcon2.TabStop = false;
+            panel1.BackColor = Color.White;
+            panel1.Controls.Add(tableLayoutPanel10);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(3, 15);
+            panel1.Margin = new Padding(3, 15, 15, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(240, 73);
+            panel1.TabIndex = 0;
             // 
-            // pnlStat1
+            // tableLayoutPanel10
             // 
-            pnlStat1.BackColor = Color.White;
-            pnlStat1.Controls.Add(lblStatValue1);
-            pnlStat1.Controls.Add(lblStatTitle1);
-            pnlStat1.Controls.Add(pbStatIcon1);
-            pnlStat1.Dock = DockStyle.Fill;
-            pnlStat1.Location = new Point(3, 4);
-            pnlStat1.Margin = new Padding(3, 4, 3, 4);
-            pnlStat1.Name = "pnlStat1";
-            pnlStat1.Padding = new Padding(15);
-            pnlStat1.Size = new Size(282, 104);
-            pnlStat1.TabIndex = 0;
+            tableLayoutPanel10.ColumnCount = 2;
+            tableLayoutPanel10.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
+            tableLayoutPanel10.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+            tableLayoutPanel10.Controls.Add(panel2, 0, 0);
+            tableLayoutPanel10.Controls.Add(tableLayoutPanel14, 1, 0);
+            tableLayoutPanel10.Dock = DockStyle.Fill;
+            tableLayoutPanel10.Location = new Point(0, 0);
+            tableLayoutPanel10.Margin = new Padding(3, 3, 15, 3);
+            tableLayoutPanel10.Name = "tableLayoutPanel10";
+            tableLayoutPanel10.RowCount = 1;
+            tableLayoutPanel10.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel10.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel10.Size = new Size(240, 73);
+            tableLayoutPanel10.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(128, 128, 255);
+            panel2.Dock = DockStyle.Right;
+            panel2.Location = new Point(15, 23);
+            panel2.Margin = new Padding(15, 23, 5, 0);
+            panel2.MaximumSize = new Size(60, 60);
+            panel2.MinimumSize = new Size(60, 60);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(60, 60);
+            panel2.TabIndex = 0;
+            // 
+            // tableLayoutPanel14
+            // 
+            tableLayoutPanel14.ColumnCount = 1;
+            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel14.Controls.Add(label5, 0, 1);
+            tableLayoutPanel14.Controls.Add(lblStatValue1, 0, 0);
+            tableLayoutPanel14.Dock = DockStyle.Fill;
+            tableLayoutPanel14.Location = new Point(75, 3);
+            tableLayoutPanel14.Name = "tableLayoutPanel14";
+            tableLayoutPanel14.RowCount = 2;
+            tableLayoutPanel14.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel14.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel14.Size = new Size(162, 67);
+            tableLayoutPanel14.TabIndex = 1;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Dock = DockStyle.Top;
+            label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            label5.Location = new Point(3, 33);
+            label5.Name = "label5";
+            label5.Size = new Size(156, 23);
+            label5.TabIndex = 14;
+            label5.Text = "Total Cutomer";
+            label5.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // lblStatValue1
             // 
             lblStatValue1.AutoSize = true;
-            lblStatValue1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold);
-            lblStatValue1.ForeColor = Color.FromArgb(46, 61, 83);
-            lblStatValue1.Location = new Point(101, 20);
+            lblStatValue1.BackColor = Color.Transparent;
+            lblStatValue1.Dock = DockStyle.Bottom;
+            lblStatValue1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblStatValue1.ForeColor = Color.Black;
+            lblStatValue1.Location = new Point(3, 0);
             lblStatValue1.Name = "lblStatValue1";
-            lblStatValue1.Size = new Size(50, 38);
-            lblStatValue1.TabIndex = 2;
-            lblStatValue1.Text = "TT";
-            // 
-            // lblStatTitle1
-            // 
-            lblStatTitle1.AutoSize = true;
-            lblStatTitle1.Font = new Font("Segoe UI", 9F);
-            lblStatTitle1.ForeColor = Color.Gray;
-            lblStatTitle1.Location = new Point(101, 65);
-            lblStatTitle1.Name = "lblStatTitle1";
-            lblStatTitle1.Size = new Size(115, 20);
-            lblStatTitle1.TabIndex = 1;
-            lblStatTitle1.Text = "Total Customers";
-            // 
-            // pbStatIcon1
-            // 
-            pbStatIcon1.BackColor = Color.FromArgb(52, 152, 219);
-            pbStatIcon1.Location = new Point(21, 20);
-            pbStatIcon1.Margin = new Padding(3, 4, 3, 4);
-            pbStatIcon1.Name = "pbStatIcon1";
-            pbStatIcon1.Size = new Size(59, 60);
-            pbStatIcon1.TabIndex = 0;
-            pbStatIcon1.TabStop = false;
-            // 
-            // pnlHeader
-            // 
-            pnlHeader.BackColor = Color.White;
-            pnlHeader.Dock = DockStyle.Top;
-            pnlHeader.Location = new Point(0, 0);
-            pnlHeader.Margin = new Padding(3, 4, 3, 4);
-            pnlHeader.Name = "pnlHeader";
-            pnlHeader.Padding = new Padding(21, 0, 21, 0);
-            pnlHeader.Size = new Size(1200, 10);
-            pnlHeader.TabIndex = 1;
+            lblStatValue1.Size = new Size(156, 33);
+            lblStatValue1.TabIndex = 1;
+            lblStatValue1.Text = "4";
+            lblStatValue1.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // Customer
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(pnlMainLayout);
+            Controls.Add(tableLayoutPanel1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Customer";
-            Size = new Size(1200, 751);
-            pnlMainLayout.ResumeLayout(false);
-            pnlContentContainer.ResumeLayout(false);
-            pnlListsContainer.ResumeLayout(false);
-            pnlCustomerList.ResumeLayout(false);
-            pnlCustomerList.PerformLayout();
+            Padding = new Padding(30);
+            Size = new Size(1100, 703);
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCustomers).EndInit();
-            pnlRecentActivity.ResumeLayout(false);
-            pnlRecentActivity.PerformLayout();
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel4.PerformLayout();
+            tableLayoutPanel5.ResumeLayout(false);
             pnlRecentCard3.ResumeLayout(false);
             pnlRecentCard3.PerformLayout();
             pnlRecentCard2.ResumeLayout(false);
             pnlRecentCard2.PerformLayout();
             pnlRecentCard1.ResumeLayout(false);
             pnlRecentCard1.PerformLayout();
-            pnlStatsRow.ResumeLayout(false);
-            pnlStat4.ResumeLayout(false);
-            pnlStat4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pbStatIcon4).EndInit();
-            pnlStat3.ResumeLayout(false);
-            pnlStat3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pbStatIcon3).EndInit();
-            pnlStat2.ResumeLayout(false);
-            pnlStat2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pbStatIcon2).EndInit();
-            pnlStat1.ResumeLayout(false);
-            pnlStat1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pbStatIcon1).EndInit();
+            tableLayoutPanel7.ResumeLayout(false);
+            tableLayoutPanel8.ResumeLayout(false);
+            tableLayoutPanel8.PerformLayout();
+            tableLayoutPanel9.ResumeLayout(false);
+            tableLayoutPanel9.PerformLayout();
+            tableLayoutPanel6.ResumeLayout(false);
+            panel7.ResumeLayout(false);
+            tableLayoutPanel13.ResumeLayout(false);
+            tableLayoutPanel17.ResumeLayout(false);
+            tableLayoutPanel17.PerformLayout();
+            panel5.ResumeLayout(false);
+            tableLayoutPanel12.ResumeLayout(false);
+            tableLayoutPanel16.ResumeLayout(false);
+            tableLayoutPanel16.PerformLayout();
+            panel3.ResumeLayout(false);
+            tableLayoutPanel11.ResumeLayout(false);
+            tableLayoutPanel15.ResumeLayout(false);
+            tableLayoutPanel15.PerformLayout();
+            panel1.ResumeLayout(false);
+            tableLayoutPanel10.ResumeLayout(false);
+            tableLayoutPanel14.ResumeLayout(false);
+            tableLayoutPanel14.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Panel pnlMainLayout;
-        private Panel pnlHeader;
-        private TableLayoutPanel pnlContentContainer;
-        private TableLayoutPanel pnlListsContainer;
-        private Panel pnlCustomerList;
+        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel tableLayoutPanel2;
+        private TableLayoutPanel tableLayoutPanel3;
+        private TableLayoutPanel tableLayoutPanel4;
+        private TableLayoutPanel tableLayoutPanel5;
+        private Label OrderTitle;
         private DataGridView dgvCustomers;
-        private Label lblCustomerListTitle;
-        private Panel pnlRecentActivity;
-        private Panel pnlRecentCard3;
-        private Label lblRecentDate3;
-        private Label lblRecentTitle3;
-        private Panel pnlRecentCard2;
-        private Label lblRecentDate2;
-        private Label lblRecentTitle2;
+        private Label label1;
         private Panel pnlRecentCard1;
-        private Label lblRecentDate1;
+        private TableLayoutPanel tableLayoutPanel6;
         private Label lblRecentTitle1;
-        private Label lblRecentActivityTitle;
-        private TableLayoutPanel pnlStatsRow;
-        private Panel pnlStat4;
-        private Label lblStatValue4;
-        private Label lblStatTitle4;
-        private PictureBox pbStatIcon4;
-        private Panel pnlStat3;
-        private Label lblStatValue3;
-        private Label lblStatTitle3;
-        private PictureBox pbStatIcon3;
-        private Panel pnlStat2;
-        private Label lblStatValue2;
-        private Label lblStatTitle2;
-        private PictureBox pbStatIcon2;
-        private Panel pnlStat1;
+        private Label lblRecentDate1;
+        private Panel pnlRecentCard3;
+        private Label lblRecentTitle3;
+        private Label lblRecentDate3;
+        private Panel pnlRecentCard2;
+        private Label lblRecentTitle2;
+        private Label lblRecentDate2;
+        private TableLayoutPanel tableLayoutPanel7;
+        private TableLayoutPanel tableLayoutPanel8;
+        private Label label4;
+        private Label label2;
+        private TableLayoutPanel tableLayoutPanel9;
+        private Label label3;
+        private DateTimePicker dateTimePicker1;
+        private Panel panel1;
+        private TableLayoutPanel tableLayoutPanel10;
+        private Panel panel2;
+        private Panel panel7;
+        private TableLayoutPanel tableLayoutPanel13;
+        private Panel panel8;
+        private Panel panel5;
+        private TableLayoutPanel tableLayoutPanel12;
+        private Panel panel6;
+        private Panel panel3;
+        private TableLayoutPanel tableLayoutPanel11;
+        private Panel panel4;
+        private CheckBox checkBox1;
+        private Button btnAddOrder;
+        private Button btnEditInfo;
+        private TableLayoutPanel tableLayoutPanel14;
+        private Label label5;
         private Label lblStatValue1;
-        private Label lblStatTitle1;
-        private PictureBox pbStatIcon1;
+        private TableLayoutPanel tableLayoutPanel17;
+        private Label label10;
+        private Label lblStatValue4;
+        private TableLayoutPanel tableLayoutPanel16;
+        private Label label8;
+        private Label lblStatValue3;
+        private TableLayoutPanel tableLayoutPanel15;
+        private Label label6;
+        private Label lblStatValue2;
     }
 }

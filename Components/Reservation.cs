@@ -123,7 +123,6 @@ namespace HMS_SLS_Y4.Components
             }
             else
             {
-                // Change Cancel button back to Add button
                 addOrderBtn.Text = "Add Reservation";
                 addOrderBtn.Enabled = true;
 
@@ -382,10 +381,12 @@ namespace HMS_SLS_Y4.Components
                 try
                 {
                     bool success = bookingRepository.Delete(selectedBookingId);
+                    roomRepository.updateRoomStatus(roomId, true);
 
                     if (success)
                     {
                         LoadBookingData();
+                        LoadRoom();
                         ClearForm();
                         SetFormMode(false);
                     }
@@ -397,6 +398,44 @@ namespace HMS_SLS_Y4.Components
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error deleting reservation: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        public void LoadBookingById(int bookingId)
+        {
+            try
+            {
+                Booking booking = bookingRepository.GetById(bookingId);
+
+                if (booking != null)
+                {
+                    selectedBookingId = bookingId;
+
+                    PopulateFormWithBooking(booking);
+                    SetFormMode(true);
+                    SelectBookingInGrid(bookingId);
+                }
+                else
+                {
+                    MessageBox.Show("Booking not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading booking: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SelectBookingInGrid(int bookingId)
+        {
+            foreach (DataGridViewRow row in booked_list.Rows)
+            {
+                if (Convert.ToInt32(row.Cells["Booking ID"].Value) == bookingId)
+                {
+                    row.Selected = true;
+                    booked_list.FirstDisplayedScrollingRowIndex = row.Index;
+                    break;
                 }
             }
         }

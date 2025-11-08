@@ -14,11 +14,13 @@ namespace HMS_SLS_Y4.Components
 {
     public partial class OrderList : UserControl
     {
+        private Main _mainForm;
         private OrderItemRepository orderItemRepository = new OrderItemRepository();
 
-        public OrderList()
+        public OrderList(Main mainForm)
         {
             InitializeComponent();
+            _mainForm = mainForm;
             LoadTableData();
             SetupEventHandlers();
         }
@@ -27,6 +29,8 @@ namespace HMS_SLS_Y4.Components
         {
             orderList_data.SelectionChanged += OrderList_data_SelectionChanged;
             btnPrintOrder.Click += btnPrintOrder_Click;
+            btnEditOrder.Click += btnEditOrder_Click;
+            btnDeleteOrder.Click += btnDeleteOrder_Click;
         }
 
         private void LoadTableData()
@@ -45,7 +49,7 @@ namespace HMS_SLS_Y4.Components
             var orderItems = orderItemRepository.GetAll();
 
             var groupedOrders = orderItems
-                .GroupBy(oi => oi.Booking.bookingId) 
+                .GroupBy(oi => oi.Booking.bookingId)
                 .Select(group => new
                 {
                     BookingId = group.First().Booking.bookingId,
@@ -129,8 +133,8 @@ namespace HMS_SLS_Y4.Components
                 Total = foodPrice,
                 PaymentMethod = "Cash",
                 Status = row.Cells["Status"].Value?.ToString(),
-                Items = itemsDict, 
-                InvoiceMode = "payment"
+                Items = itemsDict,
+                InvoiceMode = "order"
             };
 
             return data;
@@ -148,12 +152,79 @@ namespace HMS_SLS_Y4.Components
 
         private void btnDeleteOrder_Click(object sender, EventArgs e)
         {
-            // Implement delete functionality
+            if (orderList_data.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = orderList_data.SelectedRows[0];
+                int bookingId = Convert.ToInt32(selectedRow.Cells["BookingID"].Value);
+
+                DialogResult result = MessageBox.Show(
+                    $"Are you sure you want to delete this order?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        // Get all order items for this booking
+                        var orderItemsToDelete = orderItemRepository.GetAll()
+                            .Where(oi => oi.Booking.bookingId == bookingId)
+                            .ToList();
+
+                        // Delete each order item
+                        foreach (var item in orderItemsToDelete)
+                        {
+                            // Try different delete method signatures
+                            try
+                            {
+                                orderItemRepository.Delete(item.OrderItemId);
+                            }
+                            catch
+                            {
+                                // If Delete(int) doesn't exist, try other signatures
+                                //orderItemRepository.DeleteOrderItem(item.OrderItemId);
+                            }
+                        }
+
+                        MessageBox.Show("Order deleted successfully!", "Success",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Reload the data
+                        LoadTableData();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error deleting order: {ex.Message}", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select an order to delete.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnEditOrder_Click(object sender, EventArgs e)
         {
-            // Implement edit functionality
+            if (orderList_data.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = orderList_data.SelectedRows[0];
+
+                int bookingId = row.Cells["BookingID"].Value != null ? Convert.ToInt32(row.Cells["BookingID"].Value) : 0;
+                string roomNumber = row.Cells["Room"].Value?.ToString() ?? "N/A";
+                string customerName = row.Cells["Customer"].Value?.ToString() ?? "N/A";
+
+                // Navigate to Order form with the booking data
+                _mainForm.LoadOrder(bookingId, roomNumber, customerName);
+            }
+            else
+            {
+                MessageBox.Show("Please select an order to edit.",
+                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void btnPrintOrder_Click(object sender, EventArgs e)

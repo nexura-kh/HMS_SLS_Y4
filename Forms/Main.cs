@@ -11,7 +11,7 @@ namespace HMS_SLS_Y4
         public Main()
         {
             InitializeComponent();
-            LoadReservation(); // Load default view
+            LoadReservation(); 
         }
 
         #region Load Methods
@@ -70,10 +70,22 @@ namespace HMS_SLS_Y4
         
         private void LoadOrderList()
         {
-            OrderList orderList = new OrderList();
+            OrderList orderList = new OrderList(this);
             orderList.Dock = DockStyle.Fill;
             container.Controls.Clear();
             container.Controls.Add(orderList);
+        }
+        public void LoadReservationWithBooking(int bookingId)
+        {
+            container.Controls.Clear();
+
+            Reservation reservationControl = new Reservation();
+
+            reservationControl.Dock = DockStyle.Fill;
+
+            container.Controls.Add(reservationControl);
+
+            reservationControl.LoadBookingById(bookingId);
         }
 
         #endregion

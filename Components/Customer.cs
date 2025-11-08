@@ -4,13 +4,13 @@ using System;
 using System.Data;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using System.Linq; // Essential for OrderByDescending, Distinct, and Count
+using System.Linq; 
 
 namespace HMS_SLS_Y4.Components
 {
     public partial class Customer : UserControl
     {
-        private Main _mainForm;        
+        private Main _mainForm;
         private int roomId;
         private int bookingId;
         private int cusomterId;
@@ -24,8 +24,8 @@ namespace HMS_SLS_Y4.Components
             loadCustomer();
         }
 
-        private void loadCustomer() { 
-            // The method that loads all data and updates all UI elements
+        private void loadCustomer()
+        {
             LoadCustomerData();
         }
 
@@ -33,19 +33,12 @@ namespace HMS_SLS_Y4.Components
         {
             var table = new System.Data.DataTable();
 
-            // 1. Fetch data first
-            // NOTE: Ensure bookingRepository.GetAll() returns List<Booking>
             _allBookings = bookingRepository.GetAll();
 
-            // 2. Calculate and update all stat cards
             UpdateStatCards();
 
-            // 3. Load and display the three most recent bookings
             LoadRecentBookings();
 
-            // 4. Prepare and fill the DataGridView (DGV) DataTable
-
-            // Add relevant columns
             table.Columns.Add("ID");
             table.Columns.Add("Full Name");
             table.Columns.Add("Nationality");
@@ -55,14 +48,10 @@ namespace HMS_SLS_Y4.Components
             table.Columns.Add("Room Type");
             table.Columns.Add("Booking Status");
 
-            table.Columns[4].MaxLength = 50;
-
-           
-
             var bookings = bookingRepository.GetAll();
             foreach (var booking in bookings)
             {
-                
+
                 table.Rows.Add(
                   booking.bookingId,
                   booking.customer.User.fullName,
@@ -72,41 +61,38 @@ namespace HMS_SLS_Y4.Components
                   booking.room != null ? booking.room.roomNumber : "N/A",
                   booking.room != null ? booking.room.roomType.typeName : "N/A",
                   booking.bookingStatus == 1 ? "Booked" :
-                  booking.bookingStatus == 2 ? "Checked-In":
+                  booking.bookingStatus == 2 ? "Checked-In" :
                   booking.bookingStatus == 2 ? "Checked-Out" : "Booked"
                 );
             }
 
             dgvCustomers.DataSource = table;
-            dgvCustomers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvCustomers.MultiSelect = false;
+            dgvCustomers.ReadOnly = true;
+            dgvCustomers.AllowUserToAddRows = false;
+            dgvCustomers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void UpdateStatCards()
         {
             if (_allBookings == null) return;
 
-            // --- Calculation using LINQ ---
-
-            // 1. Total Customers (lblStatValue1)
             int totalCustomers = _allBookings
                 .Where(b => b.customer != null && b.customer.User != null)
                 .Select(b => b.customer.User.id)
                 .Distinct()
                 .Count();
 
-            // 2. Total Booked (lblStatValue2) - Status 1
             int totalBooked = _allBookings
                 .Count(b => b.bookingStatus == 1);
 
-            // 3. Total Checked In (lblStatValue3) - Status 2
             int totalCheckedIn = _allBookings
                 .Count(b => b.bookingStatus == 2);
 
-            // 4. Total Checked Out (lblStatValue4) - Status 3
             int totalCheckedOut = _allBookings
                 .Count(b => b.bookingStatus == 3);
 
-            // --- Update UI Labels ---
             lblStatValue1.Text = totalCustomers.ToString();
             lblStatValue2.Text = totalBooked.ToString();
             lblStatValue3.Text = totalCheckedIn.ToString();
@@ -117,27 +103,23 @@ namespace HMS_SLS_Y4.Components
         {
             if (_allBookings == null) return;
 
-            // 1. Sort all bookings by CheckInDate in descending order and take the top 3.
             var recentBookings = _allBookings
                 .OrderByDescending(b => b.checkInDate)
                 .Take(3)
                 .ToList();
 
-            // 2. Clear and hide/show panels based on data count
             pnlRecentCard1.Visible = false;
             pnlRecentCard2.Visible = false;
             pnlRecentCard3.Visible = false;
 
-            // Recent Booking 1 (The most recent)
             if (recentBookings.Count >= 1)
             {
                 var booking1 = recentBookings[0];
-                lblRecentTitle1.Text = booking1.customer?.User?.fullName ?? "Customer N/A";
+                lblRecentDate1.Text = booking1.customer?.User?.fullName ?? "Customer N/A";
                 lblRecentDate1.Text = booking1.checkInDate.ToString("dd-MMM-yyyy");
                 pnlRecentCard1.Visible = true;
             }
 
-            // Recent Booking 2
             if (recentBookings.Count >= 2)
             {
                 var booking2 = recentBookings[1];
@@ -146,7 +128,6 @@ namespace HMS_SLS_Y4.Components
                 pnlRecentCard2.Visible = true;
             }
 
-            // Recent Booking 3
             if (recentBookings.Count >= 3)
             {
                 var booking3 = recentBookings[2];
@@ -156,34 +137,50 @@ namespace HMS_SLS_Y4.Components
             }
         }
 
-        // --- Other Events ---
-
-        private void dgvCustomers_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void btnAddOrder_Click(object sender, EventArgs e)
         {
-            if (e.RowIndex >= 0)
+            if (dgvCustomers.SelectedRows.Count > 0)
             {
+                DataGridViewRow row = dgvCustomers.SelectedRows[0];
 
-                DataGridViewRow row = dgvCustomers.Rows[e.RowIndex];
                 bookingId = row.Cells["ID"].Value != null ? Convert.ToInt32(row.Cells["ID"].Value) : 0;
-                string roomNumber = row.Cells["Room Number"].Value.ToString();
-                string customerName = row.Cells["Full Name"].Value.ToString();
+                string roomNumber = row.Cells["Room Number"].Value?.ToString() ?? "N/A";
+                string customerName = row.Cells["Full Name"].Value?.ToString() ?? "N/A";
+                string bookingStatus = row.Cells["Booking Status"].Value?.ToString() ?? "";
 
-                // check if user is checked in
-                if (row.Cells["Booking Status"].Value.ToString() == "Checked-In")
+                if (bookingStatus == "Checked-In")
                 {
-                    // Call Main form to load Order control
                     _mainForm.LoadOrder(bookingId, roomNumber, customerName);
                 }
                 else
                 {
-                   MessageBox.Show("Customer is not checked in. Cannot create order.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Customer is not checked in. Cannot create order.",
+                        "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+            else
+            {
+                MessageBox.Show("Please select a customer first.",
+                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
-        private void lblStatTitle3_Click(object sender, EventArgs e)
+
+        private void btnEditInfo_Click(object sender, EventArgs e)
         {
-            // Event handler for designer file
+            if (dgvCustomers.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dgvCustomers.SelectedRows[0];
+
+                bookingId = row.Cells["ID"].Value != null ? Convert.ToInt32(row.Cells["ID"].Value) : 0;
+
+                _mainForm.LoadReservationWithBooking(bookingId);
+            }
+            else
+            {
+                MessageBox.Show("Please select a customer first.",
+                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

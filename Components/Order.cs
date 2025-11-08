@@ -16,28 +16,19 @@ namespace HMS_SLS_Y4.Components
 {
     public partial class Order : UserControl
     {
-
-
         private FoodOrderRepository foodOrderRepository = new FoodOrderRepository();
         private FoodRepository foodRepository = new FoodRepository();
-
         private OrderItemRepository orderItemRepository = new OrderItemRepository();
-
         private RoomRepository roomRepository = new RoomRepository();
         private UserRepository userRepository = new UserRepository();
 
         private Enums.FoodOrderStatus selectedStatus;
-
         private int foodId;
-
-        
-
         private String cusName;
-
         private int bookingID;
-        
         private string room_number;
-        public Order(int bookingID, string room_number,string cusName)
+
+        public Order(int bookingID, string room_number, string cusName)
         {
             InitializeComponent();
             this.bookingID = bookingID;
@@ -45,23 +36,18 @@ namespace HMS_SLS_Y4.Components
             this.LoadFoods();
             this.cardFoodLayout.AutoScroll = true;
 
-
             defineTheColumns();
             this.loadOrderItems();
-            // assign customer name and room number to form 
             roomNumber.Text = room_number;
-           customerName.Text = cusName;
-
-          
+            customerName.Text = cusName;
 
             orderStatus.DataSource = Enum.GetValues(typeof(Enums.FoodOrderStatus));
         }
+
         private void defineTheColumns()
         {
-            orderedList.AutoGenerateColumns = false;  // we'll define custom columns
-            
+            orderedList.AutoGenerateColumns = false;
 
-            // Define columns manually
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "No", Name = "No" });
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Item", DataPropertyName = "ItemName" });
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Quantity", DataPropertyName = "Quantity" });
@@ -69,174 +55,147 @@ namespace HMS_SLS_Y4.Components
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Price", DataPropertyName = "TotalPrice" });
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Status", DataPropertyName = "Status" });
             orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Note", DataPropertyName = "Note" });
-
-
         }
-
 
         private void loadOrderItems()
         {
             var orderItemsList = orderItemRepository.GetOrderItemsByBookingId(bookingID);
             orderedList.DataSource = orderItemsList;
-
-        }
-        private void orderStatus_SelectedValueChanged(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
+            orderedList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            orderedList.MultiSelect = false;
+            orderedList.ReadOnly = true;
+            orderedList.AllowUserToAddRows = false;
+            orderedList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void tableLayoutPanel4_Paint(object sender, PaintEventArgs e)
+        // Using the CreateFoodCard method from Food component
+        private Panel CreateFoodCard(Models.Food food, int cardWidth, int cardHeight)
         {
+            Panel card = new Panel();
+            card.Width = cardWidth;
+            card.Height = cardHeight;
+            card.BackColor = Color.White;
+            card.BorderStyle = BorderStyle.FixedSingle;
+            card.Cursor = Cursors.Hand;
+            card.Tag = food;
+            card.Margin = new Padding(11);
 
-        }
+            card.Click += (s, e) => SelectFoodForOrder(food);
 
-        private void tableLayoutPanel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void OrderTitle_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel9_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        // food card in customer section
-        public Panel CreateFoodCard(string foodName, Image foodImage, decimal foodPrice)
-        {
-            // Main card panel
-            Panel panel = new Panel();
-            panel.Size = new Size(130, 130);
-            panel.BackColor = Color.AliceBlue;
-            panel.BorderStyle = BorderStyle.FixedSingle;
-            panel.Margin = new Padding(10);
-            panel.Cursor = Cursors.Hand; // show hand cursor when hovering
-
-            // PictureBox for food image
             PictureBox pictureBox = new PictureBox();
-            pictureBox.Image = foodImage;
-            pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox.Size = new Size(80, 70);
-            pictureBox.Location = new Point((panel.Width - pictureBox.Width) / 2, 10);
+            pictureBox.Size = new Size(40, 40);
+            pictureBox.Location = new Point((cardWidth - 40) / 2, 6);
+            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox.BackColor = Color.LightGray;
+            pictureBox.Image = CreatePlaceholderImage(40, 40, food.FoodType == "Drink" ? "🥤" : "🍽️");
+            pictureBox.Click += (s, e) => SelectFoodForOrder(food);
 
-            Label lblPrice = new Label();
-            lblPrice.Text = $"${foodPrice:F2}";
-            lblPrice.Font = new Font("Segoe UI", 9, FontStyle.Regular);
-            lblPrice.ForeColor = Color.Blue;
-            lblPrice.AutoSize = true;
-            lblPrice.Location = new Point((panel.Width - lblPrice.PreferredWidth) / 2, 85);
+            Label nameLabel = new Label();
+            nameLabel.Text = food.FoodName;
+            nameLabel.Font = new Font("Segoe UI", 8, FontStyle.Bold);
+            nameLabel.Location = new Point(3, 50);
+            nameLabel.Size = new Size(cardWidth - 6, 16);
+            nameLabel.TextAlign = ContentAlignment.MiddleCenter;
+            nameLabel.Click += (s, e) => SelectFoodForOrder(food);
 
-            // Label for food name
-            Label lblFoodName = new Label();
-            lblFoodName.Text = foodName;
-            lblFoodName.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            lblFoodName.ForeColor = Color.Black;
-            lblFoodName.AutoSize = true;
-            lblFoodName.Location = new Point((panel.Width - lblFoodName.PreferredWidth) / 2, 105);
-            // Add controls to panel
-            panel.Controls.Add(lblPrice);
-            panel.Controls.Add(pictureBox);
-            panel.Controls.Add(lblFoodName);
+            Label priceLabel = new Label();
+            priceLabel.Text = "$" + food.Price.ToString("F2");
+            priceLabel.Font = new Font("Segoe UI", 8, FontStyle.Bold);
+            priceLabel.ForeColor = Color.FromArgb(46, 204, 113);
+            priceLabel.Location = new Point(3, 67);
+            priceLabel.Size = new Size(cardWidth - 6, 16);
+            priceLabel.TextAlign = ContentAlignment.MiddleCenter;
+            priceLabel.Click += (s, e) => SelectFoodForOrder(food);
 
-            // Optional hover effect
-            panel.MouseEnter += (s, e) => panel.BackColor = Color.LightYellow;
-            panel.MouseLeave += (s, e) => panel.BackColor = Color.AliceBlue;
+            Label typeLabel = new Label();
+            typeLabel.Text = food.FoodType ?? "Food";
+            typeLabel.Font = new Font("Segoe UI", 6, FontStyle.Bold);
+            typeLabel.ForeColor = Color.White;
+            typeLabel.BackColor = food.FoodType == "Drink"
+                ? Color.FromArgb(52, 152, 219)
+                : Color.FromArgb(230, 126, 34);
+            typeLabel.AutoSize = false;
+            typeLabel.Size = new Size(cardWidth - 12, 14);
+            typeLabel.TextAlign = ContentAlignment.MiddleCenter;
+            typeLabel.Location = new Point(6, 90);
+            typeLabel.Click += (s, e) => SelectFoodForOrder(food);
 
-            // Click event (optional)
-            panel.Click += (s, e) =>
+            card.Controls.Add(pictureBox);
+            card.Controls.Add(nameLabel);
+            card.Controls.Add(priceLabel);
+            card.Controls.Add(typeLabel);
+
+            return card;
+        }
+
+        private Bitmap CreatePlaceholderImage(int width, int height, string emoji)
+        {
+            Bitmap bmp = new Bitmap(width, height);
+            using (Graphics g = Graphics.FromImage(bmp))
             {
-                MessageBox.Show($"You selected {foodName}");
-            };
+                g.FillRectangle(new SolidBrush(Color.FromArgb(245, 245, 245)), 0, 0, width, height);
 
-            return panel;
+                Font font = new Font("Segoe UI Emoji", 28);
+                SizeF textSize = g.MeasureString(emoji, font);
+                float x = (width - textSize.Width) / 2;
+                float y = (height - textSize.Height) / 2;
+                g.DrawString(emoji, font, Brushes.Gray, x, y);
+            }
+            return bmp;
         }
 
         private void LoadFoods()
         {
-            // Get project path for icons
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
-            string imgPath = Path.Combine(projectPath, "Resources", "icon", "fast-food.png");
+            cardFoodLayout.Controls.Clear();
+            cardFoodLayout.AutoScroll = true;
 
             var foodsList = foodRepository.GetAll();
-            Image foodImg = Image.FromFile(imgPath);
 
-            // Clear old cards
-            cardFoodLayout.Controls.Clear();
-            cardFoodLayout.Padding = new Padding(10);
+            int cardWidth = 120;
+            int cardHeight = 120;
+            int margin = 100;
 
+            int xPos = margin;
+            int yPos = margin;
 
-            int x = 10; // start position
-            int y = 10;
-            int margin = 10;
-            // If you use FlowLayoutPanel, layout is automatic
+            int cardsPerRow = (cardFoodLayout.Width - margin) / (cardWidth + margin);
+            if (cardsPerRow < 1) cardsPerRow = 1;
+
+            int cardCount = 0;
             foreach (var food in foodsList)
             {
-                Panel foodCard = CreateFoodCard(food.FoodName, foodImg, food.Price);
-                foodCard.Location = new Point(x, y);
-                foodCard.Tag = food; // Store food data in Tag property
-                foodCard.Click += foodCard_Click;
-                foreach (Control ctrl in foodCard.Controls)
+                Panel card = CreateFoodCard(food, cardWidth, cardHeight);
+                card.Location = new Point(xPos, yPos);
+                cardFoodLayout.Controls.Add(card);
+
+                cardCount++;
+                xPos += cardWidth + margin;
+
+                if (cardCount % cardsPerRow == 0)
                 {
-                    ctrl.Click += (s, e) => foodCard_Click(foodCard, e);
-                }
-
-                cardFoodLayout.Controls.Add(foodCard);
-
-
-                // Move position for next card
-                x += foodCard.Width + margin;
-
-                // Wrap to new row if too wide
-                if (x + foodCard.Width > cardFoodLayout.Width)
-                {
-                    x = 10;
-                    y += foodCard.Height + margin;
+                    xPos = margin;
+                    yPos += cardHeight + margin;
                 }
             }
         }
 
-
-        private void foodCard_Click(object sender, EventArgs e)
+        private void SelectFoodForOrder(Models.Food food)
         {
-            if (sender is Panel panel && panel.Tag is Models.Food food)
+            foodId = food.FoodId;
+            txtDescription.Text = food.Description;
+            orderName.Text = food.FoodName;
+            orderPrice.Text = food.Price.ToString("C2");
+
+            if (int.TryParse(orderQuantity.Text, out int quantity))
             {
-                foodId = food.FoodId;
-                txtDescription.Text = food.Description;
-                orderName.Text = food.FoodName;
-                orderPrice.Text = food.Price.ToString("C2");
-               
-
-                if (int.TryParse(orderQuantity.Text, out int quantity))
-                {
-                    decimal total = food.Price * quantity;
-                    
-                }
-
+                decimal total = food.Price * quantity;
             }
-        }
-        private void cardFoodLayout_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void orderStatus_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void addOrderBtn_Click(object sender, EventArgs e)
         {
-            string foodName= orderName.Text;
-            int quantity =int.Parse( orderQuantity.Text);
+            string foodName = orderName.Text;
+            int quantity = int.Parse(orderQuantity.Text);
             string description = txtDescription.Text;
             decimal totalPrice;
             string status = selectedStatus.ToString();
@@ -244,20 +203,14 @@ namespace HMS_SLS_Y4.Components
             if (orderStatus.SelectedItem != null)
             {
                 selectedStatus = (Enums.FoodOrderStatus)orderStatus.SelectedItem;
-                
-
             }
-            totalPrice = decimal.Parse(orderPrice.Text.Replace("$", "")) * quantity;
-            
-           
 
+            totalPrice = decimal.Parse(orderPrice.Text.Replace("$", "")) * quantity;
 
             for (int i = 0; i < orderedList.Rows.Count; i++)
             {
                 orderedList.Rows[i].Cells["No"].Value = i + 1;
             }
-
-            // add to foodOrder repo
 
             foodOrderRepository.Add(new FoodOrder
             {
@@ -266,7 +219,6 @@ namespace HMS_SLS_Y4.Components
                 status = selectedStatus.ToString()
             });
 
-            // add to order item repo
             orderItemRepository.Add(new OrderItem
             {
                 OrderId = bookingID,
@@ -278,17 +230,11 @@ namespace HMS_SLS_Y4.Components
 
             this.loadOrderItems();
 
-            // empty the text box after save to db
             txtDescription.Text = "";
             orderName.Text = "";
             orderPrice.Text = "";
             orderQuantity.Text = "";
             additionalNote.Text = "";
         }
-
-
-        // handle when clikc certain row in dataGridView and delete that row 
-
-        
     }
 }

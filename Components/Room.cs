@@ -4,6 +4,8 @@ using HMS_SLS_Y4.Repositories;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
+using System.Data;
 
 namespace HMS_SLS_Y4.Components
 {
@@ -11,6 +13,7 @@ namespace HMS_SLS_Y4.Components
     {
         public RoomTypeRepository roomTypeRepository { get; }
         public RoomRepository roomRepository { get; set; }
+        private Models.Room selectedRoom;
 
         public Room(RoomTypeRepository roomType, RoomRepository roomRepo)
         {
@@ -19,21 +22,17 @@ namespace HMS_SLS_Y4.Components
             this.roomTypeRepository = roomType ?? throw new ArgumentNullException(nameof(roomType));
             this.roomRepository = roomRepo ?? throw new ArgumentNullException(nameof(roomRepo));
 
-            // ensure the left panel uses the designer flowlayoutRoomCard (designer already adds it)
-            // but keep compatibility: if designer didn't add it, create and add one
-            if (flowlayoutRoomCard == null)
+            // Configure flowlayout for auto-scroll
+            if (flowlayoutRoomCard != null)
             {
-                var flow = new FlowLayoutPanel
-                {
-                    FlowDirection = FlowDirection.LeftToRight,
-                    AutoScroll = true,
-                    Dock = DockStyle.Fill
-                };
-                splitContainer1.Panel1.Controls.Add(flow);
+                flowlayoutRoomCard.AutoScroll = true;
+                flowlayoutRoomCard.WrapContents = true;
+                flowlayoutRoomCard.FlowDirection = FlowDirection.LeftToRight;
             }
 
             // wire events
             this.Load += room_Load;
+            LoadRoomTypes();
             btnSave.Click += btnSave_Click;
         }
 
@@ -50,97 +49,178 @@ namespace HMS_SLS_Y4.Components
             LoadRooms();
         }
 
-        private Panel CreateRoomCard(
-            string roomNumber,
-            string roomTypeName,
-            bool isAvailable,
-            string description,
-            decimal pricePerNight,
-            int roomTypeId,
-            int roomId,
-            Action refreshCardsCallback)
+        private Panel CreateRoomCard(Models.Room room)
         {
+            // Get room type information
+            var roomType = room.RoomType ?? room.roomType;
+            string roomTypeName = roomType?.typeName ?? "Unknown";
+            string description = roomType?.description ?? string.Empty;
+            decimal pricePerNight = roomType?.price ?? 0m;
+
+            // Get project path for icons
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
+            string iconPath = GetRoomIconPath(roomTypeName, room.isAvailable, projectPath);
+
             Panel card = new Panel
             {
-                Width = 120,
-                Height = 120,
-                Margin = new Padding(8),
+                Width = 103,
+                Height = 115,
+                Margin = new Padding(5),
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = Color.White,
                 Cursor = Cursors.Hand,
-                Tag = new { RoomId = roomId, RoomNumber = roomNumber, RoomTypeId = roomTypeId }
+                Tag = room
             };
 
-            card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(240, 248, 255);
-            card.MouseLeave += (s, e) => card.BackColor = Color.White;
+            card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(230, 240, 255);
+            card.MouseLeave += (s, e) =>
+            {
+                // Keep selection color if this card is selected
+                if (selectedRoom != null && selectedRoom.roomId == room.roomId)
+                {
+                    card.BackColor = Color.FromArgb(200, 220, 255);
+                }
+                else
+                {
+                    card.BackColor = Color.White;
+                }
+            };
+
+            // Room icon
+            PictureBox roomIcon = new PictureBox
+            {
+                Width = 58,
+                Height = 58,
+                Location = new Point(20, 10),
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Tag = room
+            };
+
+            // Load icon
+            if (File.Exists(iconPath))
+            {
+                roomIcon.Image = Image.FromFile(iconPath);
+            }
+            else
+            {
+                // Create a simple placeholder if icon not found
+                roomIcon.BackColor = room.isAvailable ? Color.LightGreen : Color.LightCoral;
+            }
 
             // Room number label
-            Label lblNumber = new Label
+            Label roomNumberLabel = new Label
             {
-                Text = roomNumber,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                AutoSize = false,
+                Text = room.roomNumber,
+                Location = new Point(5, 65),
+                Width = 90,
+                Height = 20,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Top,
-                Height = 32
+                Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                Tag = room
             };
 
-            // Type / price label
-            Label lblType = new Label
+            // Room type label
+            Label roomTypeLabel = new Label
             {
-                Text = $"{roomTypeName} - ${pricePerNight:F2}",
-                Font = new Font("Segoe UI", 8),
-                AutoSize = false,
+                Text = roomTypeName.ToUpper(),
+                Location = new Point(5, 85),
+                Width = 90,
+                Height = 18,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Top,
-                Height = 28,
-                ForeColor = isAvailable ? Color.Green : Color.Red
-            };
-
-            // Description (small)
-            Label lblDesc = new Label
-            {
-                Text = description ?? string.Empty,
                 Font = new Font("Segoe UI", 7),
-                AutoSize = false,
-                TextAlign = ContentAlignment.TopCenter,
-                Dock = DockStyle.Fill,
-                Padding = new Padding(4)
+                ForeColor = room.isAvailable ? Color.Green : Color.Red,
+                Tag = room
             };
 
-            // click -> open detail
-            void OpenDetail()
+            // Status label
+            Label statusLabel = new Label
             {
-                try
+                Text = room.isAvailable ? "Available" : "Occupied",
+                Location = new Point(5, 100),
+                Width = 90,
+                Height = 15,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 6),
+                ForeColor = Color.Gray,
+                Tag = room
+            };
+
+            void SelectRoom()
+            {
+                selectedRoom = room;
+                PopulateRoomForm(room);
+
+                foreach (Control ctrl in flowlayoutRoomCard.Controls)
                 {
-                    // try to open RoomDetailForm with the same parameters used previously
-                    var detailForm = new RoomDetailForm(
-                        refreshCardsCallback,
-                        roomTypeRepository,
-                        roomRepository,
-                        pricePerNight,
-                        description,
-                        roomTypeId,
-                        roomId
-                    );
-                    detailForm.ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Unable to open room detail: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (ctrl is Panel panel)
+                    {
+                        var panelRoom = panel.Tag as Models.Room;
+                        if (panelRoom != null && panelRoom.roomId == room.roomId)
+                        {
+                            panel.BackColor = Color.FromArgb(200, 220, 255);
+                        }
+                        else
+                        {
+                            panel.BackColor = Color.White;
+                        }
+                    }
                 }
             }
 
-            card.Click += (s, e) => OpenDetail();
-            lblNumber.Click += (s, e) => OpenDetail();
-            lblType.Click += (s, e) => OpenDetail();
-            lblDesc.Click += (s, e) => OpenDetail();
+            card.Click += (s, e) => SelectRoom();
+            roomIcon.Click += (s, e) => SelectRoom();
+            roomNumberLabel.Click += (s, e) => SelectRoom();
+            roomTypeLabel.Click += (s, e) => SelectRoom();
+            statusLabel.Click += (s, e) => SelectRoom();
 
-            card.Controls.Add(lblDesc);
-            card.Controls.Add(lblType);
-            card.Controls.Add(lblNumber);
+            card.Controls.Add(roomIcon);
+            card.Controls.Add(roomNumberLabel);
+            card.Controls.Add(roomTypeLabel);
+            card.Controls.Add(statusLabel);
 
             return card;
+        }
+
+        private void PopulateRoomForm(Models.Room room)
+        {
+            var roomType = room.RoomType ?? room.roomType;
+
+            textRoomNum.Text = room.roomNumber;
+
+            if (cmbRoomType != null && roomType != null)
+            {
+                for (int i = 0; i < cmbRoomType.Items.Count; i++)
+                {
+                    var item = cmbRoomType.Items[i] as RoomType;
+                    if (item != null && item.roomTypeId == roomType.roomTypeId)
+                    {
+                        cmbRoomType.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            if (btnSave != null)
+            {
+                btnSave.Text = "Update";
+            }
+        }
+
+        private string GetRoomIconPath(string roomType, bool isAvailable, string projectPath)
+        {
+            string iconFileName = "";
+
+            if (roomType.ToLower() == "single fan" || roomType.ToLower() == "single ac")
+            {
+                iconFileName = isAvailable ? "single_bed_available.png" : "single_bed_unavailble.png";
+            }
+            else if (roomType.ToLower() == "twins fan" || roomType.ToLower() == "twins ac")
+            {
+                iconFileName = isAvailable ? "twin_bed_available.png" : "twin_bed_unavailable.png";
+            }
+
+            return Path.Combine(projectPath, "Resources", "icon", iconFileName);
         }
 
         public void LoadRooms()
@@ -151,24 +231,14 @@ namespace HMS_SLS_Y4.Components
 
             foreach (var r in rooms)
             {
-                // defensive: some repository implementations use different property names / null RoomType
-                var rt = r.RoomType ?? r.roomType;
-                string typeName = rt?.typeName ?? rt?.typeName ?? "Unknown";
-                string desc = rt?.description ?? rt?.description ?? string.Empty;
-                decimal price = 0m;
-                try { price = rt?.price ?? 0m; } catch { price = 0m; }
-
-                Panel card = CreateRoomCard(
-                    r.roomNumber,
-                    typeName,
-                    r.isAvailable,
-                    desc,
-                    price,
-                    rt?.roomTypeId ?? rt?.roomTypeId ?? 0,
-                    r.roomId,
-                    LoadRooms);
-
+                Panel card = CreateRoomCard(r);
                 flowlayoutRoomCard.Controls.Add(card);
+            }
+
+            selectedRoom = null;
+            if (btnSave != null)
+            {
+                btnSave.Text = "Create";
             }
         }
 
@@ -180,8 +250,6 @@ namespace HMS_SLS_Y4.Components
                 return;
             }
 
-            // optional numeric validation kept but room numbers may be non-numeric; keep parse but not required:
-            // if numeric is required:
             if (!int.TryParse(textRoomNum.Text.Trim(), out _))
             {
                 MessageBox.Show("Room number must be a valid number.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -196,25 +264,71 @@ namespace HMS_SLS_Y4.Components
 
             RoomType selectedRoomType = (RoomType)cmbRoomType.SelectedItem;
 
-            var newRoom = new Models.Room
+            if (selectedRoom != null && btnSave.Text == "Update")
             {
-                roomNumber = textRoomNum.Text.Trim(),
-                isAvailable = true,
-                roomTypeId = selectedRoomType.roomTypeId
-            };
+                selectedRoom.roomNumber = textRoomNum.Text.Trim();
+                selectedRoom.roomTypeId = selectedRoomType.roomTypeId;
 
-            int rows = roomRepository.Add(newRoom);
+                var rows = roomRepository.Update(selectedRoom);
 
-            if (rows > 0)
-            {
-                MessageBox.Show("Room saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                textRoomNum.Text = string.Empty;
-                LoadRooms();
+                if (rows)
+                {
+                    MessageBox.Show("Room updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    textRoomNum.Text = string.Empty;
+                    selectedRoom = null;
+                    btnSave.Text = "Create";
+                    LoadRooms();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to update room.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
-                MessageBox.Show("Failed to save room.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                var newRoom = new Models.Room
+                {
+                    roomNumber = textRoomNum.Text.Trim(),
+                    isAvailable = true,
+                    roomTypeId = selectedRoomType.roomTypeId
+                };
+
+                int rows = roomRepository.Add(newRoom);
+
+                if (rows > 0)
+                {
+                    MessageBox.Show("Room saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    textRoomNum.Text = string.Empty;
+                    LoadRooms();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to save room.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+        }
+        private void LoadRoomTypes()
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("Room Type");
+            table.Columns.Add("Price Per Night");
+            table.Columns.Add("Description");
+
+            var roomTypes = roomTypeRepository.GetAllRoomTypes();
+            foreach (var roomType in roomTypes)
+            {
+                table.Rows.Add(
+                    roomType.typeName,
+                    roomType.price.ToString("C"),
+                    roomType.description
+                );
+            }
+            dvgRoomTypes.DataSource = table;
+            dvgRoomTypes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dvgRoomTypes.MultiSelect = false;
+            dvgRoomTypes.ReadOnly = true;
+            dvgRoomTypes.AllowUserToAddRows = false;
+            dvgRoomTypes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
     }
 }
