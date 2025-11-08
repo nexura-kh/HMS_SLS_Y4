@@ -63,8 +63,6 @@
             lblStatTitle1 = new Label();
             pbStatIcon1 = new PictureBox();
             pnlHeader = new Panel();
-            lblWelcome = new Label();
-            lblHeaderTitle = new Label();
             pnlMainLayout.SuspendLayout();
             pnlContentContainer.SuspendLayout();
             pnlListsContainer.SuspendLayout();
@@ -83,7 +81,6 @@
             ((System.ComponentModel.ISupportInitialize)pbStatIcon2).BeginInit();
             pnlStat1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbStatIcon1).BeginInit();
-            pnlHeader.SuspendLayout();
             SuspendLayout();
             // 
             // pnlMainLayout
@@ -103,17 +100,17 @@
             pnlContentContainer.BackColor = Color.Transparent;
             pnlContentContainer.ColumnCount = 1;
             pnlContentContainer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            pnlContentContainer.Controls.Add(pnlListsContainer, 0, 1);
-            pnlContentContainer.Controls.Add(pnlStatsRow, 0, 0);
+            pnlContentContainer.Controls.Add(pnlListsContainer, 0, 0);
+            pnlContentContainer.Controls.Add(pnlStatsRow, 0, 1);
             pnlContentContainer.Dock = DockStyle.Fill;
-            pnlContentContainer.Location = new Point(0, 100);
+            pnlContentContainer.Location = new Point(0, 10);
             pnlContentContainer.Margin = new Padding(3, 4, 3, 4);
             pnlContentContainer.Name = "pnlContentContainer";
             pnlContentContainer.Padding = new Padding(21, 9, 21, 20);
             pnlContentContainer.RowCount = 2;
-            pnlContentContainer.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
             pnlContentContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            pnlContentContainer.Size = new Size(1200, 651);
+            pnlContentContainer.RowStyles.Add(new RowStyle(SizeType.Absolute, 120F));
+            pnlContentContainer.Size = new Size(1200, 741);
             pnlContentContainer.TabIndex = 2;
             // 
             // pnlListsContainer
@@ -124,25 +121,24 @@
             pnlListsContainer.Controls.Add(pnlCustomerList, 0, 0);
             pnlListsContainer.Controls.Add(pnlRecentActivity, 1, 0);
             pnlListsContainer.Dock = DockStyle.Fill;
-            pnlListsContainer.Location = new Point(24, 133);
+            pnlListsContainer.Location = new Point(24, 13);
             pnlListsContainer.Margin = new Padding(3, 4, 3, 4);
             pnlListsContainer.Name = "pnlListsContainer";
             pnlListsContainer.RowCount = 1;
             pnlListsContainer.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            pnlListsContainer.Size = new Size(1152, 494);
+            pnlListsContainer.Size = new Size(1152, 584);
             pnlListsContainer.TabIndex = 1;
             // 
             // pnlCustomerList
             // 
-            pnlCustomerList.BackColor = Color.White;
+            pnlCustomerList.BackColor = Color.LightGray;
             pnlCustomerList.Controls.Add(dgvCustomers);
             pnlCustomerList.Controls.Add(lblCustomerListTitle);
-            pnlCustomerList.Dock = DockStyle.Fill;
             pnlCustomerList.Location = new Point(3, 4);
             pnlCustomerList.Margin = new Padding(3, 4, 3, 4);
             pnlCustomerList.Name = "pnlCustomerList";
             pnlCustomerList.Padding = new Padding(15);
-            pnlCustomerList.Size = new Size(800, 486);
+            pnlCustomerList.Size = new Size(800, 576);
             pnlCustomerList.TabIndex = 0;
             // 
             // dgvCustomers
@@ -161,7 +157,7 @@
             dgvCustomers.RowHeadersVisible = false;
             dgvCustomers.RowHeadersWidth = 51;
             dgvCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCustomers.Size = new Size(770, 395);
+            dgvCustomers.Size = new Size(770, 485);
             dgvCustomers.TabIndex = 1;
             dgvCustomers.CellContentClick += dgvCustomers_CellContentClick;
             // 
@@ -188,7 +184,7 @@
             pnlRecentActivity.Margin = new Padding(3, 4, 3, 4);
             pnlRecentActivity.Name = "pnlRecentActivity";
             pnlRecentActivity.Padding = new Padding(15);
-            pnlRecentActivity.Size = new Size(340, 486);
+            pnlRecentActivity.Size = new Size(340, 576);
             pnlRecentActivity.TabIndex = 1;
             // 
             // pnlRecentCard3
@@ -319,7 +315,7 @@
             pnlStatsRow.Controls.Add(pnlStat2, 1, 0);
             pnlStatsRow.Controls.Add(pnlStat1, 0, 0);
             pnlStatsRow.Dock = DockStyle.Fill;
-            pnlStatsRow.Location = new Point(24, 13);
+            pnlStatsRow.Location = new Point(24, 605);
             pnlStatsRow.Margin = new Padding(3, 4, 3, 4);
             pnlStatsRow.Name = "pnlStatsRow";
             pnlStatsRow.RowCount = 1;
@@ -514,37 +510,13 @@
             // pnlHeader
             // 
             pnlHeader.BackColor = Color.White;
-            pnlHeader.Controls.Add(lblWelcome);
-            pnlHeader.Controls.Add(lblHeaderTitle);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
             pnlHeader.Margin = new Padding(3, 4, 3, 4);
             pnlHeader.Name = "pnlHeader";
             pnlHeader.Padding = new Padding(21, 0, 21, 0);
-            pnlHeader.Size = new Size(1200, 100);
+            pnlHeader.Size = new Size(1200, 10);
             pnlHeader.TabIndex = 1;
-            // 
-            // lblWelcome
-            // 
-            lblWelcome.AutoSize = true;
-            lblWelcome.Font = new Font("Segoe UI", 10.2F);
-            lblWelcome.ForeColor = Color.Gray;
-            lblWelcome.Location = new Point(21, 55);
-            lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(318, 23);
-            lblWelcome.TabIndex = 1;
-            lblWelcome.Text = "Manage and view customer information.";
-            // 
-            // lblHeaderTitle
-            // 
-            lblHeaderTitle.AutoSize = true;
-            lblHeaderTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
-            lblHeaderTitle.ForeColor = Color.FromArgb(46, 61, 83);
-            lblHeaderTitle.Location = new Point(21, 14);
-            lblHeaderTitle.Name = "lblHeaderTitle";
-            lblHeaderTitle.Size = new Size(210, 41);
-            lblHeaderTitle.TabIndex = 0;
-            lblHeaderTitle.Text = "Customer List";
             // 
             // Customer
             // 
@@ -581,8 +553,6 @@
             pnlStat1.ResumeLayout(false);
             pnlStat1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbStatIcon1).EndInit();
-            pnlHeader.ResumeLayout(false);
-            pnlHeader.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -590,9 +560,22 @@
 
         private Panel pnlMainLayout;
         private Panel pnlHeader;
-        private Label lblWelcome;
-        private Label lblHeaderTitle;
         private TableLayoutPanel pnlContentContainer;
+        private TableLayoutPanel pnlListsContainer;
+        private Panel pnlCustomerList;
+        private DataGridView dgvCustomers;
+        private Label lblCustomerListTitle;
+        private Panel pnlRecentActivity;
+        private Panel pnlRecentCard3;
+        private Label lblRecentDate3;
+        private Label lblRecentTitle3;
+        private Panel pnlRecentCard2;
+        private Label lblRecentDate2;
+        private Label lblRecentTitle2;
+        private Panel pnlRecentCard1;
+        private Label lblRecentDate1;
+        private Label lblRecentTitle1;
+        private Label lblRecentActivityTitle;
         private TableLayoutPanel pnlStatsRow;
         private Panel pnlStat4;
         private Label lblStatValue4;
@@ -610,20 +593,5 @@
         private Label lblStatValue1;
         private Label lblStatTitle1;
         private PictureBox pbStatIcon1;
-        private TableLayoutPanel pnlListsContainer;
-        private Panel pnlCustomerList;
-        private DataGridView dgvCustomers;
-        private Label lblCustomerListTitle;
-        private Panel pnlRecentActivity;
-        private Panel pnlRecentCard3;
-        private Label lblRecentDate3;
-        private Label lblRecentTitle3;
-        private Panel pnlRecentCard2;
-        private Label lblRecentDate2;
-        private Label lblRecentTitle2;
-        private Panel pnlRecentCard1;
-        private Label lblRecentDate1;
-        private Label lblRecentTitle1;
-        private Label lblRecentActivityTitle;
     }
 }
