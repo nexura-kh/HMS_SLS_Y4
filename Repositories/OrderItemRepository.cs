@@ -57,6 +57,7 @@ namespace HMS_SLS_Y4.Repositories
                 u.nationality,
                 r.room_number,
                 rt.type_name AS room_type,
+                b.booking_id,
                 b.check_in_date,
                 b.check_out_date,
                 b.booking_status,
@@ -97,6 +98,7 @@ namespace HMS_SLS_Y4.Repositories
                                 note = reader.IsDBNull(reader.GetOrdinal("note")) ? null : reader.GetString("note"),
                                 Booking = new Booking
                                 {
+                                    bookingId = reader.GetInt32("booking_id"),
                                     checkInDate = reader.GetDateTime("check_in_date"),
                                     checkOutDate = reader.GetDateTime("check_out_date"),
                                     bookingStatus = reader.GetInt32("booking_status"),

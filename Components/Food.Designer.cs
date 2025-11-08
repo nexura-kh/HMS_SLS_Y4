@@ -118,7 +118,7 @@
             foodPanel.BackColor = Color.White;
             foodPanel.Dock = DockStyle.Fill;
             foodPanel.Location = new Point(26, 85);
-            foodPanel.Margin = new Padding(26, 26, 9, 26);
+            foodPanel.Margin = new Padding(26, 26, 9, 45);
             foodPanel.Name = "foodPanel";
             foodPanel.Padding = new Padding(26, 26, 26, 42);
             foodPanel.Size = new Size(279, 481);
@@ -146,7 +146,7 @@
             drinkPanel.BackColor = Color.White;
             drinkPanel.Dock = DockStyle.Fill;
             drinkPanel.Location = new Point(9, 85);
-            drinkPanel.Margin = new Padding(9, 26, 9, 26);
+            drinkPanel.Margin = new Padding(9, 26, 9, 45);
             drinkPanel.Name = "drinkPanel";
             drinkPanel.Padding = new Padding(26, 26, 26, 42);
             drinkPanel.Size = new Size(296, 481);

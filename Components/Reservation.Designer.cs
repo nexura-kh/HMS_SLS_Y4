@@ -49,7 +49,7 @@
             splitContainer4 = new SplitContainer();
             txtIdCard = new TextBox();
             id_card_label = new Label();
-            txtIdType = new ComboBox();
+            txtBookingStatus = new ComboBox();
             status_label = new Label();
             splitContainer5 = new SplitContainer();
             txtCheckIn = new DateTimePicker();
@@ -327,7 +327,7 @@
             // 
             // splitContainer4.Panel2
             // 
-            splitContainer4.Panel2.Controls.Add(txtIdType);
+            splitContainer4.Panel2.Controls.Add(txtBookingStatus);
             splitContainer4.Panel2.Controls.Add(status_label);
             splitContainer4.Panel2.Padding = new Padding(18, 8, 18, 8);
             splitContainer4.Size = new Size(494, 59);
@@ -353,24 +353,23 @@
             id_card_label.TabIndex = 2;
             id_card_label.Text = "ID Card";
             // 
-            // txtIdType
+            // txtBookingStatus
             // 
-            txtIdType.Dock = DockStyle.Bottom;
-            txtIdType.FormattingEnabled = true;
-            var idTypes = new[]
+            txtBookingStatus.Dock = DockStyle.Bottom;
+            txtBookingStatus.FormattingEnabled = true;
+            var bookingStatus = new[]
             {
-                new { Value = 1, Text = "Passport" },
-                new { Value = 2, Text = "ID Card" },
-                new { Value = 3, Text = "Driver's License" },
-                new { Value = 4, Text = "Military ID" }
+                new { Value = 1, Text = "Booked" },
+                new { Value = 2, Text = "Checked-In" },
+                new { Value = 3, Text = "Checked-Out" }
             };
-            txtIdType.DataSource = idTypes.ToList();
-            txtIdType.DisplayMember = "Text"; // what the user sees
-            txtIdType.ValueMember = "Value";
-            txtIdType.Location = new Point(20, 33);
-            txtIdType.Name = "txtIdType";
-            txtIdType.Size = new Size(238, 28);
-            txtIdType.TabIndex = 3;
+            txtBookingStatus.DataSource = bookingStatus.ToList();
+            txtBookingStatus.DisplayMember = "Text"; 
+            txtBookingStatus.ValueMember = "Value";
+            txtBookingStatus.Location = new Point(20, 33);
+            txtBookingStatus.Name = "txtBookingStatus";
+            txtBookingStatus.Size = new Size(238, 28);
+            txtBookingStatus.TabIndex = 3;
             // 
             // status_label
             // 
@@ -381,7 +380,7 @@
             status_label.Name = "status_label";
             status_label.Size = new Size(41, 19);
             status_label.TabIndex = 2;
-            status_label.Text = "Type";
+            status_label.Text = "Status";
             // 
             // splitContainer5
             // 
@@ -684,7 +683,7 @@
         private TextBox txtIdCard;
         private DateTimePicker txtCheckIn;
         private DateTimePicker txtCheckOut;
-        private ComboBox txtIdType;
+        private ComboBox txtBookingStatus;
         private TableLayoutPanel tableLayoutPanel3;
         private Panel panel10;
         private Button addOrderBtn;

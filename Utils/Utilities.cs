@@ -8,6 +8,7 @@ namespace HMS_SLS_Y4.Utils
 {
     public class InvoiceData
     {
+        public string InvoiceMode { get; set; }
         public string CheckIn { get; set; }
         public string Room { get; set; }
         public string Customer { get; set; }
@@ -17,21 +18,18 @@ namespace HMS_SLS_Y4.Utils
         public decimal Total { get; set; }
         public string PaymentMethod { get; set; }
         public string Status { get; set; }
-        public Dictionary<string, int> Items { get; set; }
+
+        public Dictionary<string, (int quantity, decimal price, string description, string note)> Items { get; set; }
 
         public InvoiceData()
         {
-            Items = new Dictionary<string, int>();
+            Items = new Dictionary<string, (int, decimal, string, string)>();
         }
+
     }
 
     public static class Utilities
     {
-        #region Invoice Generation for Panel
-
-        /// <summary>
-        /// Generates an invoice display in a panel
-        /// </summary>
         public static void GenerateInvoiceInPanel(Panel invoicePanel, InvoiceData data)
         {
             invoicePanel.Controls.Clear();
@@ -53,25 +51,36 @@ namespace HMS_SLS_Y4.Utils
             invoicePanel.Controls.Add(lblSubHeader);
             yPos += 20;
 
-            // Stylish divider
             Panel divider1 = CreateStyledDivider(yPos, 3);
             invoicePanel.Controls.Add(divider1);
-            yPos += 10;
+            yPos += 20;
 
             // === INVOICE TITLE ===
-            Label lblInvoice = CreateLabel("INVOICE", new Point(leftMargin, yPos),
-                new Font("Segoe UI", 18, FontStyle.Bold));
-            lblInvoice.ForeColor = Color.FromArgb(41, 55, 120);
-            invoicePanel.Controls.Add(lblInvoice);
+            if (data.InvoiceMode == "payment") {
+                Label lblInvoice = CreateLabel("INVOICE", new Point(leftMargin, yPos),
+                    new Font("Segoe UI", 18, FontStyle.Bold));
+                lblInvoice.ForeColor = Color.FromArgb(41, 55, 120);
+                invoicePanel.Controls.Add(lblInvoice);
+            }
+            else
+            {
+                Label lblInvoice = CreateLabel("Order List", new Point(125, yPos),
+                    new Font("Segoe UI", 18, FontStyle.Bold));
+                lblInvoice.ForeColor = Color.FromArgb(41, 55, 120);
+                invoicePanel.Controls.Add(lblInvoice);
+            }
+            
             yPos += 45;
 
             // === DATE SECTION ===
             yPos = AddStyledDetail(invoicePanel, "Invoice Date:", DateTime.Now.ToString("yyyy-MM-dd"), yPos);
-            yPos = AddStyledDetail(invoicePanel, "Check-In Date:", data.CheckIn, yPos);
-            yPos = AddStyledDetail(invoicePanel, "Check-Out Date:", DateTime.Now.ToString("yyyy-MM-dd"), yPos);
+            if(data.InvoiceMode == "payment")
+            {
+                yPos = AddStyledDetail(invoicePanel, "Check-In Date:", data.CheckIn, yPos);
+                yPos = AddStyledDetail(invoicePanel, "Check-Out Date:", DateTime.Now.ToString("yyyy-MM-dd"), yPos);
+            }
             yPos += 20;
 
-            // Light divider
             Panel divider2 = CreateStyledDivider(yPos, 1);
             invoicePanel.Controls.Add(divider2);
             yPos += 18;
@@ -88,89 +97,106 @@ namespace HMS_SLS_Y4.Utils
             yPos = AddStyledDetail(invoicePanel, "Room:", data.Room, yPos);
             yPos += 15;
 
-            // Light divider
             Panel divider3 = CreateStyledDivider(yPos, 1);
             invoicePanel.Controls.Add(divider3);
             yPos += 18;
 
             // === AMOUNT SECTION ===
-            Label lblCharges = CreateLabel("Amount", new Point(160, yPos),
+            
+            if(data.InvoiceMode == "payment")
+            {
+                Label lblCharges = CreateLabel("Amount", new Point(160, yPos),
                 new Font("Segoe UI", 11, FontStyle.Bold));
-            lblCharges.ForeColor = Color.FromArgb(41, 55, 120);
-            invoicePanel.Controls.Add(lblCharges);
-            yPos += 35;
+                lblCharges.ForeColor = Color.FromArgb(41, 55, 120);
+                invoicePanel.Controls.Add(lblCharges);
+            }
+            else
+            {
+                Label lblCharges = CreateLabel("Order Detail", new Point(130, yPos),
+                new Font("Segoe UI", 11, FontStyle.Bold));
+                lblCharges.ForeColor = Color.FromArgb(41, 55, 120);
+                invoicePanel.Controls.Add(lblCharges);
+            }
+                yPos += 35;
 
-            yPos = AddStyledDetail(invoicePanel, "Room Amount:", $"${data.RoomPrice}", yPos);
-            yPos = AddStyledDetail(invoicePanel, "Food Amount:", $"${data.FoodPrice}", yPos);
+            if (data.InvoiceMode != "payment")
+            {
+                yPos = AddStyledDetail(invoicePanel, "Order Amount:", $"${data.FoodPrice}", yPos);
+            }
+            else
+            {
+                yPos = AddStyledDetail(invoicePanel, "Room Amount:", $"${data.RoomPrice}", yPos);
+                yPos = AddStyledDetail(invoicePanel, "Food Amount:", $"${data.FoodPrice}", yPos);
+            }
             yPos += 15;
 
-            // Items list
             var labels = CreateItemsList(data.Items, new Point(120, yPos));
+
             foreach (var lbl in labels)
             {
                 invoicePanel.Controls.Add(lbl);
             }
+
             yPos += labels.Count * 25 + 10;
 
-            // Thick divider before total
             Panel divider4 = CreateStyledDivider(yPos, 1);
             invoicePanel.Controls.Add(divider4);
             yPos += 20;
 
-            // === TOTAL SECTION (HIGHLIGHTED) ===
-            Panel totalPanel = new Panel
-            {
-                Location = new Point(100, yPos),
-                Size = new Size(227, 50),
-                BackColor = Color.FromArgb(240, 244, 255),
-                BorderStyle = BorderStyle.None
-            };
-            invoicePanel.Controls.Add(totalPanel);
-
-            Label lblTotalText = CreateLabel("TOTAL AMOUNT", new Point(10, 15),
-                new Font("Segoe UI", 12, FontStyle.Bold));
-            lblTotalText.ForeColor = Color.FromArgb(41, 55, 120);
-            totalPanel.Controls.Add(lblTotalText);
-
-            Label lblTotalValue = CreateLabel($"${data.Total}", new Point(170, 15),
-                new Font("Segoe UI", 12, FontStyle.Bold));
-            lblTotalValue.ForeColor = Color.FromArgb(41, 55, 120);
-            totalPanel.Controls.Add(lblTotalValue);
-            yPos += 65;
-
-            // Light divider
-            Panel divider5 = CreateStyledDivider(yPos, 1);
-            invoicePanel.Controls.Add(divider5);
-            yPos += 18;
-
             // === PAYMENT INFORMATION SECTION ===
-            Label lblPaymentInfo = CreateLabel("Payment Information", new Point(100, yPos),
-                new Font("Segoe UI", 11, FontStyle.Bold));
-            lblPaymentInfo.ForeColor = Color.FromArgb(41, 55, 120);
-            invoicePanel.Controls.Add(lblPaymentInfo);
-            yPos += 35;
-
-            yPos = AddStyledDetail(invoicePanel, "Method:", data.PaymentMethod, yPos);
-
-            // Status with styled badge
-            Label lblStatusLabel = CreateLabel("Status:", new Point(100, yPos),
-                new Font("Segoe UI", 9, FontStyle.Bold));
-            lblStatusLabel.ForeColor = Color.FromArgb(80, 80, 80);
-            invoicePanel.Controls.Add(lblStatusLabel);
-
-            // Create status badge
-            Panel statusBadge = new Panel
+            if(data.InvoiceMode == "payment")
             {
-                Location = new Point(leftMargin + 60, yPos - 2),
-                Size = new Size(70, 22),
-                BackColor = data.Status == "Paid" ? Color.FromArgb(220, 252, 231) : Color.FromArgb(254, 243, 199)
-            };
-            invoicePanel.Controls.Add(statusBadge);
+                Panel totalPanel = new Panel
+                {
+                    Location = new Point(100, yPos),
+                    Size = new Size(227, 50),
+                    BackColor = Color.FromArgb(240, 244, 255),
+                    BorderStyle = BorderStyle.None
+                };
 
-            Label lblStatusValue = CreateLabel(data.Status, new Point(15, 3),
-                new Font("Segoe UI", 9, FontStyle.Bold));
-            lblStatusValue.ForeColor = data.Status == "Paid" ? Color.FromArgb(22, 163, 74) : Color.FromArgb(234, 179, 8);
-            statusBadge.Controls.Add(lblStatusValue);
+                invoicePanel.Controls.Add(totalPanel);
+
+                Label lblTotalText = CreateLabel("TOTAL AMOUNT", new Point(10, 15),
+               new Font("Segoe UI", 12, FontStyle.Bold));
+                lblTotalText.ForeColor = Color.FromArgb(41, 55, 120);
+                totalPanel.Controls.Add(lblTotalText);
+
+                Label lblTotalValue = CreateLabel($"${data.Total}", new Point(170, 15),
+                    new Font("Segoe UI", 12, FontStyle.Bold));
+                lblTotalValue.ForeColor = Color.FromArgb(41, 55, 120);
+                totalPanel.Controls.Add(lblTotalValue);
+                yPos += 65;
+
+                Panel divider5 = CreateStyledDivider(yPos, 1);
+                invoicePanel.Controls.Add(divider5);
+                yPos += 18;
+
+                Label lblPaymentInfo = CreateLabel("Payment Information", new Point(100, yPos),
+                new Font("Segoe UI", 11, FontStyle.Bold));
+                lblPaymentInfo.ForeColor = Color.FromArgb(41, 55, 120);
+                invoicePanel.Controls.Add(lblPaymentInfo);
+                yPos += 35;
+
+                yPos = AddStyledDetail(invoicePanel, "Method:", data.PaymentMethod, yPos);
+
+                Label lblStatusLabel = CreateLabel("Status:", new Point(100, yPos),
+                    new Font("Segoe UI", 9, FontStyle.Bold));
+                lblStatusLabel.ForeColor = Color.FromArgb(80, 80, 80);
+                invoicePanel.Controls.Add(lblStatusLabel);
+
+                Panel statusBadge = new Panel
+                {
+                    Location = new Point(leftMargin + 60, yPos - 2),
+                    Size = new Size(70, 22),
+                    BackColor = data.Status == "Paid" ? Color.FromArgb(220, 252, 231) : Color.FromArgb(254, 243, 199)
+                };
+                invoicePanel.Controls.Add(statusBadge);
+
+                Label lblStatusValue = CreateLabel(data.Status, new Point(15, 3),
+                    new Font("Segoe UI", 9, FontStyle.Bold));
+                lblStatusValue.ForeColor = data.Status == "Paid" ? Color.FromArgb(22, 163, 74) : Color.FromArgb(234, 179, 8);
+                statusBadge.Controls.Add(lblStatusValue);
+            }
 
             yPos += 40;
 
@@ -181,13 +207,6 @@ namespace HMS_SLS_Y4.Utils
             invoicePanel.Controls.Add(lblFooter);
         }
 
-        #endregion
-
-        #region Invoice Printing
-
-        /// <summary>
-        /// Creates a PrintDocument configured to print an invoice
-        /// </summary>
         public static PrintDocument CreateInvoicePrintDocument(InvoiceData data)
         {
             PrintDocument printDocument = new PrintDocument();
@@ -195,9 +214,6 @@ namespace HMS_SLS_Y4.Utils
             return printDocument;
         }
 
-        /// <summary>
-        /// Shows a print preview dialog for an invoice
-        /// </summary>
         public static void ShowInvoicePrintPreview(InvoiceData data)
         {
             try
@@ -240,7 +256,6 @@ namespace HMS_SLS_Y4.Utils
         {
             Graphics g = e.Graphics;
 
-            // Define fonts
             Font titleFont = new Font("Segoe UI", 24, FontStyle.Bold);
             Font subtitleFont = new Font("Segoe UI", 10);
             Font headerFont = new Font("Segoe UI", 14, FontStyle.Bold);
@@ -335,9 +350,7 @@ namespace HMS_SLS_Y4.Utils
             g.DrawString("Thank you for your stay!", smallFont, Brushes.Gray, leftMargin, yPos);
         }
 
-        #endregion
 
-        #region Helper Methods
 
         private static Label CreateLabel(string text, Point location, Font font)
         {
@@ -351,7 +364,7 @@ namespace HMS_SLS_Y4.Utils
             };
         }
 
-        private static List<Label> CreateItemsList(Dictionary<string, int> items, Point startLocation)
+        private static List<Label> CreateItemsList(Dictionary<string, (int quantity, decimal price, string description, string note)> items, Point startLocation)
         {
             List<Label> labels = new List<Label>();
             Font font = new Font("Segoe UI", 9, FontStyle.Italic);
@@ -359,20 +372,50 @@ namespace HMS_SLS_Y4.Utils
 
             foreach (var pair in items)
             {
-                Label label = new Label
+                string itemName = pair.Key;
+                int quantity = pair.Value.quantity;
+                decimal price = pair.Value.price;
+                string description = string.IsNullOrEmpty(pair.Value.description) ? "---" : pair.Value.description;
+                string note = string.IsNullOrEmpty(pair.Value.note) ? "---" : pair.Value.note;
+
+                Label lblItem = new Label
                 {
-                    Text = $"- {pair.Key} : {pair.Value}",
+                    Text = $"- {itemName} : {quantity} x {price:C0}",
                     Location = new Point(startLocation.X, startLocation.Y + offsetY),
                     Font = font,
                     AutoSize = true,
                     BackColor = Color.Transparent
                 };
-                labels.Add(label);
-                offsetY += 25;
+                labels.Add(lblItem);
+                offsetY += 20;
+
+                Label lblDesc = new Label
+                {
+                    Text = $"- Description : {description}",
+                    Location = new Point(startLocation.X, startLocation.Y + offsetY),
+                    Font = font,
+                    AutoSize = true,
+                    BackColor = Color.Transparent
+                };
+                labels.Add(lblDesc);
+                offsetY += 20;
+
+                Label lblNote = new Label
+                {
+                    Text = $"- Note : {note}",
+                    Location = new Point(startLocation.X, startLocation.Y + offsetY),
+                    Font = font,
+                    AutoSize = true,
+                    BackColor = Color.Transparent
+                };
+                labels.Add(lblNote);
+                offsetY += 30; 
             }
 
             return labels;
         }
+
+
 
         private static Panel CreateStyledDivider(int yPos, int thickness)
         {
@@ -401,6 +444,5 @@ namespace HMS_SLS_Y4.Utils
             return yPos + 20;
         }
 
-        #endregion
     }
 }

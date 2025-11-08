@@ -142,10 +142,10 @@ namespace HMS_SLS_Y4.Components
                 Total = Convert.ToDecimal(row.Cells["Total"].Value),
                 PaymentMethod = row.Cells["Payment Method"].Value?.ToString(),
                 Status = row.Cells["Status"].Value?.ToString(),
-                Items = new Dictionary<string, int>
+                Items = new Dictionary<string, (int, decimal, string, string)>
                 {
-                    { "Beef Steak", 1 },
-                    { "Coke", 2 }
+                    { "Coke", (2, 3, "Soft drink", "Cold only") },
+                    { "Steak", (1, 15, "Medium rare", "Add sauce") }
                 }
             };
 

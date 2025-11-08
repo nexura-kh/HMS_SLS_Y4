@@ -20,17 +20,20 @@ namespace HMS_SLS_Y4.Components
         {
             InitializeComponent();
             LoadTableData();
+            SetupEventHandlers();
         }
-        //invoicePanel
-        //orderList_data
+
         private void SetupEventHandlers()
         {
-            //orderList_data.SelectionChanged += OrderList_Data_SelectionChanged;
-            //button1.Click += BtnPrint_Click;
+            orderList_data.SelectionChanged += OrderList_data_SelectionChanged;
+            btnPrintOrder.Click += btnPrintOrder_Click;
         }
+
         private void LoadTableData()
         {
             DataTable table = new DataTable();
+
+            table.Columns.Add("BookingID", typeof(int));
             table.Columns.Add("Order Date");
             table.Columns.Add("Room");
             table.Columns.Add("Customer");
@@ -41,35 +44,36 @@ namespace HMS_SLS_Y4.Components
 
             var orderItems = orderItemRepository.GetAll();
 
-            // Group by Order ID (or you can group by Customer if needed)
             var groupedOrders = orderItems
-                .GroupBy(oi => oi.Booking.customer.User.fullName)
+                .GroupBy(oi => oi.Booking.bookingId) 
                 .Select(group => new
                 {
-                    OrderId = group.Key,
+                    BookingId = group.First().Booking.bookingId,
                     OrderDate = group.First().FoodOrder.orderDate,
                     Room = group.First().Booking.room.roomNumber,
                     Customer = group.First().Booking.customer.User.fullName,
                     Nationality = group.First().Booking.customer.User.nationality,
-                    Items = string.Join(", ", group.Select(oi => oi.Food.FoodName)), // Combine items
-                    Notes = string.Join("; ", group.Where(oi => !string.IsNullOrEmpty(oi.note)).Select(oi => oi.note)), // Combine notes
+                    Items = string.Join(", ", group.Select(oi => oi.Food.FoodName)),
+                    Notes = string.Join("; ", group.Where(oi => !string.IsNullOrEmpty(oi.note)).Select(oi => oi.note)),
                     Status = group.First().FoodOrder.status
                 });
 
             foreach (var order in groupedOrders)
             {
                 table.Rows.Add(
+                    order.BookingId,
                     order.OrderDate.ToString("yyyy-MM-dd"),
                     order.Room,
                     order.Customer,
                     order.Nationality,
-                    order.Items, // "coca, steak, ..."
+                    order.Items,
                     order.Notes,
                     order.Status
                 );
             }
 
             orderList_data.DataSource = table;
+            orderList_data.Columns["BookingID"].Visible = false;
             orderList_data.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             orderList_data.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             orderList_data.MultiSelect = false;
@@ -82,27 +86,57 @@ namespace HMS_SLS_Y4.Components
             InvoiceData invoiceData = ExtractInvoiceDataFromRow(row);
             Utilities.GenerateInvoiceInPanel(invoicePanel, invoiceData);
         }
+
         private InvoiceData ExtractInvoiceDataFromRow(DataGridViewRow row)
         {
+            int bookingId = Convert.ToInt32(row.Cells["BookingID"].Value);
+
+            var orderItems = orderItemRepository.GetAll()
+                .Where(oi => oi.Booking.bookingId == bookingId)
+                .ToList();
+
+            var itemsDict = new Dictionary<string, (int quantity, decimal price, string description, string note)>();
+
+            foreach (var item in orderItems)
+            {
+                string foodName = item.Food.FoodName;
+                decimal price = item.Food.Price;
+                string description = item.Food.Description ?? "N/A";
+                string note = string.IsNullOrEmpty(item.note) ? "N/A" : item.note;
+
+                if (itemsDict.ContainsKey(foodName))
+                {
+                    var existing = itemsDict[foodName];
+                    itemsDict[foodName] = (existing.quantity + item.Quantity, price, description, note);
+                }
+                else
+                {
+                    itemsDict[foodName] = (item.Quantity, price, description, note);
+                }
+            }
+
+            decimal foodPrice = orderItems.Sum(oi => oi.Food.Price * oi.Quantity);
+
+            var booking = orderItems.First().Booking;
+
             InvoiceData data = new InvoiceData
             {
-                CheckIn = row.Cells["Check-In"].Value?.ToString(),
+                CheckIn = row.Cells["Order Date"].Value?.ToString(),
                 Room = row.Cells["Room"].Value?.ToString(),
                 Customer = row.Cells["Customer"].Value?.ToString(),
                 Nationality = row.Cells["Nationality"].Value?.ToString(),
-                RoomPrice = Convert.ToDecimal(row.Cells["Room Price"].Value),
-                FoodPrice = Convert.ToDecimal(row.Cells["Food Price"].Value),
-                Total = Convert.ToDecimal(row.Cells["Total"].Value),
-                PaymentMethod = row.Cells["Payment Method"].Value?.ToString(),
+                FoodPrice = foodPrice,
+                Total = foodPrice,
+                PaymentMethod = "Cash",
                 Status = row.Cells["Status"].Value?.ToString(),
-                Items = new Dictionary<string, int>
-                {
-                    { "Beef Steak", 1 },
-                    { "Coke", 2 }
-                }
+                Items = itemsDict, 
+                InvoiceMode = "payment"
             };
+
             return data;
         }
+
+
         private void OrderList_data_SelectionChanged(object sender, EventArgs e)
         {
             if (orderList_data.SelectedRows.Count > 0)
@@ -114,15 +148,32 @@ namespace HMS_SLS_Y4.Components
 
         private void btnDeleteOrder_Click(object sender, EventArgs e)
         {
-
+            // Implement delete functionality
         }
 
         private void btnEditOrder_Click(object sender, EventArgs e)
         {
-
+            // Implement edit functionality
         }
 
         private void btnPrintOrder_Click(object sender, EventArgs e)
+        {
+            if (orderList_data.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = orderList_data.SelectedRows[0];
+                InvoiceData invoiceData = ExtractInvoiceDataFromRow(selectedRow);
+
+                Utilities.ShowInvoicePrintPreview(invoiceData);
+
+            }
+            else
+            {
+                MessageBox.Show("Please select an order to print.", "No Selection",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void invoicePanel_Paint(object sender, PaintEventArgs e)
         {
 
         }

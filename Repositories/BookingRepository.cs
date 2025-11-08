@@ -80,7 +80,7 @@ namespace HMS_SLS_Y4.Repositories
                                 b.check_in_date, b.check_out_date, b.total_amount,
                                 b.booking_date, b.booking_status,
                                 c.customer_id, c.address,
-                                u.id, u.full_name, u.dob, u.nationality, u.id_card_number, u.id_card_type,
+                                u.id, u.full_name, u.dob, u.nationality, u.id_card_number,
                                 r.room_id, r.room_number, r.is_available, r.room_type_id,
                                 rt.type_id, rt.type_name, rt.price_per_night, rt.description
                              FROM bookings b
@@ -120,7 +120,8 @@ namespace HMS_SLS_Y4.Repositories
                                 fullName = reader.GetString("full_name"),
                                 dob = reader.GetDateTime("dob"),
                                 nationality = reader.GetString("nationality"),
-                            }
+                                idCardNumber = reader.GetString("id_card_number")
+                           }
                         },
                         room = reader.IsDBNull(reader.GetOrdinal("room_id")) ? null : new Room
                         {
@@ -155,7 +156,7 @@ namespace HMS_SLS_Y4.Repositories
                                 b.check_in_date, b.check_out_date, b.total_amount,
                                 b.booking_date, b.booking_status,
                                 c.customer_id, c.address,
-                                u.id, u.full_name, u.dob, u.nationality, u.id_card_number, u.id_card_type,
+                                u.id, u.full_name, u.dob, u.nationality, u.id_card_number,
                                 r.room_id, r.room_number, r.is_available, r.room_type_id,
                                 rt.type_id, rt.type_name, rt.price_per_night, rt.description
                              FROM bookings b
@@ -194,7 +195,8 @@ namespace HMS_SLS_Y4.Repositories
                                 id = reader.GetInt32("id"),
                                 fullName = reader.GetString("full_name"),
                                 nationality = reader.GetString("nationality"),
-                                dob = reader.GetDateTime("dob")
+                                dob = reader.GetDateTime("dob"),
+                                idCardNumber = reader.GetString("id_card_number")
                             }
                         },
                         room = reader.IsDBNull(reader.GetOrdinal("room_id")) ? null : new Room

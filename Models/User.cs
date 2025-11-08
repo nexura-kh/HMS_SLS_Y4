@@ -16,7 +16,6 @@ namespace HMS_SLS_Y4.Models
         public DateTime? dob { get; set; }
         public string nationality { get; set; }
         public string idCardNumber { get; set; }
-        public int idCardType { get; set; }
         public DateTime createdAt { get; set; }
     }
 }
