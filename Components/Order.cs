@@ -17,27 +17,38 @@ namespace HMS_SLS_Y4.Components
     public partial class Order : UserControl
     {
 
+
+        private FoodOrderRepository foodOrderRepository = new FoodOrderRepository();
         private FoodRepository foodRepository = new FoodRepository();
+
+        private OrderItemRepository orderItemRepository = new OrderItemRepository();
 
         private RoomRepository roomRepository = new RoomRepository();
         private UserRepository userRepository = new UserRepository();
+
         private Enums.FoodOrderStatus selectedStatus;
 
         private int foodId;
 
         private BindingList<OrderItemDTOcs> orderItems = new BindingList<OrderItemDTOcs>();
 
-        private string cusName;
+        private String cusName;
 
+        private int bookingID;
+        
         private string room_number;
-        public Order(string cusName, string room_number)
+        public Order(int bookingID, string room_number,string cusName)
         {
             InitializeComponent();
-            this.cusName = cusName;
+            this.bookingID = bookingID;
             this.room_number = room_number;
             this.LoadFoods();
             this.cardFoodLayout.AutoScroll = true;
-          
+
+            // assign customer name and room number to form 
+            roomNumber.Text = room_number;
+           customerName.Text = cusName;
+
             LoadMockupData();
 
             orderStatus.DataSource = Enum.GetValues(typeof(Enums.FoodOrderStatus));
@@ -187,10 +198,12 @@ namespace HMS_SLS_Y4.Components
         {
             if (sender is Panel panel && panel.Tag is Models.Food food)
             {
+                foodId = food.FoodId;
                 txtDescription.Text = food.Description;
                 orderName.Text = food.FoodName;
                 orderPrice.Text = food.Price.ToString("C2");
                
+
                 if (int.TryParse(orderQuantity.Text, out int quantity))
                 {
                     decimal total = food.Price * quantity;
@@ -211,7 +224,6 @@ namespace HMS_SLS_Y4.Components
         private void addOrderBtn_Click(object sender, EventArgs e)
         {
             string foodName= orderName.Text;
-            int foodId = this.foodId;
             int quantity =int.Parse( orderQuantity.Text);
             string description = txtDescription.Text;
             decimal totalPrice;
@@ -224,8 +236,9 @@ namespace HMS_SLS_Y4.Components
 
             }
             totalPrice = decimal.Parse(orderPrice.Text.Replace("$", "")) * quantity;
-
-
+            
+            
+            MessageBox.Show($"booking id:  {bookingID}");
 
             OrderItemDTOcs orderItem = new OrderItemDTOcs();
             orderItem.SetItemName(foodName);
@@ -244,7 +257,32 @@ namespace HMS_SLS_Y4.Components
             {
                 orderedList.Rows[i].Cells["No"].Value = i + 1;
             }
-           
+
+            // add to foodOrder repo
+
+            foodOrderRepository.Add(new FoodOrder
+            {
+                bookingId = bookingID,
+                orderDate = DateTime.Now,
+                status = selectedStatus.ToString()
+            });
+
+            // add to order item repo
+            orderItemRepository.Add(new OrderItem
+            {
+                OrderId = bookingID,
+                FoodId = foodId,
+                Quantity = quantity,
+                note = additionalNote.Text,
+                totalPrice = totalPrice
+            });
+
+            // empty the text box after save to db
+            txtDescription.Text = "";
+            orderName.Text = "";
+            orderPrice.Text = "";
+            orderQuantity.Text = "";
+            additionalNote.Text = "";
         }
     }
 }
