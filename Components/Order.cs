@@ -1,40 +1,65 @@
-﻿using System;
+﻿using HMS_SLS_Y4.Repositories;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HMS_SLS_Y4.Models;
+using HMS_SLS_Y4.Models.DTOs;
 
 namespace HMS_SLS_Y4.Components
 {
     public partial class Order : UserControl
     {
-        public Order()
+
+        private FoodRepository foodRepository = new FoodRepository();
+
+        private RoomRepository roomRepository = new RoomRepository();
+        private UserRepository userRepository = new UserRepository();
+        private Enums.FoodOrderStatus selectedStatus;
+
+        private int foodId;
+
+        private BindingList<OrderItemDTOcs> orderItems = new BindingList<OrderItemDTOcs>();
+
+        private string cusName;
+
+        private string room_number;
+        public Order(string cusName, string room_number)
         {
             InitializeComponent();
+            this.cusName = cusName;
+            this.room_number = room_number;
+            this.LoadFoods();
             this.cardFoodLayout.AutoScroll = true;
+          
             LoadMockupData();
+
+            orderStatus.DataSource = Enum.GetValues(typeof(Enums.FoodOrderStatus));
         }
         private void LoadMockupData()
         {
-            DataTable table = new DataTable();
-            table.Columns.Add("No.");
-            table.Columns.Add("Item");
-            table.Columns.Add("Quantity");
-            table.Columns.Add("Description");
-            table.Columns.Add("Price ($)");
-            table.Columns.Add("Status");
-            table.Columns.Add("Note");
+            orderedList.AutoGenerateColumns = false;  // we'll define custom columns
+            orderedList.DataSource = orderItems;
 
-            // Add mock rows
-            table.Rows.Add(1, "Beef Steak", 1, "More Spicy", 10, "Ordered", "Before 3PM");
-            table.Rows.Add(2, "Chicken Wings", 2, "Extra Crispy", 8, "Preparing", "Serve hot");
-            table.Rows.Add(6, "Fruit Smoothie", 2, "Mixed Berries", 4.5, "Delivered", "Cold drink");
+            // Define columns manually
+            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "No", Name = "No" });
+            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Item", DataPropertyName = "ItemName" });
+            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Quantity", DataPropertyName = "Quantity" });
+            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Description", DataPropertyName = "Description" });
+            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Price", DataPropertyName = "TotalPrice" });
+            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Status", DataPropertyName = "Status" });
+            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Note", DataPropertyName = "Note" });
+        }
 
-            orderedList.DataSource = table;
+        private void orderStatus_SelectedValueChanged(object sender, EventArgs e)
+        {
+           
         }
 
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
@@ -112,33 +137,114 @@ namespace HMS_SLS_Y4.Components
             return panel;
         }
 
-
-        private void cardFoodLayout_Paint(object sender, PaintEventArgs e)
+        private void LoadFoods()
         {
-
             // Get project path for icons
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
             string imgPath = Path.Combine(projectPath, "Resources", "icon", "fast-food.png");
 
+            var foodsList = foodRepository.GetAll();
+            Image foodImg = Image.FromFile(imgPath);
+
+            // Clear old cards
+            cardFoodLayout.Controls.Clear();
+            cardFoodLayout.Padding = new Padding(10);
 
 
-            var foods = new List<(string Name, string ImagePath)>
+            int x = 10; // start position
+            int y = 10;
+            int margin = 10;
+            // If you use FlowLayoutPanel, layout is automatic
+            foreach (var food in foodsList)
             {
-                ("Pizza", "food.png"),
-                ("Burger", "food.png"),
-                ("Sushi", "food.png"),
-                ("Noodles", "food.png"),
-                ("Fried Rice", "friedrice.png")
-            };
+                Panel foodCard = CreateFoodCard(food.FoodName, foodImg, food.Price);
+                foodCard.Location = new Point(x, y);
+                foodCard.Tag = food; // Store food data in Tag property
+                foodCard.Click += foodCard_Click;
+                foreach (Control ctrl in foodCard.Controls)
+                {
+                    ctrl.Click += (s, e) => foodCard_Click(foodCard, e);
+                }
 
-            foreach (var food in foods)
-            {
-                Image foodImg = Image.FromFile(imgPath);
-                Panel foodCard = CreateFoodCard(food.Name, foodImg, 9.99m);
                 cardFoodLayout.Controls.Add(foodCard);
-            }
 
+
+                // Move position for next card
+                x += foodCard.Width + margin;
+
+                // Wrap to new row if too wide
+                if (x + foodCard.Width > cardFoodLayout.Width)
+                {
+                    x = 10;
+                    y += foodCard.Height + margin;
+                }
+            }
+        }
+
+
+        private void foodCard_Click(object sender, EventArgs e)
+        {
+            if (sender is Panel panel && panel.Tag is Models.Food food)
+            {
+                txtDescription.Text = food.Description;
+                orderName.Text = food.FoodName;
+                orderPrice.Text = food.Price.ToString("C2");
+               
+                if (int.TryParse(orderQuantity.Text, out int quantity))
+                {
+                    decimal total = food.Price * quantity;
+                    
+                }
+
+            }
+        }
+        private void cardFoodLayout_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        private void orderStatus_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addOrderBtn_Click(object sender, EventArgs e)
+        {
+            string foodName= orderName.Text;
+            int foodId = this.foodId;
+            int quantity =int.Parse( orderQuantity.Text);
+            string description = txtDescription.Text;
+            decimal totalPrice;
+            string status = selectedStatus.ToString();
+
+            if (orderStatus.SelectedItem != null)
+            {
+                selectedStatus = (Enums.FoodOrderStatus)orderStatus.SelectedItem;
+                
+
+            }
+            totalPrice = decimal.Parse(orderPrice.Text.Replace("$", "")) * quantity;
+
+
+
+            OrderItemDTOcs orderItem = new OrderItemDTOcs();
+            orderItem.SetItemName(foodName);
+            orderItem.SetQuantity(quantity);
+            orderItem.SetDescription(description);
+            orderItem.SetTotalPrice(totalPrice);
+            orderItem.SetStatus(selectedStatus);
+            orderItem.note = additionalNote.Text;
+
+            
+
+
+            orderItems.Add(orderItem);
+
+            for (int i = 0; i < orderedList.Rows.Count; i++)
+            {
+                orderedList.Rows[i].Cells["No"].Value = i + 1;
+            }
+           
         }
     }
 }

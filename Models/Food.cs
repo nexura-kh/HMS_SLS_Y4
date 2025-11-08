@@ -15,5 +15,18 @@ namespace HMS_SLS_Y4.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public override string ToString()
+        {
+            return $"FoodId: {FoodId}, " +
+                   $"FoodName: {FoodName}, " +
+                   $"FoodType: {FoodType}, " +
+                   $"Description: {Description}, " +
+                   $"Price: {Price:C}, " +
+                   $"CreatedAt: {CreatedAt:yyyy-MM-dd HH:mm:ss}";
+        }
+
     }
+
+
 }

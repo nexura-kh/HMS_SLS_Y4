@@ -288,5 +288,30 @@ namespace HMS_SLS_Y4.Repositories
                 }
             }
         }
+
+
+        public int getRoomIdByNumber(string roomNumber)
+        {
+            string query = "SELECT room_id FROM rooms WHERE room_number = @roomNumber";
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@roomNumber", roomNumber);
+                try
+                {
+                    conn.Open();
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        return Convert.ToInt32(result);
+                    }
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Error fetching room ID: " + ex.Message);
+                }
+            }
+            return -1; // Return -1 if not found or error occurs
+        }
     }
 }

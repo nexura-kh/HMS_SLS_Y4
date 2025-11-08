@@ -43,9 +43,9 @@ namespace HMS_SLS_Y4
             container.Controls.Add(room);
         }
 
-        public void LoadOrder()
+        public void LoadOrder(string customerName,String roomNumber)
         {
-            Order order = new Order();
+            Order order = new Order(customerName,roomNumber);
             order.Dock = DockStyle.Fill;
             container.Controls.Clear();
             container.Controls.Add(order);

@@ -10,8 +10,9 @@ namespace HMS_SLS_Y4.Components
 {
     public partial class Customer : UserControl
     {
-        private Main _mainForm;
-        // NOTE: Ensure your BookingRepository and Models are correctly defined in your project
+        private Main _mainForm;        
+        private int roomId;
+        private int cusomterId;
         private BookingRepository bookingRepository = new BookingRepository();
         private List<Booking> _allBookings;
 
@@ -19,6 +20,10 @@ namespace HMS_SLS_Y4.Components
         {
             InitializeComponent();
             _mainForm = mainForm;
+            loadCustomer();
+        }
+
+        private void loadCustomer()
             // The method that loads all data and updates all UI elements
             LoadCustomerData();
         }
@@ -49,23 +54,25 @@ namespace HMS_SLS_Y4.Components
             table.Columns.Add("Room Type");
             table.Columns.Add("Booking Status");
 
-            foreach (var booking in _allBookings)
-            {
-                // Determine status text based on status ID
-                // 1=Booked, 2=Checked-In, 3=Checked-Out
-                string statusText = booking.bookingStatus == 1 ? "Booked" :
-                                    booking.bookingStatus == 2 ? "Checked-In" :
-                                    booking.bookingStatus == 3 ? "Checked-Out" : "Unknown";
+            table.Columns[4].MaxLength = 50;
 
+           
+
+            var bookings = bookingRepository.GetAll();
+            foreach (var booking in bookings)
+            {
+                
                 table.Rows.Add(
-                    booking.bookingId,
-                    booking.customer?.User?.fullName ?? "N/A",
-                    booking.customer?.User?.nationality ?? "N/A",
-                    booking.checkInDate.ToString("yyyy-MM-dd"),
-                    booking.checkOutDate.ToString("yyyy-MM-dd"),
-                    booking.room != null ? booking.room.roomNumber : "N/A",
-                    booking.room != null ? booking.room.roomType.typeName : "N/A",
-                    statusText
+                  booking.bookingId,
+                  booking.customer.User.fullName,
+                  booking.customer.User.nationality,
+                  booking.checkInDate.ToString("yyyy-MM-dd"),
+                  booking.checkOutDate.ToString("yyyy-MM-dd"),
+                  booking.room != null ? booking.room.roomNumber : "N/A",
+                  booking.room != null ? booking.room.roomType.typeName : "N/A",
+                  booking.bookingStatus == 1 ? "Booked" :
+                  booking.bookingStatus == 2 ? "Checked-In":
+                  booking.bookingStatus == 2 ? "Checked-Out" : "Booked"
                 );
             }
 
@@ -103,17 +110,6 @@ namespace HMS_SLS_Y4.Components
             lblStatValue2.Text = totalBooked.ToString();
             lblStatValue3.Text = totalCheckedIn.ToString();
             lblStatValue4.Text = totalCheckedOut.ToString();
-
-            // NOTE: For the image showing Check Out Today (XX), 
-            // you might want to filter totalCheckedOut by Date. 
-            // The current code counts ALL Checked Out bookings (Status 3). 
-            // To match the UI title "Check Out Today", you would add:
-            /*
-            int checkedOutToday = _allBookings
-                .Count(b => b.bookingStatus == 3 && b.checkOutDate.Date == DateTime.Now.Date);
-            lblStatValue4.Text = checkedOutToday.ToString();
-            */
-            // I'll stick to the simpler Status 3 count for now as per the counting request.
         }
 
         private void LoadRecentBookings()
@@ -165,8 +161,14 @@ namespace HMS_SLS_Y4.Components
         {
             if (e.RowIndex >= 0)
             {
-                // Example: Call Main form to load Order control
-                _mainForm.LoadOrder();
+
+                DataGridViewRow row = dgvCustomers.Rows[e.RowIndex];
+                string customerName= row.Cells["Full Name"].Value.ToString();
+                string roomNumber = row.Cells["Room Number"].Value.ToString();
+
+              
+                // Call Main form to load Order control
+                _mainForm.LoadOrder(customerName,roomNumber);
             }
         }
 

@@ -12,6 +12,6 @@ namespace HMS_SLS_Y4.Models
         public int userId { get; set; }
         public string address { get; set; }
 
-        public User User { get; set; }
+        public Models.User User { get; set; }
     }
 }
