@@ -159,7 +159,26 @@ namespace HMS_SLS_Y4.Repositories
         }
 
        
+        public int getUserIdbyFullName(string fullName)
+        {
+            string query = "SELECT id FROM users WHERE full_name = @full_name";
+            using (var conn = new MySqlConnection(ConnectionString))
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@full_name", fullName);
+                try
+                {
+                    conn.Open();
+                    var result = cmd.ExecuteScalar();
+                    return result != null ? Convert.ToInt32(result) : 0;
+                }
+                catch (MySqlException ex)
+                {
+                    throw new Exception($"Database error while getting user ID: {ex.Message}", ex);
+                }
+            }
+        }
 
-        
+
     }
 }

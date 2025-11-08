@@ -12,6 +12,7 @@ namespace HMS_SLS_Y4.Components
     {
         private Main _mainForm;        
         private int roomId;
+        private int bookingId;
         private int cusomterId;
         private BookingRepository bookingRepository = new BookingRepository();
         private List<Booking> _allBookings;
@@ -163,12 +164,20 @@ namespace HMS_SLS_Y4.Components
             {
 
                 DataGridViewRow row = dgvCustomers.Rows[e.RowIndex];
-                string customerName= row.Cells["Full Name"].Value.ToString();
+                bookingId = row.Cells["ID"].Value != null ? Convert.ToInt32(row.Cells["ID"].Value) : 0;
                 string roomNumber = row.Cells["Room Number"].Value.ToString();
+                string customerName = row.Cells["Full Name"].Value.ToString();
 
-              
-                // Call Main form to load Order control
-                _mainForm.LoadOrder(customerName,roomNumber);
+                // check if user is checked in
+                if (row.Cells["Booking Status"].Value.ToString() == "Checked-In")
+                {
+                    // Call Main form to load Order control
+                    _mainForm.LoadOrder(bookingId, roomNumber, customerName);
+                }
+                else
+                {
+                   MessageBox.Show("Customer is not checked in. Cannot create order.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 

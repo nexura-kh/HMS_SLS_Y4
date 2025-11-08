@@ -15,7 +15,7 @@ namespace HMS_SLS_Y4.Models.DTOs
         public decimal totalPrice { get; set; }
         public string description { get; set; }
         public int quantity { get; set; }
-        public int quntity { get; set; }
+      
         public FoodOrderStatus status { get; set; }
         public String note { get; set; }
 

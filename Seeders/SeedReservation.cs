@@ -72,8 +72,8 @@ namespace HMS_SLS_Y4.Seeders
             var reservations = new List<Booking>
             {
                 new Booking { customerId = customers[0].customerId, roomId = rooms[0].roomId, checkInDate = DateTime.Now, checkOutDate = DateTime.Now.AddDays(2), totalAmount = rooms[0].RoomType.price, bookingDate = DateTime.Now, bookingStatus = 1 },
-                new Booking { customerId = customers[1].customerId, roomId = rooms[1].roomId, checkInDate = DateTime.Now, checkOutDate = DateTime.Now.AddDays(3), totalAmount = rooms[1].RoomType.price, bookingDate = DateTime.Now, bookingStatus = 1 },
-                new Booking { customerId = customers[2].customerId, roomId = rooms[2].roomId, checkInDate = DateTime.Now, checkOutDate = DateTime.Now.AddDays(1), totalAmount = rooms[2].RoomType.price, bookingDate = DateTime.Now, bookingStatus = 1 },
+                new Booking { customerId = customers[1].customerId, roomId = rooms[1].roomId, checkInDate = DateTime.Now, checkOutDate = DateTime.Now.AddDays(3), totalAmount = rooms[1].RoomType.price, bookingDate = DateTime.Now, bookingStatus = 2 },
+                new Booking { customerId = customers[2].customerId, roomId = rooms[2].roomId, checkInDate = DateTime.Now, checkOutDate = DateTime.Now.AddDays(1), totalAmount = rooms[2].RoomType.price, bookingDate = DateTime.Now, bookingStatus = 2 },
                 new Booking { customerId = customers[3].customerId, roomId = rooms[3].roomId, checkInDate = DateTime.Now, checkOutDate = DateTime.Now.AddDays(4), totalAmount = rooms[3].RoomType.price, bookingDate = DateTime.Now, bookingStatus = 1 },
             };
 
