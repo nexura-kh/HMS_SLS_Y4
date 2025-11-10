@@ -121,31 +121,33 @@
   <data name="btnEditInfo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHLSURBVFhHvZdP
-        K0RhFIdJFhaUBR9AsbTw/wMgKSzY2PgC9r6E2ElKlqMUOxtZyIKFjeQDyJr8LQk9OtN7x3HmjvOO9/LU
-        Lc15zvmdexvvzDQ0/BNAF7ALXAOnwIx1/gxgCLijmjnrFg7QXyNcOLd+4QCdwKVNDjxavzDCY58If9da
-        4kg3TAArwEbktQ6M6tCMEH4PvPywxCswIIUmoKQK9XCTE94H3CpHgqZCrQO4CK9NZw1LSq6XbROe3bnF
-        Pokx3XQVJNl6GGiPvNpMuL1zS+VJfAP4CMKercUSES7IAtWHjxJ2bC2GpHBBSXUvkBwuKLGuBQoJF5Qc
-        vUBh4YJqiFoAGKzxr6bJf8fnoZpiFzhUPXnEhwuq0V0AaPzhk034OuG+elbDWTOuX6+gmmMW6Fa+pSo8
-        9LyFesnWyqgBMQvMK1+TGy4oJ3++KyiAZeULcnfnwKR1M5SbP98VFMAssAksAiNAi3Us7nxXSMSd7wqJ
-        uPNdIRF3visk4s53hUTc+a6QiDvfFRJx5wPPQTiTs97WUwi/BzO2bL0MsK+k45zv/7+95MCSH6IZCza7
-        DNALPCnxLzgBmm12BaAHOADebWciD8Aa0GozMz4BhI9mVLgtE0IAAAAASUVORK5CYII=
+        vAAADrwBlbxySQAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHkSURBVFhH7ZdN
+        K25RGIZf6QwMKIPjByiGBj4OPwBJYcDExB8w9ydOzE5SMqQUMxMZyICBieQHyJh8lk7naLuejy37K+vd
+        736N3qvusp7nXut+9o6lXfsuoijqRXvoBp2hOW81H8J+oXuUZsEtzYOQIZQXLly4rXkQ0oOuNC7Lk9uq
+        h8PltU/5z0VDHKtZYDGFVtFGoNbRuG9PQF3CH9ArKhriLxqWRjvalkoJbjXxE9QG0Z12DQma8d5PdOm1
+        2XjDCirLjh7isI6fPE36TUzoBoHFNRJk6lHUHaguP0JhnX7yNB9vIgHFN21H0b6X6oa9X4ULMkD28rGe
+        suulumBf+XDB+krdA7CnsXDBPEpdA+BvPFwwnxI8AN5qwgXzKkED4BtBeX9qn5Hw7G98HuZXQgc4Mnsh
+        4eGC7VG+HABPGyr6zyZIuN1wDus1JHfNpJeS0IgJGaDPrLlkwgVq/7TLde+lJN4UQgZYNGuG3HDB2kr+
+        +d4UQgb4bdYP5Oku0LRbMqjLqGSAebSJltEY6vBWIXhiGh+gDH620BqgNUBrgMIBXqwfnaM2L1cC58n3
+        YMyWl5PQOLC+coLyvgHKSC4s+RCNWfLIJDQG0LNamscp+uGRWWj2o0P0H1XJI/qDOj0qRa32DoSPZlTc
+        o4/wAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="btnAddOrder.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         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
-        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
+        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
+        gg==
 </value>
   </data>
 </root>

@@ -66,6 +66,12 @@ namespace HMS_SLS_Y4.Components
             orderedList.ReadOnly = true;
             orderedList.AllowUserToAddRows = false;
             orderedList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // kide the key column
+            if (orderedList.Columns["OrderItemID"] != null)
+            {
+                orderedList.Columns["OrderItemID"].Visible = false;
+            }
         }
 
         // Using the CreateFoodCard method from Food component

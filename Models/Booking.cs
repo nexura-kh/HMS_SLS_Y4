@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace HMS_SLS_Y4.Models
 {
+
     public class Booking
     {
         public int bookingId { get; set; }
