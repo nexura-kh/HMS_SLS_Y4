@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Order));
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
             tableLayoutPanel3 = new TableLayoutPanel();
@@ -76,7 +75,6 @@
             label12 = new Label();
             r_num = new Label();
             label10 = new Label();
-            button1 = new Button();
             tableLayoutPanel12 = new TableLayoutPanel();
             label14 = new Label();
             cardFoodLayout = new FlowLayoutPanel();
@@ -424,10 +422,11 @@
             // 
             // orderQuantity
             // 
-            orderQuantity.Location = new Point(15, 21);
+            orderQuantity.Dock = DockStyle.Bottom;
+            orderQuantity.Location = new Point(15, 25);
             orderQuantity.Margin = new Padding(3, 4, 3, 4);
             orderQuantity.Name = "orderQuantity";
-            orderQuantity.Size = new Size(215, 27);
+            orderQuantity.Size = new Size(217, 27);
             orderQuantity.TabIndex = 3;
             // 
             // label4
@@ -612,7 +611,6 @@
             tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 87.1028061F));
             tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12.8971958F));
             tableLayoutPanel9.Controls.Add(tableLayoutPanel10, 0, 0);
-            tableLayoutPanel9.Controls.Add(button1, 1, 0);
             tableLayoutPanel9.Dock = DockStyle.Fill;
             tableLayoutPanel9.Location = new Point(3, 408);
             tableLayoutPanel9.Margin = new Padding(3, 4, 3, 4);
@@ -717,17 +715,6 @@
             label10.Size = new Size(107, 20);
             label10.TabIndex = 3;
             label10.Text = "Room :";
-            // 
-            // button1
-            // 
-            button1.Dock = DockStyle.Bottom;
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(468, 4);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(63, 56);
-            button1.TabIndex = 1;
-            button1.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel12
             // 
@@ -884,7 +871,6 @@
         private Label OrderTitle;
         private TableLayoutPanel tableLayoutPanel8;
         private TableLayoutPanel tableLayoutPanel9;
-        private Button button1;
         private TableLayoutPanel tableLayoutPanel10;
         private Label label9;
         private TableLayoutPanel tableLayoutPanel11;

@@ -56,19 +56,10 @@ namespace HMS_SLS_Y4.Utils
             yPos += 20;
 
             // === INVOICE TITLE ===
-            if (data.InvoiceMode == "payment") {
-                Label lblInvoice = CreateLabel("INVOICE", new Point(leftMargin, yPos),
+             Label lblInvoice = CreateLabel("INVOICE", new Point(leftMargin, yPos),
                     new Font("Segoe UI", 18, FontStyle.Bold));
-                lblInvoice.ForeColor = Color.FromArgb(41, 55, 120);
-                invoicePanel.Controls.Add(lblInvoice);
-            }
-            else
-            {
-                Label lblInvoice = CreateLabel("Order List", new Point(125, yPos),
-                    new Font("Segoe UI", 18, FontStyle.Bold));
-                lblInvoice.ForeColor = Color.FromArgb(41, 55, 120);
-                invoicePanel.Controls.Add(lblInvoice);
-            }
+             lblInvoice.ForeColor = Color.FromArgb(41, 55, 120);
+             invoicePanel.Controls.Add(lblInvoice);
             
             yPos += 45;
 
@@ -93,7 +84,7 @@ namespace HMS_SLS_Y4.Utils
             yPos += 35;
 
             yPos = AddStyledDetail(invoicePanel, "Name:", data.Customer, yPos);
-            yPos = AddStyledDetail(invoicePanel, "Nationality:", data.Nationality, yPos);
+            yPos = AddStyledDetail(invoicePanel, "Contact:", data.Nationality, yPos);
             yPos = AddStyledDetail(invoicePanel, "Room:", data.Room, yPos);
             yPos += 15;
 
@@ -122,30 +113,26 @@ namespace HMS_SLS_Y4.Utils
             if (data.InvoiceMode != "payment")
             {
                 yPos = AddStyledDetail(invoicePanel, "Order Amount:", $"${data.FoodPrice}", yPos);
+
+                 var labels = CreateItemsList(data.Items, new Point(120, yPos));
+                foreach (var lbl in labels)
+                {
+                    invoicePanel.Controls.Add(lbl);
+                }
+                yPos += labels.Count * 25 + 10;
             }
             else
             {
                 yPos = AddStyledDetail(invoicePanel, "Room Amount:", $"${data.RoomPrice}", yPos);
-                yPos = AddStyledDetail(invoicePanel, "Food Amount:", $"${data.FoodPrice}", yPos);
+                yPos += 15;
             }
-            yPos += 15;
-
-            var labels = CreateItemsList(data.Items, new Point(120, yPos));
-
-            foreach (var lbl in labels)
-            {
-                invoicePanel.Controls.Add(lbl);
-            }
-
-            yPos += labels.Count * 25 + 10;
 
             Panel divider4 = CreateStyledDivider(yPos, 1);
             invoicePanel.Controls.Add(divider4);
             yPos += 20;
 
             // === PAYMENT INFORMATION SECTION ===
-            if(data.InvoiceMode == "payment")
-            {
+           
                 Panel totalPanel = new Panel
                 {
                     Location = new Point(100, yPos),
@@ -196,7 +183,6 @@ namespace HMS_SLS_Y4.Utils
                     new Font("Segoe UI", 9, FontStyle.Bold));
                 lblStatusValue.ForeColor = data.Status == "Paid" ? Color.FromArgb(22, 163, 74) : Color.FromArgb(234, 179, 8);
                 statusBadge.Controls.Add(lblStatusValue);
-            }
 
             yPos += 40;
 

@@ -39,8 +39,57 @@ namespace HMS_SLS_Y4.Repositories
 
         public override bool Delete(int id)
         {
-            throw new NotImplementedException();
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+
+                string query = "DELETE FROM food_orders WHERE order_id = @id";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    return rowsAffected > 0;
+                }
+            }
         }
+
+
+        public bool UpdateOrderStatus(int orderId, string newStatus)
+        {
+            using (MySqlConnection conn = new MySqlConnection(ConnectionString))
+            {
+                conn.Open();
+
+                string query = @"
+                                UPDATE food_orders
+                                SET 
+                                    status = @status
+                                WHERE order_id = @orderId;
+                            ";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@status", newStatus);
+                    cmd.Parameters.AddWithValue("@orderId", orderId);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No order found with ID {orderId}.");
+                    }
+                }
+            }
+            return false;
+        }
+
 
         public override List<FoodOrder> GetAll()
         {

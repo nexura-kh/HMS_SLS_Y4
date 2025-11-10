@@ -83,6 +83,7 @@ namespace HMS_SLS_Y4.Repositories
             b.check_in_date,
             b.check_out_date,
             b.booking_status,
+            fo.order_id,
             fo.order_date,
             fo.status AS order_status,
             oi.orderItem_id,
@@ -152,6 +153,7 @@ namespace HMS_SLS_Y4.Repositories
 
                                 FoodOrder = new FoodOrder
                                 {
+                                    orderId = reader.IsDBNull(reader.GetOrdinal("order_id")) ? 0 : reader.GetInt32("order_id"),
                                     orderDate = reader.IsDBNull(reader.GetOrdinal("order_date")) ? DateTime.MinValue : reader.GetDateTime("order_date"),
                                     status = reader.IsDBNull(reader.GetOrdinal("order_status")) ? "Pending" : reader.GetString("order_status"),
                                 },

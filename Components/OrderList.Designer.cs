@@ -22,10 +22,6 @@
 
         #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OrderList));
@@ -40,7 +36,7 @@
             label1 = new Label();
             tableLayoutPanel5 = new TableLayoutPanel();
             btnDeleteOrder = new Button();
-            btnEditOrder = new Button();
+            btnConfirmPayment = new Button(); // ✅ Changed name
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)orderList_data).BeginInit();
@@ -180,7 +176,7 @@
             tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel5.Controls.Add(btnDeleteOrder, 1, 0);
-            tableLayoutPanel5.Controls.Add(btnEditOrder, 0, 0);
+            tableLayoutPanel5.Controls.Add(btnConfirmPayment, 0, 0);
             tableLayoutPanel5.Dock = DockStyle.Fill;
             tableLayoutPanel5.Location = new Point(3, 589);
             tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -206,21 +202,21 @@
             btnDeleteOrder.UseVisualStyleBackColor = false;
             btnDeleteOrder.Click += btnDeleteOrder_Click;
             // 
-            // btnEditOrder
+            // btnConfirmPayment
             // 
-            btnEditOrder.BackColor = Color.FromArgb(52, 152, 219);
-            btnEditOrder.Dock = DockStyle.Fill;
-            btnEditOrder.FlatStyle = FlatStyle.Popup;
-            btnEditOrder.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEditOrder.ForeColor = Color.White;
-            btnEditOrder.Location = new Point(15, 15);
-            btnEditOrder.Margin = new Padding(15);
-            btnEditOrder.Name = "btnEditOrder";
-            btnEditOrder.Size = new Size(120, 30);
-            btnEditOrder.TabIndex = 0;
-            btnEditOrder.Text = "Edit";
-            btnEditOrder.UseVisualStyleBackColor = false;
-            btnEditOrder.Click += btnEditOrder_Click;
+            btnConfirmPayment.BackColor = Color.FromArgb(46, 204, 113); // ✅ Green
+            btnConfirmPayment.Dock = DockStyle.Fill;
+            btnConfirmPayment.FlatStyle = FlatStyle.Popup;
+            btnConfirmPayment.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnConfirmPayment.ForeColor = Color.White;
+            btnConfirmPayment.Location = new Point(15, 15);
+            btnConfirmPayment.Margin = new Padding(15);
+            btnConfirmPayment.Name = "btnConfirmPayment";
+            btnConfirmPayment.Size = new Size(120, 30);
+            btnConfirmPayment.TabIndex = 0;
+            btnConfirmPayment.Text = "Confirm Payment"; // ✅ Updated text
+            btnConfirmPayment.UseVisualStyleBackColor = false;
+            btnConfirmPayment.Click += btnConfirmPayment_Click; // ✅ Updated event
             // 
             // OrderList
             // 
@@ -251,7 +247,7 @@
         private DataGridView orderList_data;
         private Label label1;
         private Button btnPrintOrder;
-        private Button btnEditOrder;
+        private Button btnConfirmPayment; 
         private Button btnDeleteOrder;
         private Panel invoicePanel;
     }

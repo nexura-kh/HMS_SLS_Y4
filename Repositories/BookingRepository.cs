@@ -210,7 +210,8 @@ namespace HMS_SLS_Y4.Repositories
 
         public override Booking GetById(int id)
         {
-            string query = @"SELECT 
+            string query = @"
+                            SELECT 
                                 b.booking_id, b.customer_id, b.room_id, 
                                 b.check_in_date, b.check_out_date, b.total_amount,
                                 b.booking_date, b.booking_status,
@@ -218,12 +219,13 @@ namespace HMS_SLS_Y4.Repositories
                                 u.id, u.full_name, u.dob, u.nationality, u.id_card_number,
                                 r.room_id, r.room_number, r.is_available, r.room_type_id,
                                 rt.type_id, rt.type_name, rt.price_per_night, rt.description
-                             FROM bookings b
-                             INNER JOIN customers c ON b.customer_id = c.customer_id
-                             INNER JOIN users u ON c.user_id = u.id
-                             LEFT JOIN rooms r ON b.room_id = r.room_id
-                             LEFT JOIN room_types rt ON r.room_type_id = rt.type_id
-                             WHERE b.booking_id = @booking_id;";
+                            FROM bookings b
+                            INNER JOIN customers c ON b.customer_id = c.customer_id
+                            INNER JOIN users u ON c.user_id = u.id
+                            LEFT JOIN rooms r ON b.room_id = r.room_id
+                            LEFT JOIN room_types rt ON r.room_type_id = rt.type_id
+                            WHERE b.booking_id = @booking_id;
+                        ";
 
             using var conn = new MySqlConnection(ConnectionString);
             using var cmd = new MySqlCommand(query, conn);
@@ -235,53 +237,80 @@ namespace HMS_SLS_Y4.Repositories
                 using var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    return new Booking
+                    var booking = new Booking
                     {
-                        bookingId = reader.GetInt32("booking_id"),
-                        customerId = reader.GetInt32("customer_id"),
-                        roomId = reader.IsDBNull(reader.GetOrdinal("room_id")) ? null : reader.GetInt32("room_id"),
-                        checkInDate = reader.GetDateTime("check_in_date"),
-                        checkOutDate = reader.GetDateTime("check_out_date"),
-                        totalAmount = reader.IsDBNull(reader.GetOrdinal("total_amount")) ? null : reader.GetDecimal("total_amount"),
-                        bookingDate = reader.GetDateTime("booking_date"),
-                        bookingStatus = reader.GetInt32("booking_status"),
+                        bookingId = reader.IsDBNull(reader.GetOrdinal("booking_id")) ? 0 : reader.GetInt32("booking_id"),
+                        customerId = reader.IsDBNull(reader.GetOrdinal("customer_id")) ? 0 : reader.GetInt32("customer_id"),
+                        roomId = reader.IsDBNull(reader.GetOrdinal("room_id")) ? (int?)null : reader.GetInt32("room_id"),
+
+                        checkInDate = reader.IsDBNull(reader.GetOrdinal("check_in_date"))
+                            ? DateTime.MinValue
+                            : reader.GetDateTime("check_in_date"),
+
+                        checkOutDate = reader.IsDBNull(reader.GetOrdinal("check_out_date"))
+                            ? DateTime.MinValue
+                            : reader.GetDateTime("check_out_date"),
+
+                        totalAmount = reader.IsDBNull(reader.GetOrdinal("total_amount"))
+                            ? (decimal?)null
+                            : reader.GetDecimal("total_amount"),
+
+                        bookingDate = reader.IsDBNull(reader.GetOrdinal("booking_date"))
+                            ? DateTime.MinValue
+                            : reader.GetDateTime("booking_date"),
+
+                        bookingStatus = reader.IsDBNull(reader.GetOrdinal("booking_status"))
+                            ? 0
+                            : reader.GetInt32("booking_status"),
+
                         customer = new Customer
                         {
-                            customerId = reader.GetInt32("customer_id"),
-                            address = reader.GetString("address"),
+                            customerId = reader.IsDBNull(reader.GetOrdinal("customer_id")) ? 0 : reader.GetInt32("customer_id"),
+                            address = reader.IsDBNull(reader.GetOrdinal("address")) ? string.Empty : reader.GetString("address"),
+
                             User = new HMS_SLS_Y4.Models.User
                             {
-                                id = reader.GetInt32("id"),
-                                fullName = reader.GetString("full_name"),
-                                nationality = reader.GetString("nationality"),
-                                dob = reader.GetDateTime("dob"),
-                                idCardNumber = reader.GetString("id_card_number")
+                                id = reader.IsDBNull(reader.GetOrdinal("id")) ? 0 : reader.GetInt32("id"),
+                                fullName = reader.IsDBNull(reader.GetOrdinal("full_name")) ? "Unknown" : reader.GetString("full_name"),
+                                nationality = reader.IsDBNull(reader.GetOrdinal("nationality")) ? "N/A" : reader.GetString("nationality"),
+                                dob = reader.IsDBNull(reader.GetOrdinal("dob")) ? DateTime.MinValue : reader.GetDateTime("dob"),
+                                idCardNumber = reader.IsDBNull(reader.GetOrdinal("id_card_number")) ? "N/A" : reader.GetString("id_card_number")
                             }
                         },
-                        room = reader.IsDBNull(reader.GetOrdinal("room_id")) ? null : new Room
-                        {
-                            roomId = reader.GetInt32("room_id"),
-                            roomNumber = reader.GetString("room_number"),
-                            isAvailable = reader.GetBoolean("is_available"),
-                            roomTypeId = reader.GetInt32("room_type_id"),
-                            roomType = new RoomType
+
+                        room = reader.IsDBNull(reader.GetOrdinal("room_id"))
+                            ? null
+                            : new Room
                             {
-                                roomTypeId = reader.GetInt32("type_id"),
-                                typeName = reader.GetString("type_name"),
-                                price = reader.GetDecimal("price_per_night"),
-                                description = reader.GetString("description")
+                                roomId = reader.IsDBNull(reader.GetOrdinal("room_id")) ? 0 : reader.GetInt32("room_id"),
+                                roomNumber = reader.IsDBNull(reader.GetOrdinal("room_number")) ? "N/A" : reader.GetString("room_number"),
+                                isAvailable = !reader.IsDBNull(reader.GetOrdinal("is_available")) && reader.GetBoolean("is_available"),
+                                roomTypeId = reader.IsDBNull(reader.GetOrdinal("room_type_id")) ? 0 : reader.GetInt32("room_type_id"),
+
+                                roomType = reader.IsDBNull(reader.GetOrdinal("type_id"))
+                                    ? null
+                                    : new RoomType
+                                    {
+                                        roomTypeId = reader.IsDBNull(reader.GetOrdinal("type_id")) ? 0 : reader.GetInt32("type_id"),
+                                        typeName = reader.IsDBNull(reader.GetOrdinal("type_name")) ? "N/A" : reader.GetString("type_name"),
+                                        price = reader.IsDBNull(reader.GetOrdinal("price_per_night")) ? 0m : reader.GetDecimal("price_per_night"),
+                                        description = reader.IsDBNull(reader.GetOrdinal("description")) ? string.Empty : reader.GetString("description")
+                                    }
                             }
-                        }
                     };
+
+                    return booking;
                 }
             }
             catch (MySqlException ex)
             {
-                throw new Exception($"Database error while fetching booking: {ex.Message}", ex);
+                MessageBox.Show($"Database error while fetching booking (ID: {id}): {ex.Message}",
+                    "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return null;
         }
+
 
         public override bool Update(Booking booking)
         {

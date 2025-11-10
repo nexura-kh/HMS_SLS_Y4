@@ -247,8 +247,7 @@ namespace HMS_SLS_Y4.Components
 
             if (string.IsNullOrWhiteSpace(txtFirstName.Text) ||
                 string.IsNullOrWhiteSpace(txtLastName.Text) ||
-                string.IsNullOrWhiteSpace(txtNationality.Text) ||
-                string.IsNullOrWhiteSpace(txtIdCard.Text))
+                string.IsNullOrWhiteSpace(txtNationality.Text))
             {
                 MessageBox.Show("Please fill in all required fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

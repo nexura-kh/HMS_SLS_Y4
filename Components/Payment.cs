@@ -17,8 +17,6 @@ namespace HMS_SLS_Y4.Components
         private readonly BookingRepository bookingRepository = new BookingRepository();
         private readonly RoomRepository roomRepository = new RoomRepository();
 
-        private const int BOOKING_PAID_STATUS = 3;
-
         public Payment()
         {
             InitializeComponent();
@@ -124,9 +122,9 @@ namespace HMS_SLS_Y4.Components
                         });
                     }
 
-                    if (paymentResult == 1)
+                    if (paymentResult >= 1)
                     {
-                        bookingRepository.UpdateBookingStatus(bookingId, BOOKING_PAID_STATUS);
+                        bookingRepository.UpdateBookingStatus(bookingId, 2);
                         roomRepository.updateRoomStatus(roomId, false);
 
                         row.Cells["Status"].Value = "Paid";
@@ -166,7 +164,6 @@ namespace HMS_SLS_Y4.Components
             table.Columns.Add("Customer");
             table.Columns.Add("Contact");
             table.Columns.Add("Room Price", typeof(decimal));
-            table.Columns.Add("Food Price", typeof(decimal));
             table.Columns.Add("Total", typeof(decimal));
             table.Columns.Add("Status");
             table.Columns.Add("Payment Method");
@@ -194,8 +191,7 @@ namespace HMS_SLS_Y4.Components
                     g.Key.fullName,
                     g.Key.nationality,
                     RoomPrice = g.Key.RoomPrice,
-                    FoodPrice = g.Sum(i => i.Food?.Price ?? 0),
-                    Total = g.Key.RoomPrice + g.Sum(i => i.Food?.Price ?? 0)
+                    Total = g.Key.RoomPrice
                 })
                 .ToList();
 
@@ -217,7 +213,6 @@ namespace HMS_SLS_Y4.Components
                     item.fullName,
                     item.nationality,
                     item.RoomPrice,
-                    item.FoodPrice,
                     item.Total,
                     paymentInfo.Status ?? "Pending",
                     paymentMethod 
@@ -321,8 +316,8 @@ namespace HMS_SLS_Y4.Components
                 RoomPrice = roomPrice,
                 Customer = row.Cells["Customer"].Value?.ToString(),
                 Nationality = row.Cells["Contact"].Value?.ToString(),
-                FoodPrice = foodPrice,
-                Total = foodPrice + roomPrice,
+                //FoodPrice = foodPrice,
+                Total = roomPrice,
                 PaymentMethod = row.Cells["Payment Method"].Value?.ToString() ?? "Cash",
                 Status = row.Cells["Status"].Value?.ToString(),
                 Items = itemsDict,

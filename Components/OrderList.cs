@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HMS_SLS_Y4.Repositories;
+using HMS_SLS_Y4.Utils;
+using Mysqlx.Crud;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,8 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HMS_SLS_Y4.Repositories;
-using HMS_SLS_Y4.Utils;
 
 namespace HMS_SLS_Y4.Components
 {
@@ -16,6 +17,7 @@ namespace HMS_SLS_Y4.Components
     {
         private Main _mainForm;
         private OrderItemRepository orderItemRepository = new OrderItemRepository();
+        private FoodOrderRepository foodOrderRepository = new FoodOrderRepository();
 
         public OrderList(Main mainForm)
         {
@@ -28,8 +30,9 @@ namespace HMS_SLS_Y4.Components
         private void SetupEventHandlers()
         {
             orderList_data.SelectionChanged += OrderList_data_SelectionChanged;
+            orderList_data.CellDoubleClick += OrderList_data_CellDoubleClick; 
             btnPrintOrder.Click += btnPrintOrder_Click;
-            btnEditOrder.Click += btnEditOrder_Click;
+            btnConfirmPayment.Click += btnConfirmPayment_Click; 
             btnDeleteOrder.Click += btnDeleteOrder_Click;
         }
 
@@ -38,6 +41,7 @@ namespace HMS_SLS_Y4.Components
             DataTable table = new DataTable();
 
             table.Columns.Add("BookingID", typeof(int));
+            table.Columns.Add("Order ID", typeof(int));
             table.Columns.Add("Order Date");
             table.Columns.Add("Room");
             table.Columns.Add("Customer");
@@ -53,6 +57,7 @@ namespace HMS_SLS_Y4.Components
                 .Select(group => new
                 {
                     BookingId = group.First().Booking.bookingId,
+                    OrderID = group.First().FoodOrder.orderId,
                     OrderDate = group.First().FoodOrder.orderDate,
                     Room = group.First().Booking.room.roomNumber,
                     Customer = group.First().Booking.customer.User.fullName,
@@ -66,6 +71,7 @@ namespace HMS_SLS_Y4.Components
             {
                 table.Rows.Add(
                     order.BookingId,
+                    order.OrderID,
                     order.OrderDate.ToString("yyyy-MM-dd"),
                     order.Room,
                     order.Customer,
@@ -78,6 +84,7 @@ namespace HMS_SLS_Y4.Components
 
             orderList_data.DataSource = table;
             orderList_data.Columns["BookingID"].Visible = false;
+            orderList_data.Columns["Order ID"].Visible = false;
             orderList_data.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             orderList_data.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             orderList_data.MultiSelect = false;
@@ -120,7 +127,6 @@ namespace HMS_SLS_Y4.Components
             }
 
             decimal foodPrice = orderItems.Sum(oi => oi.Food.Price * oi.Quantity);
-
             var booking = orderItems.First().Booking;
 
             InvoiceData data = new InvoiceData
@@ -140,7 +146,6 @@ namespace HMS_SLS_Y4.Components
             return data;
         }
 
-
         private void OrderList_data_SelectionChanged(object sender, EventArgs e)
         {
             if (orderList_data.SelectedRows.Count > 0)
@@ -150,12 +155,25 @@ namespace HMS_SLS_Y4.Components
             }
         }
 
+        private void OrderList_data_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = orderList_data.Rows[e.RowIndex];
+                int bookingId = Convert.ToInt32(row.Cells["BookingID"].Value);
+                string roomNumber = row.Cells["Room"].Value?.ToString() ?? "N/A";
+                string customerName = row.Cells["Customer"].Value?.ToString() ?? "N/A";
+
+                _mainForm.LoadOrder(bookingId, roomNumber, customerName);
+            }
+        }
+
         private void btnDeleteOrder_Click(object sender, EventArgs e)
         {
             if (orderList_data.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = orderList_data.SelectedRows[0];
-                int bookingId = Convert.ToInt32(selectedRow.Cells["BookingID"].Value);
+                int orderId = Convert.ToInt32(selectedRow.Cells["Order ID"].Value);
 
                 DialogResult result = MessageBox.Show(
                     $"Are you sure you want to delete this order?",
@@ -167,27 +185,11 @@ namespace HMS_SLS_Y4.Components
                 {
                     try
                     {
-                        var orderItemsToDelete = orderItemRepository.GetAll()
-                            .Where(oi => oi.Booking.bookingId == bookingId)
-                            .ToList();
-
-                        foreach (var item in orderItemsToDelete)
-                        {
-                            try
-                            {
-                                orderItemRepository.Delete(item.OrderItemId);
-                            }
-                            catch
-                            {
-                                MessageBox.Show($"Failed to delete order item with ID: {item.OrderItemId}", "Error",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
+                        bool updated = foodOrderRepository.Delete(orderId);
 
                         MessageBox.Show("Order deleted successfully!", "Success",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Reload the data
                         LoadTableData();
                     }
                     catch (Exception ex)
@@ -204,24 +206,55 @@ namespace HMS_SLS_Y4.Components
             }
         }
 
-        private void btnEditOrder_Click(object sender, EventArgs e)
+        private void btnConfirmPayment_Click(object sender, EventArgs e)
         {
             if (orderList_data.SelectedRows.Count > 0)
             {
-                DataGridViewRow row = orderList_data.SelectedRows[0];
+                DataGridViewRow selectedRow = orderList_data.SelectedRows[0];
+                int orderId = Convert.ToInt32(selectedRow.Cells["Order ID"].Value);
 
-                int bookingId = row.Cells["BookingID"].Value != null ? Convert.ToInt32(row.Cells["BookingID"].Value) : 0;
-                string roomNumber = row.Cells["Room"].Value?.ToString() ?? "N/A";
-                string customerName = row.Cells["Customer"].Value?.ToString() ?? "N/A";
+                DialogResult result = MessageBox.Show(
+                    "Confirm payment for this order?",
+                    "Confirm Payment",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
-                _mainForm.LoadOrder(bookingId, roomNumber, customerName);
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        bool updated = foodOrderRepository.UpdateOrderStatus(orderId,"Paid");
+
+                        if (updated)
+                        {
+                            MessageBox.Show("Payment confirmed successfully!", "Success",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            LoadTableData();
+
+                            if (orderList_data.SelectedRows.Count > 0)
+                                GenerateInvoice(orderList_data.SelectedRows[0]);
+                        }
+                        else
+                        {
+                            MessageBox.Show("No orders were updated.", "Info",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error confirming payment: {ex.Message}", "Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
             else
             {
-                MessageBox.Show("Please select an order to edit.",
+                MessageBox.Show("Please select an order to confirm payment.",
                     "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
 
         private void btnPrintOrder_Click(object sender, EventArgs e)
         {
@@ -231,7 +264,6 @@ namespace HMS_SLS_Y4.Components
                 InvoiceData invoiceData = ExtractInvoiceDataFromRow(selectedRow);
 
                 Utilities.ShowInvoicePrintPreview(invoiceData);
-
             }
             else
             {
