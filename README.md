@@ -46,7 +46,7 @@ key files to inspect:
 1. Build and run the project (F5) to launch the application.
 1. To login as admin, use username: `admin`, password: `12345`.
 
-
+GitHub Repository: `https://github.com/nexura-kh/HMS_SLS_Y4.git`
 
 
 
