@@ -50,7 +50,36 @@ namespace HMS_SLS_Y4.Repositories
 
         public override bool Delete(int id)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM room_types WHERE type_id = @typeId";
+
+            using (MySqlConnection conn = new MySqlConnection(StrConn))
+            {
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@typeId", id);
+                    try
+                    {
+                        conn.Open();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                           
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show("No record found with the given type_id.");
+                            return false;
+                        }
+                    }
+                    catch (MySqlException ex)
+                    {
+                        MessageBox.Show("Error deleting room type: " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+
         }
 
         public override List<RoomType> GetAll()
@@ -107,6 +136,7 @@ namespace HMS_SLS_Y4.Repositories
 
         public RoomType GetRoomTypeById(int roomTypeId)
         {
+            
             RoomType? roomType = null;
             using (MySqlConnection conn = new MySqlConnection(StrConn))
             {
@@ -143,6 +173,7 @@ namespace HMS_SLS_Y4.Repositories
         }
 
 
+
         public override bool Update(RoomType roomType)
         {
             using (MySqlConnection conn = new MySqlConnection(StrConn))
@@ -150,7 +181,7 @@ namespace HMS_SLS_Y4.Repositories
 
 
                 string query = @"UPDATE room_types 
-                  SET price_per_night = @pricePerNight, description = @description 
+                  SET price_per_night = @pricePerNight,type_name=@typeName,description = @description 
                   WHERE type_id = @typeId";
 
                 conn.Open();
@@ -158,7 +189,7 @@ namespace HMS_SLS_Y4.Repositories
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
 
-
+                    cmd.Parameters.AddWithValue("@typeName", roomType.typeName);
                     cmd.Parameters.AddWithValue("@pricePerNight", roomType.price);
                     cmd.Parameters.AddWithValue("@description", roomType.description);
                     cmd.Parameters.AddWithValue("@typeId", roomType.roomTypeId);

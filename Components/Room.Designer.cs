@@ -31,17 +31,17 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel5 = new TableLayoutPanel();
             tableLayoutPanel14 = new TableLayoutPanel();
-            button2 = new Button();
-            button3 = new Button();
+            btnDelete = new Button();
+            btnCreate = new Button();
             tableLayoutPanel12 = new TableLayoutPanel();
             label8 = new Label();
-            numericUpDown1 = new NumericUpDown();
+            txtPrice = new NumericUpDown();
             tableLayoutPanel11 = new TableLayoutPanel();
             label7 = new Label();
-            textBox5 = new TextBox();
+            txtDescription = new TextBox();
             tableLayoutPanel10 = new TableLayoutPanel();
             label6 = new Label();
-            textBox4 = new TextBox();
+            txtTypeName = new TextBox();
             tableLayoutPanel4 = new TableLayoutPanel();
             label2 = new Label();
             dvgRoomTypes = new DataGridView();
@@ -53,7 +53,7 @@
             tableLayoutPanel6 = new TableLayoutPanel();
             tableLayoutPanel9 = new TableLayoutPanel();
             label5 = new Label();
-            textBox3 = new TextBox();
+            txtAvialable = new TextBox();
             tableLayoutPanel8 = new TableLayoutPanel();
             label4 = new Label();
             cmbRoomType = new ComboBox();
@@ -67,7 +67,7 @@
             tableLayoutPanel5.SuspendLayout();
             tableLayoutPanel14.SuspendLayout();
             tableLayoutPanel12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)txtPrice).BeginInit();
             tableLayoutPanel11.SuspendLayout();
             tableLayoutPanel10.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
@@ -124,8 +124,8 @@
             tableLayoutPanel14.ColumnCount = 2;
             tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel14.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel14.Controls.Add(button2, 1, 0);
-            tableLayoutPanel14.Controls.Add(button3, 0, 0);
+            tableLayoutPanel14.Controls.Add(btnDelete, 1, 0);
+            tableLayoutPanel14.Controls.Add(btnCreate, 0, 0);
             tableLayoutPanel14.Dock = DockStyle.Fill;
             tableLayoutPanel14.Location = new Point(3, 162);
             tableLayoutPanel14.Name = "tableLayoutPanel14";
@@ -135,35 +135,37 @@
             tableLayoutPanel14.Size = new Size(261, 48);
             tableLayoutPanel14.TabIndex = 4;
             // 
-            // button2
+            // btnDelete
             // 
-            button2.BackColor = Color.FromArgb(231, 76, 60);
-            button2.Dock = DockStyle.Fill;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(156, 13);
-            button2.Margin = new Padding(26, 13, 0, 13);
-            button2.Name = "button2";
-            button2.Size = new Size(105, 22);
-            button2.TabIndex = 1;
-            button2.Text = "Delete";
-            button2.UseVisualStyleBackColor = false;
+            btnDelete.BackColor = Color.FromArgb(231, 76, 60);
+            btnDelete.Dock = DockStyle.Fill;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(156, 13);
+            btnDelete.Margin = new Padding(26, 13, 0, 13);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(105, 22);
+            btnDelete.TabIndex = 1;
+            btnDelete.Text = "Delete";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
-            // button3
+            // btnCreate
             // 
-            button3.BackColor = Color.FromArgb(46, 204, 113);
-            button3.Dock = DockStyle.Fill;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(26, 13);
-            button3.Margin = new Padding(26, 13, 0, 13);
-            button3.Name = "button3";
-            button3.Size = new Size(104, 22);
-            button3.TabIndex = 0;
-            button3.Text = "Create";
-            button3.UseVisualStyleBackColor = false;
+            btnCreate.BackColor = Color.FromArgb(46, 204, 113);
+            btnCreate.Dock = DockStyle.Fill;
+            btnCreate.FlatStyle = FlatStyle.Flat;
+            btnCreate.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCreate.ForeColor = Color.White;
+            btnCreate.Location = new Point(26, 13);
+            btnCreate.Margin = new Padding(26, 13, 0, 13);
+            btnCreate.Name = "btnCreate";
+            btnCreate.Size = new Size(104, 22);
+            btnCreate.TabIndex = 0;
+            btnCreate.Text = "Create";
+            btnCreate.UseVisualStyleBackColor = false;
+            btnCreate.Click += btnCreate_Click;
             // 
             // tableLayoutPanel12
             // 
@@ -171,7 +173,7 @@
             tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel12.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel12.Controls.Add(label8, 0, 0);
-            tableLayoutPanel12.Controls.Add(numericUpDown1, 0, 1);
+            tableLayoutPanel12.Controls.Add(txtPrice, 0, 1);
             tableLayoutPanel12.Dock = DockStyle.Fill;
             tableLayoutPanel12.Location = new Point(3, 109);
             tableLayoutPanel12.Name = "tableLayoutPanel12";
@@ -193,14 +195,14 @@
             label8.TabIndex = 3;
             label8.Text = "Price";
             // 
-            // numericUpDown1
+            // txtPrice
             // 
-            numericUpDown1.Dock = DockStyle.Fill;
-            numericUpDown1.Location = new Point(26, 26);
-            numericUpDown1.Margin = new Padding(26, 3, 3, 3);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(232, 25);
-            numericUpDown1.TabIndex = 4;
+            txtPrice.Dock = DockStyle.Fill;
+            txtPrice.Location = new Point(26, 26);
+            txtPrice.Margin = new Padding(26, 3, 3, 3);
+            txtPrice.Name = "txtPrice";
+            txtPrice.Size = new Size(232, 25);
+            txtPrice.TabIndex = 4;
             // 
             // tableLayoutPanel11
             // 
@@ -208,7 +210,7 @@
             tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel11.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel11.Controls.Add(label7, 0, 0);
-            tableLayoutPanel11.Controls.Add(textBox5, 0, 1);
+            tableLayoutPanel11.Controls.Add(txtDescription, 0, 1);
             tableLayoutPanel11.Dock = DockStyle.Fill;
             tableLayoutPanel11.Location = new Point(3, 56);
             tableLayoutPanel11.Name = "tableLayoutPanel11";
@@ -230,15 +232,15 @@
             label7.TabIndex = 3;
             label7.Text = "Description";
             // 
-            // textBox5
+            // txtDescription
             // 
-            textBox5.Dock = DockStyle.Fill;
-            textBox5.Location = new Point(26, 26);
-            textBox5.Margin = new Padding(26, 3, 3, 3);
-            textBox5.Multiline = true;
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(232, 18);
-            textBox5.TabIndex = 4;
+            txtDescription.Dock = DockStyle.Fill;
+            txtDescription.Location = new Point(26, 26);
+            txtDescription.Margin = new Padding(26, 3, 3, 3);
+            txtDescription.Multiline = true;
+            txtDescription.Name = "txtDescription";
+            txtDescription.Size = new Size(232, 18);
+            txtDescription.TabIndex = 4;
             // 
             // tableLayoutPanel10
             // 
@@ -246,7 +248,7 @@
             tableLayoutPanel10.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel10.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel10.Controls.Add(label6, 0, 0);
-            tableLayoutPanel10.Controls.Add(textBox4, 0, 1);
+            tableLayoutPanel10.Controls.Add(txtTypeName, 0, 1);
             tableLayoutPanel10.Dock = DockStyle.Fill;
             tableLayoutPanel10.Location = new Point(3, 3);
             tableLayoutPanel10.Name = "tableLayoutPanel10";
@@ -268,14 +270,14 @@
             label6.TabIndex = 3;
             label6.Text = "Type Name";
             // 
-            // textBox4
+            // txtTypeName
             // 
-            textBox4.Dock = DockStyle.Fill;
-            textBox4.Location = new Point(26, 26);
-            textBox4.Margin = new Padding(26, 3, 3, 3);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(232, 25);
-            textBox4.TabIndex = 4;
+            txtTypeName.Dock = DockStyle.Fill;
+            txtTypeName.Location = new Point(26, 26);
+            txtTypeName.Margin = new Padding(26, 3, 3, 3);
+            txtTypeName.Name = "txtTypeName";
+            txtTypeName.Size = new Size(232, 25);
+            txtTypeName.TabIndex = 4;
             // 
             // tableLayoutPanel4
             // 
@@ -354,7 +356,7 @@
             flowlayoutRoomCard.Dock = DockStyle.Fill;
             flowlayoutRoomCard.Location = new Point(3, 49);
             flowlayoutRoomCard.Name = "flowlayoutRoomCard";
-            flowlayoutRoomCard.Padding = new Padding(26, 26, 26, 26);
+            flowlayoutRoomCard.Padding = new Padding(26);
             flowlayoutRoomCard.Size = new Size(625, 269);
             flowlayoutRoomCard.TabIndex = 9;
             // 
@@ -412,7 +414,7 @@
             tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel9.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel9.Controls.Add(label5, 0, 0);
-            tableLayoutPanel9.Controls.Add(textBox3, 0, 1);
+            tableLayoutPanel9.Controls.Add(txtAvialable, 0, 1);
             tableLayoutPanel9.Dock = DockStyle.Fill;
             tableLayoutPanel9.Location = new Point(3, 137);
             tableLayoutPanel9.Name = "tableLayoutPanel9";
@@ -434,14 +436,14 @@
             label5.TabIndex = 3;
             label5.Text = "Availability";
             // 
-            // textBox3
+            // txtAvialable
             // 
-            textBox3.Dock = DockStyle.Fill;
-            textBox3.Location = new Point(26, 33);
-            textBox3.Margin = new Padding(26, 3, 3, 3);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(226, 25);
-            textBox3.TabIndex = 4;
+            txtAvialable.Dock = DockStyle.Fill;
+            txtAvialable.Location = new Point(26, 33);
+            txtAvialable.Margin = new Padding(26, 3, 3, 3);
+            txtAvialable.Name = "txtAvialable";
+            txtAvialable.Size = new Size(226, 25);
+            txtAvialable.TabIndex = 4;
             // 
             // tableLayoutPanel8
             // 
@@ -570,14 +572,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Name = "Room";
-            Padding = new Padding(26, 26, 26, 26);
+            Padding = new Padding(26);
             Size = new Size(962, 598);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel14.ResumeLayout(false);
             tableLayoutPanel12.ResumeLayout(false);
             tableLayoutPanel12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)txtPrice).EndInit();
             tableLayoutPanel11.ResumeLayout(false);
             tableLayoutPanel11.PerformLayout();
             tableLayoutPanel10.ResumeLayout(false);
@@ -617,26 +619,26 @@
         private Label label8;
         private TableLayoutPanel tableLayoutPanel11;
         private Label label7;
-        private TextBox textBox5;
+        private TextBox txtDescription;
         private TableLayoutPanel tableLayoutPanel10;
         private Label label6;
-        private TextBox textBox4;
+        private TextBox txtTypeName;
         private TableLayoutPanel tableLayoutPanel9;
         private Label label5;
-        private TextBox textBox3;
+        private TextBox txtAvialable;
         private TableLayoutPanel tableLayoutPanel8;
         private Label label4;
         private TextBox textBox2;
         private TableLayoutPanel tableLayoutPanel7;
         private Label label3;
         private TextBox textRoomNum;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown txtPrice;
         private TableLayoutPanel tableLayoutPanel13;
         private Button btnSave;
         private Button button1;
         private TableLayoutPanel tableLayoutPanel14;
-        private Button button2;
-        private Button button3;
+        private Button btnDelete;
+        private Button btnCreate;
         private ComboBox cmbRoomType;
     }
 }

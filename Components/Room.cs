@@ -13,7 +13,10 @@ namespace HMS_SLS_Y4.Components
     {
         public RoomTypeRepository roomTypeRepository { get; }
         public RoomRepository roomRepository { get; set; }
+
         private Models.Room selectedRoom;
+
+        int roomTypeId;
 
         public Room(RoomTypeRepository roomType, RoomRepository roomRepo)
         {
@@ -187,6 +190,8 @@ namespace HMS_SLS_Y4.Components
             var roomType = room.RoomType ?? room.roomType;
 
             textRoomNum.Text = room.roomNumber;
+            txtAvialable.Text = room.isAvailable ? "Available" : "Accupied";
+            txtAvialable.Enabled = false;
 
             if (cmbRoomType != null && roomType != null)
             {
@@ -307,9 +312,12 @@ namespace HMS_SLS_Y4.Components
                 }
             }
         }
+
+
         private void LoadRoomTypes()
         {
             DataTable table = new DataTable();
+            table.Columns.Add("RoomID", typeof(int)); // hidden ID column
             table.Columns.Add("Room Type");
             table.Columns.Add("Price Per Night");
             table.Columns.Add("Description");
@@ -318,17 +326,154 @@ namespace HMS_SLS_Y4.Components
             foreach (var roomType in roomTypes)
             {
                 table.Rows.Add(
+                    roomType.roomTypeId,
                     roomType.typeName,
                     roomType.price.ToString("C"),
                     roomType.description
                 );
             }
             dvgRoomTypes.DataSource = table;
+            dvgRoomTypes.Columns["RoomID"].Visible = false; // hide ID column
             dvgRoomTypes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dvgRoomTypes.MultiSelect = false;
             dvgRoomTypes.ReadOnly = true;
             dvgRoomTypes.AllowUserToAddRows = false;
             dvgRoomTypes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            // subscribe to event 
+            dvgRoomTypes.CellClick += dvgRoomTypes_CellClick;
+
+
+        }
+
+        private void dvgRoomTypes_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                 roomTypeId = Convert.ToInt32(dvgRoomTypes.Rows[e.RowIndex].Cells["RoomID"].Value);
+                this.populateRoomTypeForm(roomTypeId);
+
+                // change button text to update
+                btnCreate.Text = "Edit";
+            }
+
+
+        }
+
+        
+        
+
+        // populate the form when a row is selected
+        private void populateRoomTypeForm(int roomTypeId)
+        {
+            
+            var roomType = roomTypeRepository.GetRoomTypeById(roomTypeId);
+            if (roomType != null)
+            {
+                txtTypeName.Text = roomType.typeName;
+                txtPrice.Text = roomType.price.ToString();
+                txtDescription.Text = roomType.description;
+            }
+        }
+
+        private void addRoomType()
+        {
+            var newRoomType = new RoomType
+            {
+                typeName = txtTypeName.Text,
+                price = decimal.Parse(txtPrice.Text),
+                description = txtDescription.Text
+            };
+            int rows = roomTypeRepository.Add(newRoomType);
+            if (rows > 0)
+            {
+                MessageBox.Show("Room type added successfully");
+            }
+        }
+
+        private bool updateRoomType(int roomTypeId)
+        {
+            var roomType = roomTypeRepository.GetRoomTypeById(roomTypeId);
+
+            bool isUpdated = false;
+            // log all properties of roomType after retrieve
+            if (roomType != null)
+            {
+                roomType.roomTypeId = roomTypeId;
+                roomType.typeName = txtTypeName.Text;
+                roomType.price = decimal.Parse(txtPrice.Text);
+                roomType.description = txtDescription.Text;
+                 roomTypeRepository.Update(roomType);
+                // empty the text box after update
+                txtTypeName.Text = string.Empty;
+                txtPrice.Text = string.Empty;
+                txtDescription.Text = string.Empty;
+
+                // change button text back to create
+                btnCreate.Text = "Create";
+
+                // reload room types
+                LoadRoomTypes();
+            }
+            return isUpdated;
+        }
+
+        private void deleteRow(int roomTypeId)
+        {
+            var confirmResult = MessageBox.Show("Are you sure to delete this room type?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (confirmResult == DialogResult.Yes)
+            {
+                bool rowsAffected = roomTypeRepository.Delete(roomTypeId);
+                if (rowsAffected)
+                {
+                    MessageBox.Show("Room type deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadRoomTypes();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to delete room type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            
+            
+            if (btnCreate.Text == "Create")
+            {
+               
+                this.addRoomType();
+            }
+            else if (btnCreate.Text == "Edit")
+            {
+                bool isUpdated = this.updateRoomType(roomTypeId);
+               btnCreate.Text = "Create";
+            }
+            // clear text boxes
+            txtTypeName.Text = string.Empty;
+            txtPrice.Text = string.Empty;
+            txtDescription.Text = string.Empty;
+            // reload room types
+            LoadRoomTypes();
+
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            this.deleteRow(Convert.ToInt32(dvgRoomTypes.SelectedRows[0].Cells["RoomID"].Value));
+
+            // clear text boxes
+            txtTypeName.Text = string.Empty;
+            txtPrice.Text = string.Empty;
+            txtDescription.Text = string.Empty;
+
+            // change button text back to create
+            btnCreate.Text = "Create";
+
+            
+
+
         }
     }
 }
