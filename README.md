@@ -44,6 +44,7 @@ key files to inspect:
 1. Copy the SQL schema from the SQL folder and run it in your MySQL server to create the necessary tables.
 1. (Optional) Run the seeders in Seeders\* to populate initial data.
 1. Build and run the project (F5) to launch the application.
+1. To login as admin, use username: `admin`, password: `12345`.
 
 
 
