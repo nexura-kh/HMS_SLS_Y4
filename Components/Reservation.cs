@@ -177,7 +177,7 @@ namespace HMS_SLS_Y4.Components
                 table.Columns.Add("Booking ID");
                 table.Columns.Add("Guest Name");
                 table.Columns.Add("Room No");
-                table.Columns.Add("Nationality");
+                table.Columns.Add("Contact");
                 table.Columns.Add("ID Card");
                 table.Columns.Add("Check-In Date");
                 table.Columns.Add("Check-Out Date");

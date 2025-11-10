@@ -62,7 +62,7 @@ namespace HMS_SLS_Y4.Seeders
                 new Room { roomId = 0, roomNumber = "004", isAvailable = true, roomTypeId = 4 },
                 new Room { roomId = 0, roomNumber = "005", isAvailable = true, roomTypeId = 1 },
                 new Room { roomId = 0, roomNumber = "006", isAvailable = true, roomTypeId = 2 },
-                new Room { roomId = 0, roomNumber = "007", isAvailable = false, roomTypeId = 3 },
+                new Room { roomId = 0, roomNumber = "007", isAvailable = true, roomTypeId = 3 },
                 new Room { roomId = 0, roomNumber = "008", isAvailable = true, roomTypeId = 4 },
                 new Room { roomId = 0, roomNumber = "009", isAvailable = true, roomTypeId = 1 },
                 new Room { roomId = 0, roomNumber = "010", isAvailable = true, roomTypeId = 2 },

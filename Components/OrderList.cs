@@ -41,7 +41,7 @@ namespace HMS_SLS_Y4.Components
             table.Columns.Add("Order Date");
             table.Columns.Add("Room");
             table.Columns.Add("Customer");
-            table.Columns.Add("Nationality");
+            table.Columns.Add("Contact");
             table.Columns.Add("Items");
             table.Columns.Add("Note");
             table.Columns.Add("Status");
@@ -128,7 +128,7 @@ namespace HMS_SLS_Y4.Components
                 CheckIn = row.Cells["Order Date"].Value?.ToString(),
                 Room = row.Cells["Room"].Value?.ToString(),
                 Customer = row.Cells["Customer"].Value?.ToString(),
-                Nationality = row.Cells["Nationality"].Value?.ToString(),
+                Nationality = row.Cells["Contact"].Value?.ToString(),
                 FoodPrice = foodPrice,
                 Total = foodPrice,
                 PaymentMethod = "Cash",
@@ -167,23 +167,20 @@ namespace HMS_SLS_Y4.Components
                 {
                     try
                     {
-                        // Get all order items for this booking
                         var orderItemsToDelete = orderItemRepository.GetAll()
                             .Where(oi => oi.Booking.bookingId == bookingId)
                             .ToList();
 
-                        // Delete each order item
                         foreach (var item in orderItemsToDelete)
                         {
-                            // Try different delete method signatures
                             try
                             {
                                 orderItemRepository.Delete(item.OrderItemId);
                             }
                             catch
                             {
-                                // If Delete(int) doesn't exist, try other signatures
-                                //orderItemRepository.DeleteOrderItem(item.OrderItemId);
+                                MessageBox.Show($"Failed to delete order item with ID: {item.OrderItemId}", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
 
@@ -217,7 +214,6 @@ namespace HMS_SLS_Y4.Components
                 string roomNumber = row.Cells["Room"].Value?.ToString() ?? "N/A";
                 string customerName = row.Cells["Customer"].Value?.ToString() ?? "N/A";
 
-                // Navigate to Order form with the booking data
                 _mainForm.LoadOrder(bookingId, roomNumber, customerName);
             }
             else

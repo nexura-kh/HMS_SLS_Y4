@@ -11,8 +11,18 @@ namespace HMS_SLS_Y4
 
         private void login_btn_Click(object sender, EventArgs e)
         {
-            IsLoginSuccessful = true;
-          
+            string username = txtUsername.Text.Trim();
+            string password = txtPassword.Text.Trim();
+
+            if (username == "admin" && password == "12345")
+            {
+                IsLoginSuccessful = true;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid username or password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void close_btn_Click(object sender, EventArgs e)
@@ -20,9 +30,5 @@ namespace HMS_SLS_Y4
             Close();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

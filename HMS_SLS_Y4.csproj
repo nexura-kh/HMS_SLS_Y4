@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>Resources\app\Rupp_logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,10 @@
 
   <ItemGroup>
     <None Remove="Models\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\app\Rupp_logo.ico" />
   </ItemGroup>
 
   <ItemGroup>

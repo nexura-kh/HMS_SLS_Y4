@@ -31,8 +31,8 @@
             splitContainer1 = new SplitContainer();
             pictureBox1 = new PictureBox();
             login_btn = new Button();
-            passwordField = new TextBox();
-            emailField = new TextBox();
+            txtPassword = new TextBox();
+            txtUsername = new TextBox();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
@@ -49,14 +49,15 @@
             // 
             splitContainer1.Dock = DockStyle.Fill;
             splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Margin = new Padding(3, 4, 3, 4);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.Controls.Add(pictureBox1);
             splitContainer1.Panel1.Controls.Add(login_btn);
-            splitContainer1.Panel1.Controls.Add(passwordField);
-            splitContainer1.Panel1.Controls.Add(emailField);
+            splitContainer1.Panel1.Controls.Add(txtPassword);
+            splitContainer1.Panel1.Controls.Add(txtUsername);
             splitContainer1.Panel1.Controls.Add(label4);
             splitContainer1.Panel1.Controls.Add(label3);
             splitContainer1.Panel1.Controls.Add(label2);
@@ -67,17 +68,19 @@
             splitContainer1.Panel2.BackgroundImage = Properties.Resources.Hotel_Image;
             splitContainer1.Panel2.BackgroundImageLayout = ImageLayout.Stretch;
             splitContainer1.Panel2.Controls.Add(close_btn);
-            splitContainer1.Size = new Size(1025, 653);
-            splitContainer1.SplitterDistance = 508;
+            splitContainer1.Size = new Size(1171, 768);
+            splitContainer1.SplitterDistance = 580;
+            splitContainer1.SplitterWidth = 5;
             splitContainer1.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.BackgroundImage = Properties.Resources.Rupp_logo;
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
-            pictureBox1.Location = new Point(195, 104);
+            pictureBox1.Location = new Point(223, 122);
+            pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(109, 106);
+            pictureBox1.Size = new Size(125, 125);
             pictureBox1.TabIndex = 7;
             pictureBox1.TabStop = false;
             // 
@@ -89,38 +92,40 @@
             login_btn.FlatStyle = FlatStyle.Flat;
             login_btn.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             login_btn.ForeColor = Color.White;
-            login_btn.Location = new Point(183, 474);
+            login_btn.Location = new Point(209, 558);
+            login_btn.Margin = new Padding(3, 4, 3, 4);
             login_btn.Name = "login_btn";
-            login_btn.Size = new Size(145, 38);
+            login_btn.Size = new Size(166, 45);
             login_btn.TabIndex = 6;
             login_btn.Text = "Login";
             login_btn.UseVisualStyleBackColor = false;
             login_btn.Click += login_btn_Click;
             // 
-            // passwordField
+            // txtPassword
             // 
-            passwordField.ForeColor = Color.FromArgb(48, 67, 122);
-            passwordField.Location = new Point(136, 400);
-            passwordField.Name = "passwordField";
-            passwordField.Size = new Size(294, 25);
-            passwordField.TabIndex = 5;
+            txtPassword.ForeColor = Color.FromArgb(48, 67, 122);
+            txtPassword.Location = new Point(155, 471);
+            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(335, 27);
+            txtPassword.TabIndex = 5;
             // 
-            // emailField
+            // txtUsername
             // 
-            emailField.ForeColor = Color.FromArgb(48, 67, 122);
-            emailField.Location = new Point(140, 333);
-            emailField.Name = "emailField";
-            emailField.Size = new Size(294, 25);
-            emailField.TabIndex = 4;
-            emailField.TextChanged += textBox1_TextChanged;
+            txtUsername.ForeColor = Color.FromArgb(48, 67, 122);
+            txtUsername.Location = new Point(160, 392);
+            txtUsername.Margin = new Padding(3, 4, 3, 4);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(335, 27);
+            txtUsername.TabIndex = 4;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.ForeColor = Color.FromArgb(48, 67, 122);
-            label4.Location = new Point(69, 402);
+            label4.Location = new Point(79, 473);
             label4.Name = "label4";
-            label4.Size = new Size(64, 17);
+            label4.Size = new Size(70, 20);
             label4.TabIndex = 3;
             label4.Text = "Password";
             // 
@@ -128,19 +133,19 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = Color.FromArgb(48, 67, 122);
-            label3.Location = new Point(69, 336);
+            label3.Location = new Point(79, 395);
             label3.Name = "label3";
-            label3.Size = new Size(39, 17);
+            label3.Size = new Size(75, 20);
             label3.TabIndex = 2;
-            label3.Text = "Email";
+            label3.Text = "Username";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.ForeColor = Color.FromArgb(48, 67, 122);
-            label2.Location = new Point(69, 282);
+            label2.Location = new Point(79, 332);
             label2.Name = "label2";
-            label2.Size = new Size(365, 17);
+            label2.Size = new Size(410, 20);
             label2.TabIndex = 1;
             label2.Text = "Please Enter Your Email and Password to Login to the System";
             // 
@@ -149,9 +154,9 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(48, 67, 122);
-            label1.Location = new Point(211, 226);
+            label1.Location = new Point(241, 266);
             label1.Name = "label1";
-            label1.Size = new Size(78, 32);
+            label1.Size = new Size(97, 41);
             label1.TabIndex = 0;
             label1.Text = "Login";
             // 
@@ -161,21 +166,23 @@
             close_btn.FlatAppearance.BorderSize = 0;
             close_btn.FlatStyle = FlatStyle.Flat;
             close_btn.Image = Properties.Resources.button5;
-            close_btn.Location = new Point(464, 9);
+            close_btn.Location = new Point(530, 11);
+            close_btn.Margin = new Padding(3, 4, 3, 4);
             close_btn.Name = "close_btn";
-            close_btn.Size = new Size(38, 40);
+            close_btn.Size = new Size(43, 47);
             close_btn.TabIndex = 0;
             close_btn.UseVisualStyleBackColor = false;
             close_btn.Click += close_btn_Click;
             // 
             // Login
             // 
-            AutoScaleDimensions = new SizeF(7F, 17F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(224, 224, 224);
-            ClientSize = new Size(1025, 653);
+            ClientSize = new Size(1171, 768);
             Controls.Add(splitContainer1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             Name = "Login";
             ShowIcon = false;
@@ -195,8 +202,8 @@
         private Label label1;
         private Label label2;
         private Button login_btn;
-        private TextBox passwordField;
-        private TextBox emailField;
+        private TextBox txtPassword;
+        private TextBox txtUsername;
         private Label label4;
         private Label label3;
         private PictureBox pictureBox1;

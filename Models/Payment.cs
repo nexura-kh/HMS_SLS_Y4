@@ -13,8 +13,9 @@ namespace HMS_SLS_Y4.Models
         public int? OrderItemId { get; set; }
         public decimal Amount { get; set; }
         public DateTime PaymentDate { get; set; }
+        public string PaymentStatus { get; set; }
+        public string PaymentMethod { get; set; }
 
-        // Navigation properties
         public Booking Booking { get; set; }
         public OrderItem OrderItem { get; set; }
     }

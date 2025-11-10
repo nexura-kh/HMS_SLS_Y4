@@ -126,7 +126,7 @@ namespace HMS_SLS_Y4.Components
             pictureBox.Location = new Point((cardWidth - 40) / 2, 6);
             pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox.BackColor = Color.LightGray;
-            pictureBox.Image = CreatePlaceholderImage(40, 40, food.FoodType == "Drink" ? "🥤" : "🍽️");
+            pictureBox.Image = CreatePlaceholderImage(65, 65, food.FoodType == "Drink" ? "🥤" : "🥗");
             pictureBox.Click += (s, e) => SelectFoodForEditing(food);
 
             Label nameLabel = new Label();

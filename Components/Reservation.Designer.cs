@@ -311,7 +311,7 @@
             nationality_label.Name = "nationality_label";
             nationality_label.Size = new Size(83, 19);
             nationality_label.TabIndex = 2;
-            nationality_label.Text = "Nationality";
+            nationality_label.Text = "Contact";
             // 
             // splitContainer4
             // 

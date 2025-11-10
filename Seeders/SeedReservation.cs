@@ -28,6 +28,7 @@ namespace HMS_SLS_Y4.Seeders
                     TRUNCATE TABLE users;
                     TRUNCATE TABLE customers;
                     TRUNCATE TABLE bookings;
+                    TRUNCATE TABLE payments;
                     SET FOREIGN_KEY_CHECKS = 1;
                 ";
                 cmd.ExecuteNonQuery();
@@ -35,10 +36,10 @@ namespace HMS_SLS_Y4.Seeders
 
             var users = new List<User>
             {
-                new User { fullName = "Kong Chan", dob = new DateTime(2004,1,1), nationality = "Cambodian", idCardNumber="2025001"},
-                new User { fullName = "Em Pisey", dob = new DateTime(2004,11,6), nationality = "British", idCardNumber="2025002"},
-                new User { fullName = "Lim Khimheng", dob = new DateTime(2004,8,10), nationality = "Chinese", idCardNumber="2025003"},
-                new User { fullName = "Saroth Tola", dob = new DateTime(2004,10,22), nationality = "French", idCardNumber="2025004"},
+                new User { fullName = "Kong Chan", dob = new DateTime(2004,1,1), nationality = "09828893", idCardNumber="2025001"},
+                new User { fullName = "Em Pisey", dob = new DateTime(2004,11,6), nationality = "092983839", idCardNumber="2025002"},
+                new User { fullName = "Lim Khimheng", dob = new DateTime(2004,8,10), nationality = "heng@gmail.com", idCardNumber="2025003"},
+                new User { fullName = "Saroth Tola", dob = new DateTime(2004,10,22), nationality = "093893822", idCardNumber="2025004"},
             };
 
             foreach (var user in users)

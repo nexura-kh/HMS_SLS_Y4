@@ -1,4 +1,7 @@
-﻿using HMS_SLS_Y4.Repositories;
+﻿using HMS_SLS_Y4.Enums;
+using HMS_SLS_Y4.Models;
+using HMS_SLS_Y4.Models.DTOs;
+using HMS_SLS_Y4.Repositories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,8 +12,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HMS_SLS_Y4.Models;
-using HMS_SLS_Y4.Models.DTOs;
 
 namespace HMS_SLS_Y4.Components
 {
@@ -24,106 +25,125 @@ namespace HMS_SLS_Y4.Components
 
         private Enums.FoodOrderStatus selectedStatus;
         private int foodId;
-        private String cusName;
+        private string cusName;
         private int bookingID;
         private string room_number;
+        private int selectedOrderItemId = -1;
+        private decimal selectedFoodPrice = 0;
+
 
         public Order(int bookingID, string room_number, string cusName)
         {
             InitializeComponent();
             this.bookingID = bookingID;
             this.room_number = room_number;
-            this.LoadFoods();
-            this.cardFoodLayout.AutoScroll = true;
+            this.cusName = cusName;
 
-            defineTheColumns();
-            this.loadOrderItems();
+            LoadFoods();
+            cardFoodLayout.AutoScroll = true;
+
+            loadOrderItems();
             roomNumber.Text = room_number;
+            r_num.Text = room_number;
             customerName.Text = cusName;
+            c_name.Text = cusName;
 
             orderStatus.DataSource = Enum.GetValues(typeof(Enums.FoodOrderStatus));
-        }
 
-        private void defineTheColumns()
-        {
-            orderedList.AutoGenerateColumns = false;
-
-            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "No", Name = "No" });
-            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Item", DataPropertyName = "ItemName" });
-            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Quantity", DataPropertyName = "Quantity" });
-            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Description", DataPropertyName = "Description" });
-            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Price", DataPropertyName = "TotalPrice" });
-            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Status", DataPropertyName = "Status" });
-            orderedList.Columns.Add(new DataGridViewTextBoxColumn { HeaderText = "Note", DataPropertyName = "Note" });
+            orderedList.CellClick += orderedList_CellClick;
+            orderQuantity.TextChanged += orderQuantity_TextChanged;
         }
 
         private void loadOrderItems()
         {
+            DataTable table = new DataTable();
+            table.Columns.Add("OrderID", typeof(int));
+            table.Columns.Add("Item Name", typeof(string));
+            table.Columns.Add("Quantity", typeof(int));
+            table.Columns.Add("Total Price", typeof(decimal));
+            table.Columns.Add("Note", typeof(string));
+
             var orderItemsList = orderItemRepository.GetOrderItemsByBookingId(bookingID);
-            orderedList.DataSource = orderItemsList;
+
+            foreach (var item in orderItemsList)
+            {
+                table.Rows.Add(
+                    item.orderItemId,
+                    item.itemName,
+                    item.quantity,
+                    item.totalPrice,
+                    item.note
+                );
+            }
+
+            orderedList.DataSource = table;
+            orderedList.Columns["OrderID"].Visible = false;
             orderedList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             orderedList.MultiSelect = false;
             orderedList.ReadOnly = true;
             orderedList.AllowUserToAddRows = false;
             orderedList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            // kide the key column
-            if (orderedList.Columns["OrderItemID"] != null)
-            {
-                orderedList.Columns["OrderItemID"].Visible = false;
-            }
         }
 
-        // Using the CreateFoodCard method from Food component
         private Panel CreateFoodCard(Models.Food food, int cardWidth, int cardHeight)
         {
-            Panel card = new Panel();
-            card.Width = cardWidth;
-            card.Height = cardHeight;
-            card.BackColor = Color.White;
-            card.BorderStyle = BorderStyle.FixedSingle;
-            card.Cursor = Cursors.Hand;
-            card.Tag = food;
-            card.Margin = new Padding(11);
+            Panel card = new Panel
+            {
+                Width = cardWidth,
+                Height = cardHeight,
+                BackColor = Color.White,
+                BorderStyle = BorderStyle.FixedSingle,
+                Cursor = Cursors.Hand,
+                Tag = food,
+                Margin = new Padding(11)
+            };
 
             card.Click += (s, e) => SelectFoodForOrder(food);
 
-            PictureBox pictureBox = new PictureBox();
-            pictureBox.Size = new Size(40, 40);
-            pictureBox.Location = new Point((cardWidth - 40) / 2, 6);
-            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox.BackColor = Color.LightGray;
-            pictureBox.Image = CreatePlaceholderImage(40, 40, food.FoodType == "Drink" ? "🥤" : "🍽️");
+            PictureBox pictureBox = new PictureBox
+            {
+                Size = new Size(40, 40),
+                Location = new Point((cardWidth - 40) / 2, 6),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                BackColor = Color.LightGray,
+                Image = CreatePlaceholderImage(65, 65, food.FoodType == "Drink" ? "🥤" : "🥗")
+            };
             pictureBox.Click += (s, e) => SelectFoodForOrder(food);
 
-            Label nameLabel = new Label();
-            nameLabel.Text = food.FoodName;
-            nameLabel.Font = new Font("Segoe UI", 8, FontStyle.Bold);
-            nameLabel.Location = new Point(3, 50);
-            nameLabel.Size = new Size(cardWidth - 6, 16);
-            nameLabel.TextAlign = ContentAlignment.MiddleCenter;
+            Label nameLabel = new Label
+            {
+                Text = food.FoodName,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                Location = new Point(3, 50),
+                Size = new Size(cardWidth - 6, 16),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
             nameLabel.Click += (s, e) => SelectFoodForOrder(food);
 
-            Label priceLabel = new Label();
-            priceLabel.Text = "$" + food.Price.ToString("F2");
-            priceLabel.Font = new Font("Segoe UI", 8, FontStyle.Bold);
-            priceLabel.ForeColor = Color.FromArgb(46, 204, 113);
-            priceLabel.Location = new Point(3, 67);
-            priceLabel.Size = new Size(cardWidth - 6, 16);
-            priceLabel.TextAlign = ContentAlignment.MiddleCenter;
+            Label priceLabel = new Label
+            {
+                Text = "$" + food.Price.ToString("F2"),
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                ForeColor = Color.FromArgb(46, 204, 113),
+                Location = new Point(3, 67),
+                Size = new Size(cardWidth - 6, 16),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
             priceLabel.Click += (s, e) => SelectFoodForOrder(food);
 
-            Label typeLabel = new Label();
-            typeLabel.Text = food.FoodType ?? "Food";
-            typeLabel.Font = new Font("Segoe UI", 6, FontStyle.Bold);
-            typeLabel.ForeColor = Color.White;
-            typeLabel.BackColor = food.FoodType == "Drink"
-                ? Color.FromArgb(52, 152, 219)
-                : Color.FromArgb(230, 126, 34);
-            typeLabel.AutoSize = false;
-            typeLabel.Size = new Size(cardWidth - 12, 14);
-            typeLabel.TextAlign = ContentAlignment.MiddleCenter;
-            typeLabel.Location = new Point(6, 90);
+            Label typeLabel = new Label
+            {
+                Text = food.FoodType ?? "Food",
+                Font = new Font("Segoe UI", 6, FontStyle.Bold),
+                ForeColor = Color.White,
+                BackColor = food.FoodType == "Drink"
+                    ? Color.FromArgb(52, 152, 219)
+                    : Color.FromArgb(230, 126, 34),
+                AutoSize = false,
+                Size = new Size(cardWidth - 12, 14),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Location = new Point(6, 90)
+            };
             typeLabel.Click += (s, e) => SelectFoodForOrder(food);
 
             card.Controls.Add(pictureBox);
@@ -140,7 +160,6 @@ namespace HMS_SLS_Y4.Components
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.FillRectangle(new SolidBrush(Color.FromArgb(245, 245, 245)), 0, 0, width, height);
-
                 Font font = new Font("Segoe UI Emoji", 28);
                 SizeF textSize = g.MeasureString(emoji, font);
                 float x = (width - textSize.Width) / 2;
@@ -191,34 +210,88 @@ namespace HMS_SLS_Y4.Components
             txtDescription.Text = food.Description;
             orderName.Text = food.FoodName;
             orderPrice.Text = food.Price.ToString("C2");
+            selectedFoodPrice = food.Price;
+        }
 
-            if (int.TryParse(orderQuantity.Text, out int quantity))
+        private void orderedList_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < orderedList.Rows.Count)
             {
-                decimal total = food.Price * quantity;
+                DataGridViewRow row = orderedList.Rows[e.RowIndex];
+
+                if (row.Cells["OrderID"].Value != null)
+                {
+                    int orderItemId = Convert.ToInt32(row.Cells["OrderID"].Value);
+                    var orderItem = orderItemRepository.GetOrderItemById(orderItemId);
+
+                    if (orderItem != null)
+                    {
+                        selectedOrderItemId = orderItem.orderItemId;
+                        orderName.Text = orderItem.itemName;
+                        orderQuantity.Text = orderItem.quantity.ToString();
+                        txtDescription.Text = orderItem.description ?? string.Empty;
+                        orderPrice.Text = orderItem.totalPrice.ToString("N2");
+                        additionalNote.Text = orderItem.note ?? string.Empty;
+
+                        if (Enum.IsDefined(typeof(FoodOrderStatus), orderItem.status))
+                        {
+                            orderStatus.SelectedItem = orderItem.status;
+                            selectedStatus = orderItem.status;
+                        }
+
+                        addOrderBtn.Text = "Cancel";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Order item not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+        private void orderQuantity_TextChanged(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(orderQuantity.Text, out decimal quantity) && quantity > 0)
+            {
+                decimal totalPrice = selectedFoodPrice * quantity;
+                orderPrice.Text = totalPrice.ToString("C2");
+            }
+            else
+            {
+                orderPrice.Text = selectedFoodPrice.ToString("C2");
             }
         }
 
         private void addOrderBtn_Click(object sender, EventArgs e)
         {
-            string foodName = orderName.Text;
-            int quantity = int.Parse(orderQuantity.Text);
-            string description = txtDescription.Text;
-            decimal totalPrice;
-            string status = selectedStatus.ToString();
+            if (addOrderBtn.Text == "Cancel")
+            {
+                orderedList.ClearSelection();
+                selectedOrderItemId = -1;
+
+                txtDescription.Clear();
+                orderName.Clear();
+                orderPrice.Clear();
+                orderQuantity.Value = orderQuantity.Minimum;
+                additionalNote.Clear();
+
+                addOrderBtn.Text = "Add";
+                return;
+            }
 
             if (orderStatus.SelectedItem != null)
-            {
                 selectedStatus = (Enums.FoodOrderStatus)orderStatus.SelectedItem;
-            }
 
-            totalPrice = decimal.Parse(orderPrice.Text.Replace("$", "")) * quantity;
-
-            for (int i = 0; i < orderedList.Rows.Count; i++)
+            if (!int.TryParse(orderQuantity.Text, out int quantity) || quantity <= 0)
             {
-                orderedList.Rows[i].Cells["No"].Value = i + 1;
+                MessageBox.Show("Invalid quantity.");
+                return;
             }
 
-            foodOrderRepository.Add(new FoodOrder
+            decimal price = decimal.Parse(orderPrice.Text.Replace("$", ""));
+            decimal totalPrice = price;
+
+            int orderId = foodOrderRepository.Add(new FoodOrder
             {
                 bookingId = bookingID,
                 orderDate = DateTime.Now,
@@ -227,20 +300,88 @@ namespace HMS_SLS_Y4.Components
 
             orderItemRepository.Add(new OrderItem
             {
-                OrderId = bookingID,
+                OrderId = orderId,
                 FoodId = foodId,
                 Quantity = quantity,
                 note = additionalNote.Text,
                 totalPrice = totalPrice
             });
 
-            this.loadOrderItems();
+            loadOrderItems();
 
-            txtDescription.Text = "";
-            orderName.Text = "";
-            orderPrice.Text = "";
-            orderQuantity.Text = "";
-            additionalNote.Text = "";
+            txtDescription.Clear();
+            orderName.Clear();
+            orderPrice.Clear();
+            orderQuantity.Value = orderQuantity.Minimum;
+            additionalNote.Clear();
+
+            addOrderBtn.Text = "Add";
+        }
+
+        private void deleteOrderBtn_Click(object sender, EventArgs e)
+        {
+            if (selectedOrderItemId == -1)
+            {
+                MessageBox.Show("Please select an order to delete.");
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                "Are you sure you want to delete this order item?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (confirm == DialogResult.Yes)
+            {
+                orderItemRepository.Delete(selectedOrderItemId);
+
+                selectedOrderItemId = -1;
+                loadOrderItems();
+
+                txtDescription.Clear();
+                orderName.Clear();
+                orderPrice.Clear();
+                orderQuantity.Value = orderQuantity.Minimum;
+                additionalNote.Clear();
+
+                addOrderBtn.Text = "Add";
+            }
+        }
+
+        private void editOrderBtn_Click(object sender, EventArgs e)
+        {
+            if (selectedOrderItemId == -1)
+            {
+                MessageBox.Show("Please select an order to edit.");
+                return;
+            }
+
+            if (!int.TryParse(orderQuantity.Text, out int quantity))
+            {
+                MessageBox.Show("Invalid quantity.");
+                return;
+            }
+
+            decimal price = decimal.Parse(orderPrice.Text.Replace("$", ""));
+            decimal totalPrice = price * quantity;
+
+            var updatedItem = new OrderItem
+            {
+                OrderItemId = selectedOrderItemId,
+                FoodId = foodId,
+                Quantity = quantity,
+                note = additionalNote.Text,
+                totalPrice = totalPrice
+            };
+
+            orderItemRepository.Update(updatedItem);
+
+            MessageBox.Show("Order item updated successfully!");
+            loadOrderItems();
+
+            addOrderBtn.Text = "Add";
         }
     }
 }

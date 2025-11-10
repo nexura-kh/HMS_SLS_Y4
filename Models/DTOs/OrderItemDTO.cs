@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HMS_SLS_Y4.Models.DTOs
 {
-    public class OrderItemDTOcs
+    public class OrderItemDTO
     {
 
         public int orderItemId { get; set; }
