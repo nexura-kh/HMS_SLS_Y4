@@ -230,6 +230,23 @@ namespace HMS_SLS_Y4.Components
             }
         }
 
+        private decimal CalculateTotalAmount(DateTime checkIn, DateTime checkOut, decimal pricePerNight)
+        {
+            if (checkOut <= checkIn)
+            {
+                MessageBox.Show("Check-out date must be after check-in date.", "Invalid Dates", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return 0;
+            }
+
+            int totalDays = (checkOut - checkIn).Days;
+            if (totalDays == 0)
+                totalDays = 1; 
+
+            decimal totalAmount = totalDays * pricePerNight;
+            return totalAmount;
+        }
+
+
         private void addOrderBtn_Click(object sender, EventArgs e)
         {
             if (isEditMode)
@@ -281,7 +298,7 @@ namespace HMS_SLS_Y4.Components
                     roomId = roomId,
                     checkInDate = txtCheckIn.Value,
                     checkOutDate = txtCheckOut.Value,
-                    totalAmount = roomPrice,
+                    totalAmount = CalculateTotalAmount(txtCheckIn.Value, txtCheckOut.Value, roomPrice),
                     bookingDate = DateTime.Now,
                     bookingStatus = Convert.ToInt32(txtBookingStatus.SelectedValue)
                 });

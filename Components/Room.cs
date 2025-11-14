@@ -25,7 +25,6 @@ namespace HMS_SLS_Y4.Components
             this.roomTypeRepository = roomType ?? throw new ArgumentNullException(nameof(roomType));
             this.roomRepository = roomRepo ?? throw new ArgumentNullException(nameof(roomRepo));
 
-            // Configure flowlayout for auto-scroll
             if (flowlayoutRoomCard != null)
             {
                 flowlayoutRoomCard.AutoScroll = true;
@@ -33,7 +32,6 @@ namespace HMS_SLS_Y4.Components
                 flowlayoutRoomCard.FlowDirection = FlowDirection.LeftToRight;
             }
 
-            // wire events
             this.Load += room_Load;
             LoadRoomTypes();
             btnSave.Click += btnSave_Click;
@@ -43,7 +41,6 @@ namespace HMS_SLS_Y4.Components
         {
             var roomTypes = roomTypeRepository.GetAllRoomTypes() ?? new System.Collections.Generic.List<RoomType>();
 
-            // DisplayMember / ValueMember must match property names in RoomType (case-sensitive for DataBinding)
             cmbRoomType.DataSource = roomTypes;
             cmbRoomType.DisplayMember = "typeName";
             cmbRoomType.ValueMember = "roomTypeId";
@@ -54,13 +51,11 @@ namespace HMS_SLS_Y4.Components
 
         private Panel CreateRoomCard(Models.Room room)
         {
-            // Get room type information
             var roomType = room.RoomType ?? room.roomType;
             string roomTypeName = roomType?.typeName ?? "Unknown";
             string description = roomType?.description ?? string.Empty;
             decimal pricePerNight = roomType?.price ?? 0m;
 
-            // Get project path for icons
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectPath = Directory.GetParent(baseDirectory).Parent.Parent.Parent.FullName;
             string iconPath = GetRoomIconPath(roomTypeName, room.isAvailable, projectPath);
@@ -79,7 +74,6 @@ namespace HMS_SLS_Y4.Components
             card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(230, 240, 255);
             card.MouseLeave += (s, e) =>
             {
-                // Keep selection color if this card is selected
                 if (selectedRoom != null && selectedRoom.roomId == room.roomId)
                 {
                     card.BackColor = Color.FromArgb(200, 220, 255);
@@ -90,7 +84,6 @@ namespace HMS_SLS_Y4.Components
                 }
             };
 
-            // Room icon
             PictureBox roomIcon = new PictureBox
             {
                 Width = 58,
@@ -100,18 +93,15 @@ namespace HMS_SLS_Y4.Components
                 Tag = room
             };
 
-            // Load icon
             if (File.Exists(iconPath))
             {
                 roomIcon.Image = Image.FromFile(iconPath);
             }
             else
             {
-                // Create a simple placeholder if icon not found
                 roomIcon.BackColor = room.isAvailable ? Color.LightGreen : Color.LightCoral;
             }
 
-            // Room number label
             Label roomNumberLabel = new Label
             {
                 Text = room.roomNumber,
@@ -123,7 +113,6 @@ namespace HMS_SLS_Y4.Components
                 Tag = room
             };
 
-            // Room type label
             Label roomTypeLabel = new Label
             {
                 Text = roomTypeName.ToUpper(),
@@ -136,7 +125,6 @@ namespace HMS_SLS_Y4.Components
                 Tag = room
             };
 
-            // Status label
             Label statusLabel = new Label
             {
                 Text = room.isAvailable ? "Available" : "Occupied",
@@ -312,12 +300,41 @@ namespace HMS_SLS_Y4.Components
                 }
             }
         }
+        private void btnDeleteRoom_Click(object sender, EventArgs e)
+        {
+            bool isDeleted = false;
+            if (selectedRoom != null)
+            {
+                var confirmResult = MessageBox.Show("Are you sure to delete this room?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    isDeleted = roomRepository.Delete(selectedRoom.roomId);
+
+                    if (isDeleted)
+                    {
+                        MessageBox.Show("Room deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        textRoomNum.Text = string.Empty;
+                        selectedRoom = null;
+                        btnSave.Text = "Create";
+                        LoadRooms();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete room.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a room to delete.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
 
         private void LoadRoomTypes()
         {
             DataTable table = new DataTable();
-            table.Columns.Add("RoomID", typeof(int)); // hidden ID column
+            table.Columns.Add("RoomID", typeof(int));
             table.Columns.Add("Room Type");
             table.Columns.Add("Price Per Night");
             table.Columns.Add("Description");
@@ -333,16 +350,14 @@ namespace HMS_SLS_Y4.Components
                 );
             }
             dvgRoomTypes.DataSource = table;
-            dvgRoomTypes.Columns["RoomID"].Visible = false; // hide ID column
+            dvgRoomTypes.Columns["RoomID"].Visible = false;
             dvgRoomTypes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dvgRoomTypes.MultiSelect = false;
             dvgRoomTypes.ReadOnly = true;
             dvgRoomTypes.AllowUserToAddRows = false;
             dvgRoomTypes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            // subscribe to event 
             dvgRoomTypes.CellClick += dvgRoomTypes_CellClick;
-
 
         }
 
@@ -350,23 +365,18 @@ namespace HMS_SLS_Y4.Components
         {
             if (e.RowIndex >= 0)
             {
-                 roomTypeId = Convert.ToInt32(dvgRoomTypes.Rows[e.RowIndex].Cells["RoomID"].Value);
+                roomTypeId = Convert.ToInt32(dvgRoomTypes.Rows[e.RowIndex].Cells["RoomID"].Value);
                 this.populateRoomTypeForm(roomTypeId);
 
-                // change button text to update
                 btnCreate.Text = "Edit";
             }
 
 
         }
 
-        
-        
-
-        // populate the form when a row is selected
         private void populateRoomTypeForm(int roomTypeId)
         {
-            
+
             var roomType = roomTypeRepository.GetRoomTypeById(roomTypeId);
             if (roomType != null)
             {
@@ -396,23 +406,20 @@ namespace HMS_SLS_Y4.Components
             var roomType = roomTypeRepository.GetRoomTypeById(roomTypeId);
 
             bool isUpdated = false;
-            // log all properties of roomType after retrieve
             if (roomType != null)
             {
                 roomType.roomTypeId = roomTypeId;
                 roomType.typeName = txtTypeName.Text;
                 roomType.price = decimal.Parse(txtPrice.Text);
                 roomType.description = txtDescription.Text;
-                 roomTypeRepository.Update(roomType);
-                // empty the text box after update
+                roomTypeRepository.Update(roomType);
+
                 txtTypeName.Text = string.Empty;
                 txtPrice.Text = string.Empty;
                 txtDescription.Text = string.Empty;
 
-                // change button text back to create
                 btnCreate.Text = "Create";
 
-                // reload room types
                 LoadRoomTypes();
             }
             return isUpdated;
@@ -438,17 +445,17 @@ namespace HMS_SLS_Y4.Components
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            
-            
+
+
             if (btnCreate.Text == "Create")
             {
-               
+
                 this.addRoomType();
             }
             else if (btnCreate.Text == "Edit")
             {
                 bool isUpdated = this.updateRoomType(roomTypeId);
-               btnCreate.Text = "Create";
+                btnCreate.Text = "Create";
             }
             // clear text boxes
             txtTypeName.Text = string.Empty;
@@ -470,10 +477,7 @@ namespace HMS_SLS_Y4.Components
 
             // change button text back to create
             btnCreate.Text = "Create";
-
-            
-
-
         }
+
     }
 }

@@ -80,6 +80,7 @@ namespace HMS_SLS_Y4.Repositories
             rt.type_name AS room_type,
             rt.price_per_night AS room_price,
             b.booking_id,
+            b.total_amount,
             b.check_in_date,
             b.check_out_date,
             b.booking_status,
@@ -128,6 +129,7 @@ namespace HMS_SLS_Y4.Repositories
                                     checkInDate = reader.IsDBNull(reader.GetOrdinal("check_in_date")) ? DateTime.MinValue : reader.GetDateTime("check_in_date"),
                                     checkOutDate = reader.IsDBNull(reader.GetOrdinal("check_out_date")) ? DateTime.MinValue : reader.GetDateTime("check_out_date"),
                                     bookingStatus = reader.IsDBNull(reader.GetOrdinal("booking_status")) ? 0 : reader.GetInt32("booking_status"),
+                                    totalAmount = reader.IsDBNull(reader.GetOrdinal("total_amount")) ? 0m : reader.GetDecimal("total_amount"),
 
                                     room = new HMS_SLS_Y4.Models.Room
                                     {

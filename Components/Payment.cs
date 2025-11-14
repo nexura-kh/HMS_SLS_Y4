@@ -159,8 +159,9 @@ namespace HMS_SLS_Y4.Components
 
             table.Columns.Add("Booking ID", typeof(int));
             table.Columns.Add("Room ID", typeof(int));
-            table.Columns.Add("Check-In");
             table.Columns.Add("Room");
+            table.Columns.Add("Check-In");
+            table.Columns.Add("Check-Out");
             table.Columns.Add("Customer");
             table.Columns.Add("Contact");
             table.Columns.Add("Room Price", typeof(decimal));
@@ -180,18 +181,21 @@ namespace HMS_SLS_Y4.Components
                     i.Booking.customer.User.nationality,
                     Room = i.Booking.room?.roomNumber,
                     RoomPrice = i.Booking.roomType?.price ?? 0,
-                    CheckIn = i.Booking.checkInDate
+                    Total = i.Booking?.totalAmount ?? 0,
+                    CheckIn = i.Booking.checkInDate,
+                    CheckOut = i.Booking.checkOutDate
                 })
                 .Select(g => new
                 {
                     g.Key.bookingId,
                     g.Key.roomId,
                     g.Key.CheckIn,
+                    g.Key.CheckOut,
                     g.Key.Room,
                     g.Key.fullName,
                     g.Key.nationality,
                     RoomPrice = g.Key.RoomPrice,
-                    Total = g.Key.RoomPrice
+                    g.Key.Total
                 })
                 .ToList();
 
@@ -208,8 +212,9 @@ namespace HMS_SLS_Y4.Components
                 table.Rows.Add(
                     item.bookingId,
                     item.roomId,
-                    item.CheckIn.ToString("yyyy-MM-dd"),
                     item.Room ?? "N/A",
+                    item.CheckIn.ToString("yyyy-MM-dd"),
+                    item.CheckOut.ToString("yyyy-MM-dd"),
                     item.fullName,
                     item.nationality,
                     item.RoomPrice,
@@ -312,6 +317,7 @@ namespace HMS_SLS_Y4.Components
             return new InvoiceData
             {
                 CheckIn = row.Cells["Check-In"].Value?.ToString(),
+                CheckOut = row.Cells["Check-Out"].Value?.ToString(),
                 Room = row.Cells["Room"].Value?.ToString(),
                 RoomPrice = roomPrice,
                 Customer = row.Cells["Customer"].Value?.ToString(),

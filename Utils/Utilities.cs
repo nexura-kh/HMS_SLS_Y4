@@ -10,6 +10,7 @@ namespace HMS_SLS_Y4.Utils
     {
         public string InvoiceMode { get; set; }
         public string CheckIn { get; set; }
+        public string CheckOut { get; set; }
         public string Room { get; set; }
         public string Customer { get; set; }
         public string Nationality { get; set; }
@@ -68,7 +69,7 @@ namespace HMS_SLS_Y4.Utils
             if(data.InvoiceMode == "payment")
             {
                 yPos = AddStyledDetail(invoicePanel, "Check-In Date:", data.CheckIn, yPos);
-                yPos = AddStyledDetail(invoicePanel, "Check-Out Date:", DateTime.Now.ToString("yyyy-MM-dd"), yPos);
+                yPos = AddStyledDetail(invoicePanel, "Check-Out Date:", data.CheckOut, yPos);
             }
             yPos += 20;
 
@@ -254,7 +255,7 @@ namespace HMS_SLS_Y4.Utils
             int leftMargin = 80;
 
             // === HEADER ===
-            g.DrawString("G1_HMS", titleFont, new SolidBrush(Color.FromArgb(41, 55, 120)), leftMargin, yPos);
+            g.DrawString("SLS HOTEL", titleFont, new SolidBrush(Color.FromArgb(41, 55, 120)), leftMargin, yPos);
             yPos += 38;
             g.DrawString("Hotel Management System", subtitleFont, Brushes.Gray, leftMargin, yPos);
             yPos += 35;
@@ -266,11 +267,21 @@ namespace HMS_SLS_Y4.Utils
             g.DrawString("INVOICE", headerFont, new SolidBrush(Color.FromArgb(41, 55, 120)), leftMargin, yPos);
             yPos += 35;
 
-            // Dates
+            // === DATE SECTION (Adaptive) ===
             g.DrawString($"Invoice Date:  {DateTime.Now:yyyy-MM-dd}", normalFont, Brushes.Black, leftMargin, yPos);
             yPos += 22;
-            g.DrawString($"Check-In Date: {data.CheckIn}", normalFont, Brushes.Black, leftMargin, yPos);
-            yPos += 40;
+
+            if (data.InvoiceMode == "payment")
+            {
+                g.DrawString($"Check-In Date: {data.CheckIn}", normalFont, Brushes.Black, leftMargin, yPos);
+                yPos += 22;
+                g.DrawString($"Check-Out Date: {data.CheckOut}", normalFont, Brushes.Black, leftMargin, yPos);
+                yPos += 40;
+            }
+            else
+            {
+                yPos += 18;
+            }
 
             g.DrawLine(Pens.LightGray, leftMargin, yPos, 720, yPos);
             yPos += 25;
@@ -280,7 +291,7 @@ namespace HMS_SLS_Y4.Utils
             yPos += 28;
             g.DrawString($"Name:          {data.Customer}", normalFont, Brushes.Black, leftMargin, yPos);
             yPos += 22;
-            g.DrawString($"Nationality:   {data.Nationality}", normalFont, Brushes.Black, leftMargin, yPos);
+            g.DrawString($"Contact:       {data.Nationality}", normalFont, Brushes.Black, leftMargin, yPos);
             yPos += 22;
             g.DrawString($"Room:          {data.Room}", normalFont, Brushes.Black, leftMargin, yPos);
             yPos += 40;
@@ -288,25 +299,37 @@ namespace HMS_SLS_Y4.Utils
             g.DrawLine(Pens.LightGray, leftMargin, yPos, 720, yPos);
             yPos += 25;
 
-            // === CHARGES ===
-            g.DrawString("Charges", sectionFont, new SolidBrush(Color.FromArgb(41, 55, 120)), leftMargin, yPos);
-            yPos += 28;
-            g.DrawString($"Room Charge:   ${data.RoomPrice}", normalFont, Brushes.Black, leftMargin, yPos);
-            yPos += 22;
-            g.DrawString($"Food Charge:   ${data.FoodPrice}", normalFont, Brushes.Black, leftMargin, yPos);
-            yPos += 25;
-
-            // === ITEM LIST ===
-            g.DrawString("Items:", normalFont, Brushes.Black, leftMargin, yPos);
-            yPos += 20;
-
-            foreach (var item in data.Items)
+            // === AMOUNT/ORDER SECTION (Adaptive) ===
+            if (data.InvoiceMode == "payment")
             {
-                g.DrawString($"- {item.Key} : {item.Value}", itemFont, Brushes.Black, leftMargin + 20, yPos);
-                yPos += 18;
+                g.DrawString("Amount", sectionFont, new SolidBrush(Color.FromArgb(41, 55, 120)), leftMargin, yPos);
+                yPos += 28;
+                g.DrawString($"Room Amount:   ${data.RoomPrice}", normalFont, Brushes.Black, leftMargin, yPos);
+                yPos += 35;
+            }
+            else
+            {
+                g.DrawString("Order Detail", sectionFont, new SolidBrush(Color.FromArgb(41, 55, 120)), leftMargin, yPos);
+                yPos += 28;
+                g.DrawString($"Order Amount:  ${data.FoodPrice}", normalFont, Brushes.Black, leftMargin, yPos);
+                yPos += 25;
+
+                // === ITEM LIST (for non-payment mode) ===
+                foreach (var item in data.Items)
+                {
+                    string itemName = item.Key;
+                    int quantity = item.Value.quantity;
+                    decimal price = item.Value.price;
+                    string note = string.IsNullOrEmpty(item.Value.note) ? "---" : item.Value.note;
+
+                    g.DrawString($"- {itemName} : {quantity} x ${price}", itemFont, Brushes.Black, leftMargin + 20, yPos);
+                    yPos += 18;
+                    g.DrawString($"  Note: {note}", itemFont, Brushes.Gray, leftMargin + 20, yPos);
+                    yPos += 22;
+                }
+                yPos += 10;
             }
 
-            yPos += 10;
             g.DrawLine(new Pen(Color.Gray, 2), leftMargin, yPos, 720, yPos);
             yPos += 25;
 
@@ -373,17 +396,6 @@ namespace HMS_SLS_Y4.Utils
                     BackColor = Color.Transparent
                 };
                 labels.Add(lblItem);
-                offsetY += 20;
-
-                Label lblDesc = new Label
-                {
-                    Text = $"- Description : {description}",
-                    Location = new Point(startLocation.X, startLocation.Y + offsetY),
-                    Font = font,
-                    AutoSize = true,
-                    BackColor = Color.Transparent
-                };
-                labels.Add(lblDesc);
                 offsetY += 20;
 
                 Label lblNote = new Label

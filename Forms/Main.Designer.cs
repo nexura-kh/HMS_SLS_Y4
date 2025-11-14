@@ -39,13 +39,13 @@
             room_btn = new Button();
             food_btn = new Button();
             order_btn = new Button();
+            payment_btn = new Button();
             panel2 = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel3 = new Panel();
             label2 = new Label();
             exit_btn = new Button();
             container = new Panel();
-            payment_btn = new Button();
             flowLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -88,11 +88,11 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(69, 152);
+            label1.Location = new Point(61, 155);
             label1.Name = "label1";
-            label1.Size = new Size(106, 31);
+            label1.Size = new Size(129, 31);
             label1.TabIndex = 1;
-            label1.Text = "G1_HMS";
+            label1.Text = "SLS HOTEL";
             // 
             // pictureBox1
             // 
@@ -236,6 +236,28 @@
             order_btn.UseVisualStyleBackColor = false;
             order_btn.Click += order_btn_Click;
             // 
+            // payment_btn
+            // 
+            payment_btn.BackColor = Color.Transparent;
+            payment_btn.Dock = DockStyle.Top;
+            payment_btn.FlatAppearance.BorderColor = Color.FromArgb(48, 67, 122);
+            payment_btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(128, 128, 255);
+            payment_btn.FlatStyle = FlatStyle.Flat;
+            payment_btn.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            payment_btn.ForeColor = Color.White;
+            payment_btn.Image = (Image)resources.GetObject("payment_btn.Image");
+            payment_btn.ImageAlign = ContentAlignment.MiddleRight;
+            payment_btn.Location = new Point(0, 609);
+            payment_btn.Margin = new Padding(0);
+            payment_btn.Name = "payment_btn";
+            payment_btn.Padding = new Padding(40, 0, 0, 0);
+            payment_btn.RightToLeft = RightToLeft.Yes;
+            payment_btn.Size = new Size(247, 80);
+            payment_btn.TabIndex = 11;
+            payment_btn.Text = "Payment";
+            payment_btn.UseVisualStyleBackColor = false;
+            payment_btn.Click += payment_btn_Click;
+            // 
             // panel2
             // 
             panel2.Controls.Add(tableLayoutPanel1);
@@ -308,28 +330,6 @@
             container.Name = "container";
             container.Size = new Size(1100, 703);
             container.TabIndex = 1;
-            // 
-            // payment_btn
-            // 
-            payment_btn.BackColor = Color.Transparent;
-            payment_btn.Dock = DockStyle.Top;
-            payment_btn.FlatAppearance.BorderColor = Color.FromArgb(48, 67, 122);
-            payment_btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(128, 128, 255);
-            payment_btn.FlatStyle = FlatStyle.Flat;
-            payment_btn.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            payment_btn.ForeColor = Color.White;
-            payment_btn.Image = (Image)resources.GetObject("payment_btn.Image");
-            payment_btn.ImageAlign = ContentAlignment.MiddleRight;
-            payment_btn.Location = new Point(0, 609);
-            payment_btn.Margin = new Padding(0);
-            payment_btn.Name = "payment_btn";
-            payment_btn.Padding = new Padding(40, 0, 0, 0);
-            payment_btn.RightToLeft = RightToLeft.Yes;
-            payment_btn.Size = new Size(247, 80);
-            payment_btn.TabIndex = 11;
-            payment_btn.Text = "Payment";
-            payment_btn.UseVisualStyleBackColor = false;
-            payment_btn.Click += payment_btn_Click;
             // 
             // Main
             // 
